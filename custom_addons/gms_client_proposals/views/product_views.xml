@@ -1,0 +1,26 @@
+<odoo>
+    <record id="view_product_template_form_gms" model="ir.ui.view">
+        <field name="name">product.template.form.gms</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="GMS">
+                    <group>
+                        <group>
+                            <field name="x_gms_is_solution_category"/>
+                            <field name="x_gms_requires_supplier"/>
+                            <field name="x_gms_allows_recurring_fee"/>
+                            <field name="x_gms_allows_one_time_fee"/>
+                        </group>
+                        <group>
+                            <field name="x_gms_default_contract_term"/>
+                            <field name="x_gms_proposal_sort_order"/>
+                            <field name="x_gms_solution_category"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

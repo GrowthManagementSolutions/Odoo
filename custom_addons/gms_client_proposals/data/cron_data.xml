@@ -1,0 +1,11 @@
+<odoo>
+    <record id="ir_cron_gms_expire_proposals" model="ir.cron">
+        <field name="name">Expire GMS Proposals</field>
+        <field name="model_id" ref="model_gms_client_proposal"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_expire_proposals()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

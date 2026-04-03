@@ -1,0 +1,10 @@
+<odoo>
+    <record id="action_report_gms_proposal" model="ir.actions.report">
+        <field name="name">GMS Client Proposal</field>
+        <field name="model">gms.client.proposal</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gms_client_proposals.report_gms_proposal_document</field>
+        <field name="report_file">gms_client_proposals.report_gms_proposal_document</field>
+        <field name="print_report_name">'Proposal - %s' % (object.name)</field>
+    </record>
+</odoo>

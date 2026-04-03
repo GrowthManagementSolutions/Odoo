@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_gms_proposal_convert_wizard_form" model="ir.ui.view">
+        <field name="name">gms.proposal.convert.wizard.form</field>
+        <field name="model">gms.proposal.convert.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Convert Proposal">
+                <group>
+                    <field name="proposal_id"/>
+                    <field name="partner_id"/>
+                    <field name="create_customer_account"/>
+                    <field name="create_merchant_accounts"/>
+                    <field name="create_supplier_services"/>
+                    <field name="seed_forecast"/>
+                    <field name="notes"/>
+                </group>
+                <footer>
+                    <button name="action_convert" type="object" string="Convert" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

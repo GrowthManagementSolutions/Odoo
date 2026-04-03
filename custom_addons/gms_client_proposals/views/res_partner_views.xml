@@ -1,0 +1,27 @@
+<odoo>
+    <record id="view_res_partner_form_gms" model="ir.ui.view">
+        <field name="name">res.partner.form.gms</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="GMS">
+                    <group>
+                        <group>
+                            <field name="x_gms_partner_type"/>
+                            <field name="x_gms_is_client"/>
+                            <field name="x_gms_is_supplier"/>
+                            <field name="x_gms_is_commission_recipient"/>
+                            <field name="x_gms_active_for_proposals"/>
+                        </group>
+                        <group>
+                            <field name="x_gms_primary_rep_id"/>
+                            <field name="x_gms_support_manager_id"/>
+                            <field name="x_gms_channel_manager_id"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,8 @@
+<odoo>
+    <record id="seq_gms_client_proposal" model="ir.sequence">
+        <field name="name">GMS Client Proposal</field>
+        <field name="code">gms.client.proposal</field>
+        <field name="prefix">PROP/%(year)s/</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

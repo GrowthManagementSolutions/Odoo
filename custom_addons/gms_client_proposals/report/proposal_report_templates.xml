@@ -1,0 +1,73 @@
+<odoo>
+    <template id="report_gms_proposal_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2><span t-esc="o.name"/></h2>
+                        <p><strong>Client:</strong> <span t-esc="o.partner_id.display_name"/></p>
+                        <p><strong>Valid Until:</strong> <span t-esc="o.valid_until"/></p>
+
+                        <div t-if="o.document_summary">
+                            <h3>Executive Summary</h3>
+                            <div t-raw="o.document_summary"/>
+                        </div>
+
+                        <h3>Proposed Solutions</h3>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Merchant</th>
+                                    <th>Category</th>
+                                    <th>Supplier</th>
+                                    <th>Monthly</th>
+                                    <th>One-Time</th>
+                                    <th>Term</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.line_ids.filtered(lambda l: l.client_decision_status != 'removed_from_final')" t-as="line">
+                                    <td><span t-esc="line.proposal_merchant_id.name"/></td>
+                                    <td><span t-esc="line.product_id.display_name"/></td>
+                                    <td><span t-esc="line.supplier_id.display_name"/></td>
+                                    <td><span t-esc="line.monthly_recurring_fee"/></td>
+                                    <td><span t-esc="line.one_time_fee"/></td>
+                                    <td><span t-esc="line.contract_term_months"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Pricing Summary</h3>
+                        <p>Monthly Recurring: <span t-esc="o.total_monthly_recurring"/></p>
+                        <p>One-Time Fees: <span t-esc="o.total_one_time_fees"/></p>
+                        <p>Total Contract Value: <span t-esc="o.total_contract_value"/></p>
+
+                        <div t-foreach="o.section_ids.filtered(lambda s: s.included)" t-as="section">
+                            <h3><span t-esc="section.title"/></h3>
+                            <div t-raw="section.edited_text"/>
+                        </div>
+
+                        <div t-if="o.ack_section_required">
+                            <h3>Client Acknowledgment of Rejected or Modified Recommendations</h3>
+                            <ul>
+                                <li t-foreach="o.ack_item_ids.filtered(lambda a: a.active and not a.resolved)" t-as="ack">
+                                    <span t-esc="ack.client_facing_text"/>
+                                </li>
+                            </ul>
+                            <p><strong>Client Initials:</strong> ____________________</p>
+                        </div>
+
+                        <div t-if="o.acceptance_block_text">
+                            <h3>Acceptance</h3>
+                            <div t-raw="o.acceptance_block_text"/>
+                            <p>Accepted By: ____________________</p>
+                            <p>Title: ____________________</p>
+                            <p>Signature: ____________________</p>
+                            <p>Date: ____________________</p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,158 @@
+<odoo>
+    <!-- Action first -->
+    <record id="action_gms_client_proposal" model="ir.actions.act_window">
+        <field name="name">Proposals</field>
+        <field name="res_model">gms.client.proposal</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- List view -->
+    <record id="view_gms_client_proposal_list" model="ir.ui.view">
+        <field name="name">gms.client.proposal.list</field>
+        <field name="model">gms.client.proposal</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="crm_lead_id"/>
+                <field name="assigned_rep_id"/>
+                <field name="state"/>
+                <field name="proposal_date"/>
+                <field name="valid_until"/>
+                <field name="requires_review"/>
+                <field name="total_monthly_recurring"/>
+                <field name="total_contract_value"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_gms_client_proposal_form" model="ir.ui.view">
+        <field name="name">gms.client.proposal.form</field>
+        <field name="model">gms.client.proposal</field>
+        <field name="arch" type="xml">
+            <form string="Client Proposal">
+                <header>
+                    <button name="action_set_in_progress" type="object" string="Start" invisible="state != 'draft'"/>
+                    <button name="action_request_review" type="object" string="Request Review" invisible="state not in ('draft','in_progress')"/>
+                    <button name="action_mark_ready_to_send" type="object" string="Ready to Send" invisible="state not in ('draft','in_progress','pending_review')"/>
+                    <button name="action_mark_sent" type="object" string="Mark Sent" invisible="state != 'ready_to_send'"/>
+                    <button name="action_mark_accepted" type="object" string="Accept" invisible="state not in ('ready_to_send','sent')"/>
+                    <button name="action_mark_rejected" type="object" string="Reject" invisible="state in ('accepted','rejected','superseded')"/>
+                    <button name="action_clone_revision" type="object" string="New Revision"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,pending_review,ready_to_send,sent,accepted,rejected,superseded,expired_revision_needed"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="crm_lead_id"/>
+                            <field name="partner_id"/>
+                            <field name="assigned_rep_id"/>
+                            <field name="support_manager_id"/>
+                            <field name="channel_manager_id"/>
+                        </group>
+                        <group>
+                            <field name="proposal_date"/>
+                            <field name="valid_until"/>
+                            <field name="currency_id"/>
+                            <field name="requires_review" readonly="1"/>
+                            <field name="manual_review_requested"/>
+                            <field name="accepted_locked" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Merchants">
+                            <field name="merchant_ids">
+                                <list editable="bottom">
+                                    <field name="display_order"/>
+                                    <field name="name"/>
+                                    <field name="legal_name"/>
+                                    <field name="dba_name"/>
+                                    <field name="city"/>
+                                    <field name="state_id"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Commercial">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="display_order"/>
+                                    <field name="proposal_merchant_id"/>
+                                    <field name="product_id"/>
+                                    <field name="supplier_id"/>
+                                    <field name="pricing_model"/>
+                                    <field name="monthly_recurring_fee"/>
+                                    <field name="one_time_fee"/>
+                                    <field name="contract_term_months"/>
+                                    <field name="guardrail_status" readonly="1"/>
+                                    <field name="client_decision_status"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="SOW / Narrative">
+                            <group>
+                                <field name="template_id"/>
+                                <field name="document_intro"/>
+                                <field name="document_summary"/>
+                                <field name="document_assumptions"/>
+                                <field name="document_exclusions"/>
+                                <field name="acceptance_block_text"/>
+                            </group>
+                            <field name="section_ids">
+                                <list editable="bottom">
+                                    <field name="sort_order"/>
+                                    <field name="title"/>
+                                    <field name="included"/>
+                                    <field name="editable"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Acknowledgments">
+                            <field name="ack_item_ids">
+                                <list editable="bottom">
+                                    <field name="display_order"/>
+                                    <field name="solution_category_id"/>
+                                    <field name="ack_type"/>
+                                    <field name="client_facing_text"/>
+                                    <field name="resolved"/>
+                                    <field name="carryforward"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Reviews">
+                            <field name="review_ids">
+                                <list>
+                                    <field name="requested_at"/>
+                                    <field name="requested_by"/>
+                                    <field name="state"/>
+                                    <field name="review_reason"/>
+                                    <field name="reviewed_by"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Totals">
+                            <group>
+                                <field name="total_monthly_recurring" readonly="1"/>
+                                <field name="total_one_time_fees" readonly="1"/>
+                                <field name="total_contract_value" readonly="1"/>
+                                <field name="contract_term_summary" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+</odoo>
