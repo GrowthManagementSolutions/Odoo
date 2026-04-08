@@ -4,6 +4,8 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+
+            <!-- GMS tab -->
             <xpath expr="//sheet/notebook" position="inside">
                 <page string="GMS">
                     <group>
@@ -20,8 +22,31 @@
                             <field name="x_gms_channel_manager_id"/>
                         </group>
                     </group>
+
+                    <group string="Actions">
+                        <button name="action_create_gms_opportunity"
+                                type="object"
+                                string="Create Opportunity"
+                                class="btn-primary"/>
+
+                        <button name="action_create_gms_proposal"
+                                type="object"
+                                string="Create Proposal"
+                                class="btn-secondary"/>
+                    </group>
                 </page>
             </xpath>
+
+            <!-- Smart button -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        type="object"
+                        name="action_open_gms_opportunities"
+                        icon="fa-briefcase">
+                    <field name="gms_opportunity_count" string="Opportunities" widget="statinfo"/>
+                </button>
+            </xpath>
+
         </field>
     </record>
 </odoo>

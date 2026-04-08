@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResPartner(models.Model):
@@ -23,3 +23,89 @@ class ResPartner(models.Model):
     x_gms_support_manager_id = fields.Many2one("res.partner", string="Support Manager")
     x_gms_channel_manager_id = fields.Many2one("res.partner", string="Channel Manager")
     x_gms_active_for_proposals = fields.Boolean(string="Active for Proposals", default=True)
+
+    gms_opportunity_ids = fields.One2many(
+        "crm.lead",
+        "partner_id",
+        string="Opportunities",
+    )
+
+    gms_opportunity_count = fields.Integer(
+        string="Opportunity Count",
+        compute="_compute_gms_opportunity_count",
+    )
+
+    @api.depends("gms_opportunity_ids")
+    def _compute_gms_opportunity_count(self):
+        for rec in self:
+            rec.gms_opportunity_count = len(rec.gms_opportunity_ids)
+
+    def action_open_gms_opportunities(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Opportunities",
+            "res_model": "crm.lead",
+            "view_mode": "list,form",
+            "domain": [("partner_id", "=", self.id), ("type", "=", "opportunity")],
+            "context": {
+                "default_partner_id": self.id,
+                "default_contact_name": self.name,
+                "default_type": "opportunity",
+            },
+        }
+
+    def action_create_gms_opportunity(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "New Opportunity",
+            "res_model": "crm.lead",
+            "view_mode": "form",
+            "target": "current",
+            "context": {
+                "default_type": "opportunity",
+                "default_partner_id": self.id,
+                "default_name": f"{self.name} Opportunity",
+                "default_x_gms_primary_rep_id": self.x_gms_primary_rep_id.id,
+                "default_x_gms_support_manager_id": self.x_gms_support_manager_id.id,
+                "default_x_gms_channel_manager_id": self.x_gms_channel_manager_id.id,
+            },
+        }
+
+    def action_create_gms_proposal(self):
+        self.ensure_one()
+
+        opportunity = self.env["crm.lead"].search(
+            [("partner_id", "=", self.id), ("type", "=", "opportunity")],
+            order="create_date desc",
+            limit=1,
+        )
+
+        if not opportunity:
+            opportunity = self.env["crm.lead"].create({
+                "name": f"{self.name} Opportunity",
+                "type": "opportunity",
+                "partner_id": self.id,
+                "x_gms_primary_rep_id": self.x_gms_primary_rep_id.id,
+                "x_gms_support_manager_id": self.x_gms_support_manager_id.id,
+                "x_gms_channel_manager_id": self.x_gms_channel_manager_id.id,
+            })
+
+        proposal = self.env["gms.client.proposal"].create({
+            "crm_lead_id": opportunity.id,
+            "partner_id": self.id,
+            "assigned_rep_id": self.x_gms_primary_rep_id.id,
+            "support_manager_id": self.x_gms_support_manager_id.id,
+            "channel_manager_id": self.x_gms_channel_manager_id.id,
+            "valid_until": fields.Date.today(),
+        })
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Proposal",
+            "res_model": "gms.client.proposal",
+            "view_mode": "form",
+            "res_id": proposal.id,
+            "target": "current",
+        }
