@@ -5,11 +5,11 @@
 
     <record id="group_gms_proposal_manager" model="res.groups">
         <field name="name">GMS Proposal Manager</field>
-        <field name="implied_ids" eval="[(4, ref('group_gms_proposal_rep'))]"/>
+        <field name="implied_ids" eval="[(4, ref('gms_client_proposals.group_gms_proposal_rep'))]"/>
     </record>
 
     <record id="group_gms_proposal_admin" model="res.groups">
         <field name="name">GMS Proposal Admin</field>
-        <field name="implied_ids" eval="[(4, ref('group_gms_proposal_manager'))]"/>
+        <field name="implied_ids" eval="[(4, ref('gms_client_proposals.group_gms_proposal_manager'))]"/>
     </record>
 </odoo>

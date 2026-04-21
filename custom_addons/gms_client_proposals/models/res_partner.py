@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from odoo import api, fields, models
 
 
@@ -92,13 +94,17 @@ class ResPartner(models.Model):
                 "x_gms_channel_manager_id": self.x_gms_channel_manager_id.id,
             })
 
+        proposal_date = fields.Date.today()
+        valid_until = proposal_date + timedelta(days=30)
+
         proposal = self.env["gms.client.proposal"].create({
             "crm_lead_id": opportunity.id,
             "partner_id": self.id,
             "assigned_rep_id": self.x_gms_primary_rep_id.id,
             "support_manager_id": self.x_gms_support_manager_id.id,
             "channel_manager_id": self.x_gms_channel_manager_id.id,
-            "valid_until": fields.Date.today(),
+            "proposal_date": proposal_date,
+            "valid_until": valid_until,
         })
 
         return {

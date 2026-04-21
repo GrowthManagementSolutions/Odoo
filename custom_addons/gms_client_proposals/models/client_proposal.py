@@ -10,9 +10,18 @@ class GmsClientProposal(models.Model):
     _rec_name = "name"
 
     name = fields.Char(required=True, copy=False, readonly=True, default="New")
-    crm_lead_id = fields.Many2one("crm.lead", required=True, tracking=True, ondelete="restrict")
+    crm_lead_id = fields.Many2one("crm.lead", tracking=True, ondelete="restrict")
     partner_id = fields.Many2one("res.partner", required=True, tracking=True, ondelete="restrict")
-    assigned_rep_id = fields.Many2one("res.partner", required=True, tracking=True)
+
+    assigned_rep_id = fields.Many2one(
+        "res.users",
+        string="Assigned Rep",
+        required=True,
+        tracking=True,
+        default=lambda self: self.env.user,
+        ondelete="restrict",
+    )
+
     support_manager_id = fields.Many2one("res.partner")
     channel_manager_id = fields.Many2one("res.partner")
 
@@ -51,20 +60,36 @@ class GmsClientProposal(models.Model):
     ack_item_ids = fields.One2many("gms.client.proposal.ack_item", "proposal_id", copy=True)
     review_ids = fields.One2many("gms.proposal.review", "proposal_id", copy=False)
 
-    requires_review = fields.Boolean(compute="_compute_requires_review", store=True, tracking=True)
-    review_reason_summary = fields.Text(compute="_compute_review_reason_summary")
+    requires_review = fields.Boolean(
+        compute="_compute_requires_review",
+        store=True,
+        tracking=True,
+    )
+    review_reason_summary = fields.Text(
+        compute="_compute_review_reason_summary",
+        store=True,
+    )
     manual_review_requested = fields.Boolean(default=False, tracking=True)
 
     total_monthly_recurring = fields.Monetary(
-        compute="_compute_totals", store=True, currency_field="currency_id"
+        compute="_compute_totals",
+        store=True,
+        currency_field="currency_id",
     )
     total_one_time_fees = fields.Monetary(
-        compute="_compute_totals", store=True, currency_field="currency_id"
+        compute="_compute_totals",
+        store=True,
+        currency_field="currency_id",
     )
     total_contract_value = fields.Monetary(
-        compute="_compute_totals", store=True, currency_field="currency_id"
+        compute="_compute_totals",
+        store=True,
+        currency_field="currency_id",
     )
-    contract_term_summary = fields.Char(compute="_compute_contract_term_summary", store=True)
+    contract_term_summary = fields.Char(
+        compute="_compute_contract_term_summary",
+        store=True,
+    )
 
     template_id = fields.Many2one("gms.sow.template", ondelete="restrict")
     document_intro = fields.Html()
@@ -102,6 +127,10 @@ class GmsClientProposal(models.Model):
         for vals in vals_list:
             if vals.get("name", "New") == "New":
                 vals["name"] = seq.next_by_code("gms.client.proposal") or "New"
+
+            if not vals.get("assigned_rep_id"):
+                vals["assigned_rep_id"] = self.env.user.id
+
         return super().create(vals_list)
 
     @api.onchange("crm_lead_id")
@@ -110,7 +139,7 @@ class GmsClientProposal(models.Model):
             return
 
         self.partner_id = self.crm_lead_id.partner_id
-        self.assigned_rep_id = self.crm_lead_id.user_id.partner_id if self.crm_lead_id.user_id else False
+        self.assigned_rep_id = self.crm_lead_id.user_id or self.env.user
         self.support_manager_id = self.crm_lead_id.x_gms_support_manager_id
         self.channel_manager_id = self.crm_lead_id.x_gms_channel_manager_id
 
@@ -138,7 +167,11 @@ class GmsClientProposal(models.Model):
             }))
         self.section_ids = sections
 
-    @api.depends("line_ids.monthly_recurring_fee", "line_ids.one_time_fee", "line_ids.line_contract_value")
+    @api.depends(
+        "line_ids.monthly_recurring_fee",
+        "line_ids.one_time_fee",
+        "line_ids.line_contract_value",
+    )
     def _compute_totals(self):
         for rec in self:
             rec.total_monthly_recurring = sum(rec.line_ids.mapped("monthly_recurring_fee"))
@@ -156,13 +189,13 @@ class GmsClientProposal(models.Model):
         for rec in self:
             rec.requires_review = rec.manual_review_requested or any(rec.line_ids.mapped("requires_review"))
 
-    @api.depends("review_ids.review_reason", "line_ids.review_reason")
+    @api.depends("line_ids.review_reason", "manual_review_requested")
     def _compute_review_reason_summary(self):
         for rec in self:
             reasons = [r for r in rec.line_ids.mapped("review_reason") if r]
             if rec.manual_review_requested:
                 reasons.append(_("Manual review requested by rep"))
-            rec.review_reason_summary = "\n".join(reasons)
+            rec.review_reason_summary = "\n".join(reasons) if reasons else False
 
     @api.depends("ack_item_ids.resolved", "ack_item_ids.active")
     def _compute_ack_section_required(self):
@@ -222,6 +255,7 @@ class GmsClientProposal(models.Model):
             "converted_to_customer": False,
             "converted_on": False,
             "converted_by": False,
+            "assigned_rep_id": self.assigned_rep_id.id or self.env.user.id,
         })
         self.write({"is_current_revision": False, "state": "superseded"})
         new_proposal = self.create(new_vals)

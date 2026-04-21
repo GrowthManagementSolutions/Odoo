@@ -1,10 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_gms_client_proposal_merchant_user,gms.client.proposal.merchant user,model_gms_client_proposal_merchant,base.group_user,1,1,1,1
-access_gms_client_proposal_line_user,gms.client.proposal.line user,model_gms_client_proposal_line,base.group_user,1,1,1,1
-access_gms_client_proposal_section_user,gms.client.proposal.section user,model_gms_client_proposal_section,base.group_user,1,1,1,1
-access_gms_client_proposal_ack_item_user,gms.client.proposal.ack.item user,model_gms_client_proposal_ack_item,base.group_user,1,1,1,1
-access_gms_proposal_review_user,gms.proposal.review user,model_gms_proposal_review,base.group_user,1,1,1,1
-access_gms_client_proposal_user,gms.client.proposal user,model_gms_client_proposal,base.group_user,1,1,1,1
+access_gms_client_proposal_merchant_user,gms.client.proposal.merchant user,model_gms_client_proposal_merchant,base.group_user,1,0,0,0
+access_gms_client_proposal_line_user,gms.client.proposal.line user,model_gms_client_proposal_line,base.group_user,1,0,0,0
+access_gms_client_proposal_section_user,gms.client.proposal.section user,model_gms_client_proposal_section,base.group_user,1,0,0,0
+access_gms_client_proposal_ack_item_user,gms.client.proposal.ack.item user,model_gms_client_proposal_ack_item,base.group_user,1,0,0,0
+access_gms_proposal_review_user,gms.proposal.review user,model_gms_proposal_review,base.group_user,1,0,0,0
+access_gms_client_proposal_user,gms.client.proposal user,model_gms_client_proposal,base.group_user,1,0,0,0
 
 access_gms_client_proposal_rep,gms.client.proposal rep,model_gms_client_proposal,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
 access_gms_client_proposal_line_rep,gms.client.proposal.line rep,model_gms_client_proposal_line,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
@@ -12,6 +12,7 @@ access_gms_client_proposal_merchant_rep,gms.client.proposal.merchant rep,model_g
 access_gms_client_proposal_section_rep,gms.client.proposal.section rep,model_gms_client_proposal_section,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
 access_gms_client_proposal_ack_item_rep,gms.client.proposal.ack.item rep,model_gms_client_proposal_ack_item,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
 access_gms_proposal_review_rep,gms.proposal.review rep,model_gms_proposal_review,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
+access_gms_proposal_rate_table_rep,gms.proposal.rate.table rep,model_gms_proposal_rate_table,gms_client_proposals.group_gms_proposal_rep,1,0,0,0
 
 access_gms_client_proposal_manager,gms.client.proposal manager,model_gms_client_proposal,gms_client_proposals.group_gms_proposal_manager,1,1,1,1
 access_gms_client_proposal_line_manager,gms.client.proposal.line manager,model_gms_client_proposal_line,gms_client_proposals.group_gms_proposal_manager,1,1,1,1
@@ -20,6 +21,7 @@ access_gms_client_proposal_section_manager,gms.client.proposal.section manager,m
 access_gms_client_proposal_ack_item_manager,gms.client.proposal.ack.item manager,model_gms_client_proposal_ack_item,gms_client_proposals.group_gms_proposal_manager,1,1,1,1
 access_gms_proposal_review_manager,gms.proposal.review manager,model_gms_proposal_review,gms_client_proposals.group_gms_proposal_manager,1,1,1,1
 access_gms_proposal_acceptance_manager,gms.proposal.acceptance manager,model_gms_proposal_acceptance,gms_client_proposals.group_gms_proposal_manager,1,1,1,1
+access_gms_proposal_rate_table_manager,gms.proposal.rate.table manager,model_gms_proposal_rate_table,gms_client_proposals.group_gms_proposal_manager,1,1,1,1
 
 access_gms_client_proposal_admin,gms.client.proposal admin,model_gms_client_proposal,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
 access_gms_client_proposal_line_admin,gms.client.proposal.line admin,model_gms_client_proposal_line,gms_client_proposals.group_gms_proposal_admin,1,1,1,1

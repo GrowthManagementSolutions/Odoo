@@ -1,12 +1,10 @@
 <odoo>
-    <!-- Action first -->
     <record id="action_gms_client_proposal" model="ir.actions.act_window">
         <field name="name">Proposals</field>
         <field name="res_model">gms.client.proposal</field>
         <field name="view_mode">list,form</field>
     </record>
 
-    <!-- List view -->
     <record id="view_gms_client_proposal_list" model="ir.ui.view">
         <field name="name">gms.client.proposal.list</field>
         <field name="model">gms.client.proposal</field>
@@ -26,7 +24,6 @@
         </field>
     </record>
 
-    <!-- Form view -->
     <record id="view_gms_client_proposal_form" model="ir.ui.view">
         <field name="name">gms.client.proposal.form</field>
         <field name="model">gms.client.proposal</field>
@@ -65,6 +62,10 @@
                         </group>
                     </group>
 
+                    <group string="Review Summary" invisible="not review_reason_summary">
+                        <field name="review_reason_summary" readonly="1"/>
+                    </group>
+
                     <notebook>
                         <page string="Merchants">
                             <field name="merchant_ids">
@@ -87,10 +88,15 @@
                                     <field name="product_id"/>
                                     <field name="supplier_id"/>
                                     <field name="pricing_model"/>
+                                    <field name="rate_table_id"/>
                                     <field name="monthly_recurring_fee"/>
                                     <field name="one_time_fee"/>
                                     <field name="contract_term_months"/>
+                                    <field name="annual_price_equivalent" readonly="1"/>
+                                    <field name="line_contract_value" readonly="1"/>
                                     <field name="guardrail_status" readonly="1"/>
+                                    <field name="requires_review" readonly="1"/>
+                                    <field name="review_reason" readonly="1"/>
                                     <field name="client_decision_status"/>
                                 </list>
                             </field>

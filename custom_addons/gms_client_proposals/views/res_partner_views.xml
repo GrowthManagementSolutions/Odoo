@@ -37,16 +37,7 @@
                 </page>
             </xpath>
 
-            <!-- Smart button -->
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button class="oe_stat_button"
-                        type="object"
-                        name="action_open_gms_opportunities"
-                        icon="fa-briefcase">
-                    <field name="gms_opportunity_count" string="Opportunities" widget="statinfo"/>
-                </button>
-            </xpath>
-
+           
         </field>
     </record>
 </odoo>

@@ -3,6 +3,8 @@ from . import crm_lead
 from . import product_product
 from . import product_template
 from . import client_proposal
+from . import client_proposal_line
+from . import client_proposal_merchant
 from . import proposal_merchant
 from . import proposal_line
 from . import proposal_rate_table
