@@ -5,6 +5,7 @@ class GmsProposalReview(models.Model):
     _name = "gms.proposal.review"
     _description = "GMS Proposal Review"
     _order = "requested_at desc, id desc"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     proposal_id = fields.Many2one("gms.client.proposal", required=True, ondelete="cascade", index=True)
     requested_by = fields.Many2one("res.users", required=True, default=lambda self: self.env.user)

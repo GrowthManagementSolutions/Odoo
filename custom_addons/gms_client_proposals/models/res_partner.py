@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     x_gms_partner_type = fields.Selection([
         ("prospect", "Prospect"),

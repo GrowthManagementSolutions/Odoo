@@ -6,6 +6,7 @@ class GmsClientProposalLine(models.Model):
     _name = "gms.client.proposal.line"
     _description = "GMS Client Proposal Line"
     _order = "display_order, id"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     proposal_id = fields.Many2one("gms.client.proposal", required=True, ondelete="cascade", index=True)
     proposal_merchant_id = fields.Many2one(
