@@ -1,15 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- GMS Proposal Rep -->
     <record id="group_gms_proposal_rep" model="res.groups">
         <field name="name">GMS Proposal Rep</field>
     </record>
 
+    <!-- GMS Proposal Manager -->
     <record id="group_gms_proposal_manager" model="res.groups">
         <field name="name">GMS Proposal Manager</field>
         <field name="implied_ids" eval="[(4, ref('gms_client_proposals.group_gms_proposal_rep'))]"/>
     </record>
 
+    <!-- GMS Proposal Admin -->
     <record id="group_gms_proposal_admin" model="res.groups">
         <field name="name">GMS Proposal Admin</field>
         <field name="implied_ids" eval="[(4, ref('gms_client_proposals.group_gms_proposal_manager'))]"/>
     </record>
+
 </odoo>

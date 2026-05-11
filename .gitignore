@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Odoo
+*.log
+
+# VSCode
+.vscode/
+
+# Virtual env
+venv/
+
+# Local config
+odoo.conf

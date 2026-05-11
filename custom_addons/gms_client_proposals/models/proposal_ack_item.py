@@ -8,6 +8,7 @@ class GmsClientProposalAckItem(models.Model):
 
     proposal_id = fields.Many2one("gms.client.proposal", required=True, ondelete="cascade", index=True)
     proposal_line_id = fields.Many2one("gms.client.proposal.line", ondelete="set null")
+    internal_reason = fields.Text()
     source_revision_id = fields.Many2one("gms.client.proposal", ondelete="set null")
     solution_category_id = fields.Many2one(
         "product.product",

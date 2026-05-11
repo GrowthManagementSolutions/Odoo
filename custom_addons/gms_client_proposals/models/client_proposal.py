@@ -60,15 +60,15 @@ class GmsClientProposal(models.Model):
     ack_item_ids = fields.One2many("gms.client.proposal.ack_item", "proposal_id", copy=True)
     review_ids = fields.One2many("gms.proposal.review", "proposal_id", copy=False)
 
-    requires_review = fields.Boolean(
-        compute="_compute_requires_review",
-        store=True,
-        tracking=True,
-    )
-    review_reason_summary = fields.Text(
-        compute="_compute_review_reason_summary",
-        store=True,
-    )
+    template_id = fields.Many2one("gms.sow.template", ondelete="restrict")
+    document_intro = fields.Html()
+    document_summary = fields.Html()
+    document_assumptions = fields.Html()
+    document_exclusions = fields.Html()
+    acceptance_block_text = fields.Html()
+
+    requires_review = fields.Boolean(compute="_compute_requires_review", store=True, tracking=True)
+    review_reason_summary = fields.Text(compute="_compute_review_reason_summary", store=True)
     manual_review_requested = fields.Boolean(default=False, tracking=True)
 
     total_monthly_recurring = fields.Monetary(
@@ -86,17 +86,7 @@ class GmsClientProposal(models.Model):
         store=True,
         currency_field="currency_id",
     )
-    contract_term_summary = fields.Char(
-        compute="_compute_contract_term_summary",
-        store=True,
-    )
-
-    template_id = fields.Many2one("gms.sow.template", ondelete="restrict")
-    document_intro = fields.Html()
-    document_summary = fields.Html()
-    document_assumptions = fields.Html()
-    document_exclusions = fields.Html()
-    acceptance_block_text = fields.Html()
+    contract_term_summary = fields.Char(compute="_compute_contract_term_summary", store=True)
 
     ack_section_required = fields.Boolean(compute="_compute_ack_section_required", store=True)
     acknowledgment_initials_required = fields.Boolean(default=True)
@@ -111,6 +101,7 @@ class GmsClientProposal(models.Model):
 
     notes_internal = fields.Text()
     active = fields.Boolean(default=True)
+
     company_id = fields.Many2one(
         "res.company",
         default=lambda self: self.env.company,
@@ -135,43 +126,43 @@ class GmsClientProposal(models.Model):
 
     @api.onchange("crm_lead_id")
     def _onchange_crm_lead(self):
-        if not self.crm_lead_id:
-            return
+        for rec in self:
+            if not rec.crm_lead_id:
+                continue
 
-        self.partner_id = self.crm_lead_id.partner_id
-        self.assigned_rep_id = self.crm_lead_id.user_id or self.env.user
-        self.support_manager_id = self.crm_lead_id.x_gms_support_manager_id
-        self.channel_manager_id = self.crm_lead_id.x_gms_channel_manager_id
+            rec.partner_id = rec.crm_lead_id.partner_id
+            rec.assigned_rep_id = rec.crm_lead_id.user_id or rec.env.user
+            rec.support_manager_id = rec.crm_lead_id.x_gms_support_manager_id
+            rec.channel_manager_id = rec.crm_lead_id.x_gms_channel_manager_id
 
     @api.onchange("template_id")
     def _onchange_template(self):
-        if not self.template_id:
-            return
+        for rec in self:
+            if not rec.template_id:
+                continue
 
-        self.document_intro = self.template_id.default_intro
-        self.document_summary = self.template_id.default_scope
-        self.document_assumptions = self.template_id.default_assumptions
-        self.document_exclusions = self.template_id.default_exclusions
-        self.acceptance_block_text = self.template_id.acceptance_block_text
+            rec.document_intro = rec.template_id.default_intro
+            rec.document_summary = rec.template_id.default_scope
+            rec.document_assumptions = rec.template_id.default_assumptions
+            rec.document_exclusions = rec.template_id.default_exclusions
+            rec.acceptance_block_text = rec.template_id.acceptance_block_text
 
-        self.section_ids = [(5, 0, 0)]
-        sections = []
-        for sec in self.template_id.section_ids:
-            sections.append((0, 0, {
-                "section_code": sec.section_code,
-                "title": sec.title,
-                "body_html": sec.default_text,
-                "included": True,
-                "editable": sec.editable,
-                "sort_order": sec.sort_order,
-            }))
-        self.section_ids = sections
+            rec.section_ids = [(5, 0, 0)]
+            sections = []
+            for sec in rec.template_id.section_ids:
+                sections.append((0, 0, {
+                    "template_section_id": sec.id,
+                    "section_code": sec.section_code,
+                    "title": sec.title,
+                    "body_html": sec.default_text,
+                    "included": not sec.optional,
+                    "editable": sec.editable,
+                    "sort_order": sec.sort_order,
+                }))
 
-    @api.depends(
-        "line_ids.monthly_recurring_fee",
-        "line_ids.one_time_fee",
-        "line_ids.line_contract_value",
-    )
+            rec.section_ids = sections
+
+    @api.depends("line_ids.monthly_recurring_fee", "line_ids.one_time_fee", "line_ids.line_contract_value")
     def _compute_totals(self):
         for rec in self:
             rec.total_monthly_recurring = sum(rec.line_ids.mapped("monthly_recurring_fee"))
@@ -200,7 +191,10 @@ class GmsClientProposal(models.Model):
     @api.depends("ack_item_ids.resolved", "ack_item_ids.active")
     def _compute_ack_section_required(self):
         for rec in self:
-            rec.ack_section_required = any(item.active and not item.resolved for item in rec.ack_item_ids)
+            rec.ack_section_required = any(
+                item.active and not item.resolved
+                for item in rec.ack_item_ids
+            )
 
     @api.constrains("valid_until", "proposal_date")
     def _check_dates(self):
@@ -220,15 +214,26 @@ class GmsClientProposal(models.Model):
         for rec in self:
             if rec.requires_review:
                 raise UserError(_("Proposal requires review before it can be marked Ready to Send."))
+
+            for line in rec.line_ids:
+                if line.ack_required and not line.ack_item_id:
+                    raise ValidationError(
+                        _("All rejected, modified, or removed proposal lines must have acknowledgment records.")
+                    )
+
             rec.state = "ready_to_send"
 
     def action_mark_sent(self):
-        self.write({"state": "sent", "sent_date": fields.Date.context_today(self)})
+        self.write({
+            "state": "sent",
+            "sent_date": fields.Date.context_today(self),
+        })
 
     def action_mark_accepted(self):
         for rec in self:
             if rec.state not in ("ready_to_send", "sent"):
                 raise UserError(_("Only sent or ready proposals can be accepted."))
+
             rec.write({
                 "state": "accepted",
                 "accepted_date": fields.Date.context_today(self),
@@ -240,6 +245,7 @@ class GmsClientProposal(models.Model):
 
     def action_clone_revision(self):
         self.ensure_one()
+
         new_vals = self.copy_data()[0]
         new_vals.update({
             "parent_proposal_id": self.id,
@@ -257,15 +263,34 @@ class GmsClientProposal(models.Model):
             "converted_by": False,
             "assigned_rep_id": self.assigned_rep_id.id or self.env.user.id,
         })
-        self.write({"is_current_revision": False, "state": "superseded"})
+
+        self.write({
+            "is_current_revision": False,
+            "state": "superseded",
+        })
+
         new_proposal = self.create(new_vals)
+
         for item in self.ack_item_ids.filtered(lambda i: i.carryforward and not i.resolved):
-            item.copy({"proposal_id": new_proposal.id, "source_revision_id": self.id})
+            item.copy({
+                "proposal_id": new_proposal.id,
+                "source_revision_id": self.id,
+            })
+
         return {
             "type": "ir.actions.act_window",
             "res_model": "gms.client.proposal",
             "view_mode": "form",
             "res_id": new_proposal.id,
+            "target": "current",
+        }
+    
+    def action_preview_proposal(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/report/html/gms_client_proposals.report_gms_proposal_document/{self.id}",
+            "target": "new",
         }
 
     @api.model

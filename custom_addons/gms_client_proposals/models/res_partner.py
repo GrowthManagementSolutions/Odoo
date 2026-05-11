@@ -1,6 +1,7 @@
 from datetime import timedelta
 
-from odoo import api, fields, models
+from odoo import fields, models
+from odoo.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
@@ -21,9 +22,11 @@ class ResPartner(models.Model):
     x_gms_is_client = fields.Boolean(string="Is Client")
     x_gms_is_supplier = fields.Boolean(string="Is Supplier")
     x_gms_is_commission_recipient = fields.Boolean(string="Is Commission Recipient")
+
     x_gms_primary_rep_id = fields.Many2one("res.partner", string="Primary Rep")
     x_gms_support_manager_id = fields.Many2one("res.partner", string="Support Manager")
     x_gms_channel_manager_id = fields.Many2one("res.partner", string="Channel Manager")
+
     x_gms_active_for_proposals = fields.Boolean(string="Active for Proposals", default=True)
 
     gms_opportunity_ids = fields.One2many(
@@ -37,7 +40,6 @@ class ResPartner(models.Model):
         compute="_compute_gms_opportunity_count",
     )
 
-    @api.depends("gms_opportunity_ids")
     def _compute_gms_opportunity_count(self):
         for rec in self:
             rec.gms_opportunity_count = len(rec.gms_opportunity_ids)
@@ -49,11 +51,10 @@ class ResPartner(models.Model):
             "name": "Opportunities",
             "res_model": "crm.lead",
             "view_mode": "list,form",
-            "domain": [("partner_id", "=", self.id), ("type", "=", "opportunity")],
+            "domain": [("partner_id", "=", self.id)],
             "context": {
                 "default_partner_id": self.id,
                 "default_contact_name": self.name,
-                "default_type": "opportunity",
             },
         }
 
@@ -94,17 +95,24 @@ class ResPartner(models.Model):
                 "x_gms_channel_manager_id": self.x_gms_channel_manager_id.id,
             })
 
-        proposal_date = fields.Date.today()
-        valid_until = proposal_date + timedelta(days=30)
+        rep_user = False
+
+        if self.x_gms_primary_rep_id and self.x_gms_primary_rep_id.user_ids:
+            rep_user = self.x_gms_primary_rep_id.user_ids[:1]
+
+        if not rep_user and opportunity.user_id:
+            rep_user = opportunity.user_id
+
+        if not rep_user:
+            rep_user = self.env.user
 
         proposal = self.env["gms.client.proposal"].create({
             "crm_lead_id": opportunity.id,
             "partner_id": self.id,
-            "assigned_rep_id": self.x_gms_primary_rep_id.id,
-            "support_manager_id": self.x_gms_support_manager_id.id,
-            "channel_manager_id": self.x_gms_channel_manager_id.id,
-            "proposal_date": proposal_date,
-            "valid_until": valid_until,
+            "assigned_rep_id": rep_user.id,
+            "support_manager_id": self.x_gms_support_manager_id.id or False,
+            "channel_manager_id": self.x_gms_channel_manager_id.id or False,
+            "valid_until": fields.Date.today() + timedelta(days=30),
         })
 
         return {

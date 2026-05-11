@@ -11,6 +11,8 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
+                <field name="revision_number"/>
+                <field name="is_current_revision"/>
                 <field name="partner_id"/>
                 <field name="crm_lead_id"/>
                 <field name="assigned_rep_id"/>
@@ -18,6 +20,7 @@
                 <field name="proposal_date"/>
                 <field name="valid_until"/>
                 <field name="requires_review"/>
+                <field name="ack_section_required"/>
                 <field name="total_monthly_recurring"/>
                 <field name="total_contract_value"/>
             </list>
@@ -30,14 +33,54 @@
         <field name="arch" type="xml">
             <form string="Client Proposal">
                 <header>
-                    <button name="action_set_in_progress" type="object" string="Start" invisible="state != 'draft'"/>
-                    <button name="action_request_review" type="object" string="Request Review" invisible="state not in ('draft','in_progress')"/>
-                    <button name="action_mark_ready_to_send" type="object" string="Ready to Send" invisible="state not in ('draft','in_progress','pending_review')"/>
-                    <button name="action_mark_sent" type="object" string="Mark Sent" invisible="state != 'ready_to_send'"/>
-                    <button name="action_mark_accepted" type="object" string="Accept" invisible="state not in ('ready_to_send','sent')"/>
-                    <button name="action_mark_rejected" type="object" string="Reject" invisible="state in ('accepted','rejected','superseded')"/>
-                    <button name="action_clone_revision" type="object" string="New Revision"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,pending_review,ready_to_send,sent,accepted,rejected,superseded,expired_revision_needed"/>
+                    <button name="%(gms_client_proposals.action_report_gms_proposal)d"
+                            type="action"
+                            string="Print Proposal"
+                            class="btn-primary"/>
+
+                    <button name="action_set_in_progress"
+                            type="object"
+                            string="Start"
+                            invisible="state != 'draft'"/>
+
+                    <button name="action_request_review"
+                            type="object"
+                            string="Request Review"
+                            invisible="state not in ('draft','in_progress')"/>
+                    
+                    <button name="action_preview_proposal"
+                            type="object"
+                            string="Preview Proposal"
+                            class="btn-secondary"/>
+
+                    <button name="action_mark_ready_to_send"
+                            type="object"
+                            string="Ready to Send"
+                            invisible="state not in ('draft','in_progress','pending_review')"/>
+
+                    <button name="action_mark_sent"
+                            type="object"
+                            string="Mark Sent"
+                            invisible="state != 'ready_to_send'"/>
+
+                    <button name="action_mark_accepted"
+                            type="object"
+                            string="Accept"
+                            invisible="state not in ('ready_to_send','sent')"/>
+
+                    <button name="action_mark_rejected"
+                            type="object"
+                            string="Reject"
+                            invisible="state in ('accepted','rejected','superseded')"/>
+
+                    <button name="action_clone_revision"
+                            type="object"
+                            string="New Revision"
+                            invisible="state == 'superseded'"/>
+
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,in_progress,pending_review,ready_to_send,sent,accepted,rejected,superseded,expired_revision_needed"/>
                 </header>
 
                 <sheet>
@@ -46,17 +89,22 @@
                     <group>
                         <group>
                             <field name="name" readonly="1"/>
+                            <field name="revision_number" readonly="1"/>
+                            <field name="parent_proposal_id" readonly="1"/>
+                            <field name="is_current_revision" readonly="1"/>
                             <field name="crm_lead_id"/>
                             <field name="partner_id"/>
                             <field name="assigned_rep_id"/>
                             <field name="support_manager_id"/>
                             <field name="channel_manager_id"/>
                         </group>
+
                         <group>
                             <field name="proposal_date"/>
                             <field name="valid_until"/>
                             <field name="currency_id"/>
                             <field name="requires_review" readonly="1"/>
+                            <field name="ack_section_required" readonly="1"/>
                             <field name="manual_review_requested"/>
                             <field name="accepted_locked" readonly="1"/>
                         </group>
@@ -98,6 +146,8 @@
                                     <field name="requires_review" readonly="1"/>
                                     <field name="review_reason" readonly="1"/>
                                     <field name="client_decision_status"/>
+                                    <field name="ack_required" readonly="1"/>
+                                    <field name="ack_item_id"/>
                                 </list>
                             </field>
                         </page>
@@ -111,23 +161,30 @@
                                 <field name="document_exclusions"/>
                                 <field name="acceptance_block_text"/>
                             </group>
-                            <field name="section_ids">
-                                <list editable="bottom">
-                                    <field name="sort_order"/>
-                                    <field name="title"/>
-                                    <field name="included"/>
-                                    <field name="editable"/>
-                                </list>
-                            </field>
+
+                            <group string="Sections">
+                                <field name="section_ids">
+                                    <list editable="bottom">
+                                        <field name="sort_order"/>
+                                        <field name="section_code"/>
+                                        <field name="title"/>
+                                        <field name="included"/>
+                                        <field name="editable"/>
+                                        <field name="body_html"/>
+                                    </list>
+                                </field>
+                            </group>
                         </page>
 
                         <page string="Acknowledgments">
                             <field name="ack_item_ids">
                                 <list editable="bottom">
                                     <field name="display_order"/>
+                                    <field name="proposal_line_id"/>
                                     <field name="solution_category_id"/>
                                     <field name="ack_type"/>
                                     <field name="client_facing_text"/>
+                                    <field name="internal_reason"/>
                                     <field name="resolved"/>
                                     <field name="carryforward"/>
                                 </list>

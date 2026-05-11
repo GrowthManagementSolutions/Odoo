@@ -1,10 +1,49 @@
 <odoo>
+
+    <!-- ✅ SEARCH VIEW FIRST -->
+   <record id="view_gms_proposal_rate_table_search" model="ir.ui.view">
+    <field name="name">gms.proposal.rate.table.search</field>
+    <field name="model">gms.proposal.rate.table</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="name"/>
+            <field name="product_id"/>
+            <field name="supplier_id"/>
+
+            <!-- Filters -->
+            <filter name="active_filter"
+                    string="Active"
+                    domain="[('active', '=', True)]"/>
+
+            <filter name="inactive_filter"
+                    string="Inactive"
+                    domain="[('active', '=', False)]"/>
+
+            <!-- Group By (NO expand, NO extra attributes) -->
+            <filter name="group_product"
+                    string="Group by Product"
+                    context="{'group_by': 'product_id'}"/>
+
+            <filter name="group_supplier"
+                    string="Group by Supplier"
+                    context="{'group_by': 'supplier_id'}"/>
+
+            <filter name="group_company"
+                    string="Group by Company"
+                    context="{'group_by': 'company_id'}"/>
+        </search>
+    </field>
+</record>
+
+    <!-- ✅ ACTION AFTER -->
     <record id="action_gms_proposal_rate_table" model="ir.actions.act_window">
         <field name="name">Rate Tables</field>
         <field name="res_model">gms.proposal.rate.table</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_gms_proposal_rate_table_search"/>
     </record>
 
+    <!-- LIST VIEW -->
     <record id="view_gms_proposal_rate_table_list" model="ir.ui.view">
         <field name="name">gms.proposal.rate.table.list</field>
         <field name="model">gms.proposal.rate.table</field>
@@ -15,9 +54,13 @@
                 <field name="supplier_id"/>
                 <field name="effective_start"/>
                 <field name="effective_end"/>
+                <field name="default_contract_term_months"/>
                 <field name="minimum_monthly_fee"/>
                 <field name="target_monthly_fee"/>
                 <field name="maximum_monthly_fee"/>
+                <field name="minimum_one_time_fee"/>
+                <field name="target_one_time_fee"/>
+                <field name="maximum_one_time_fee"/>
                 <field name="minimum_contract_term_months"/>
                 <field name="maximum_contract_term_months"/>
                 <field name="active"/>
@@ -25,11 +68,12 @@
         </field>
     </record>
 
+    <!-- FORM VIEW -->
     <record id="view_gms_proposal_rate_table_form" model="ir.ui.view">
         <field name="name">gms.proposal.rate.table.form</field>
         <field name="model">gms.proposal.rate.table</field>
         <field name="arch" type="xml">
-            <form string="Rate Table">
+            <form string="Proposal Rate Table">
                 <sheet>
                     <group>
                         <group>
@@ -50,29 +94,49 @@
                         </group>
                     </group>
 
-                    <group string="Monthly Fees">
-                        <group>
-                            <field name="minimum_monthly_fee"/>
-                            <field name="target_monthly_fee"/>
-                            <field name="maximum_monthly_fee"/>
-                            <field name="approval_required_below_monthly"/>
-                        </group>
-                    </group>
+                    <notebook>
+                        <page string="Monthly Fees">
+                            <group>
+                                <group>
+                                    <field name="minimum_monthly_fee"/>
+                                    <field name="target_monthly_fee"/>
+                                    <field name="maximum_monthly_fee"/>
+                                </group>
+                                <group>
+                                    <field name="approval_required_below_monthly"/>
+                                </group>
+                            </group>
+                        </page>
 
-                    <group string="One-Time Fees">
-                        <group>
-                            <field name="minimum_one_time_fee"/>
-                            <field name="target_one_time_fee"/>
-                            <field name="maximum_one_time_fee"/>
-                            <field name="approval_required_below_one_time"/>
-                        </group>
-                    </group>
+                        <page string="One-Time Fees">
+                            <group>
+                                <group>
+                                    <field name="minimum_one_time_fee"/>
+                                    <field name="target_one_time_fee"/>
+                                    <field name="maximum_one_time_fee"/>
+                                </group>
+                                <group>
+                                    <field name="approval_required_below_one_time"/>
+                                </group>
+                            </group>
+                        </page>
 
-                    <group string="Notes">
-                        <field name="notes"/>
-                    </group>
+                        <page string="Notes">
+                            <group>
+                                <field name="notes"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
+
+    <!-- MENU -->
+    <menuitem id="menu_gms_rate_tables"
+              name="Rate Tables"
+              parent="menu_gms_config"
+              action="action_gms_proposal_rate_table"
+              sequence="10"/>
+
 </odoo>

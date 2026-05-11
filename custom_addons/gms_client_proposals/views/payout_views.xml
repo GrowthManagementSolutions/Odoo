@@ -1,0 +1,86 @@
+<odoo>
+
+    <!-- ACTIONS -->
+
+    <record id="action_payout_batches" model="ir.actions.act_window">
+        <field name="name">Payout Batches</field>
+        <field name="res_model">gms.payout.batch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- MENUS -->
+
+    <menuitem id="menu_gms_payout_root"
+          name="Payouts"
+          parent="gms_client_proposals.menu_gms_root"
+          sequence="50"/>
+          
+    <menuitem id="menu_gms_payout_batches"
+              name="Payout Batches"
+              parent="menu_gms_payout_root"
+              action="action_payout_batches"
+              sequence="10"/>
+
+    <!-- BATCH LIST -->
+
+    <record id="view_gms_payout_batch_list" model="ir.ui.view">
+        <field name="name">gms.payout.batch.list</field>
+        <field name="model">gms.payout.batch</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="payout_month"/>
+                <field name="total_payout_amount"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- BATCH FORM -->
+
+    <record id="view_gms_payout_batch_form" model="ir.ui.view">
+        <field name="name">gms.payout.batch.form</field>
+        <field name="model">gms.payout.batch</field>
+        <field name="arch" type="xml">
+            <form string="Payout Batch">
+                <header>
+                    <button name="action_approve"
+                            type="object"
+                            string="Approve"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <button name="action_mark_paid"
+                            type="object"
+                            string="Mark Paid"
+                            class="btn-success"
+                            invisible="state != 'approved'"/>
+
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,approved,paid"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="payout_month"/>
+                        <field name="total_payout_amount" readonly="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Payout Lines">
+                            <field name="payout_line_ids">
+                                <list editable="bottom">
+                                    <field name="recipient_id"/>
+                                    <field name="total_amount"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

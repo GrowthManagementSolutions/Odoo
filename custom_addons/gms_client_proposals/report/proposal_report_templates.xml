@@ -3,68 +3,258 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
-                    <div class="page">
-                        <h2><span t-esc="o.name"/></h2>
-                        <p><strong>Client:</strong> <span t-esc="o.partner_id.display_name"/></p>
-                        <p><strong>Valid Until:</strong> <span t-esc="o.valid_until"/></p>
+                    <div class="page" style="font-size:13px; color:#000000; line-height:1.45;">
 
-                        <div t-if="o.document_summary">
-                            <h3>Executive Summary</h3>
-                            <div t-raw="o.document_summary"/>
+                        <div class="d-print-none" style="margin-bottom:20px;">
+                            <a t-att-href="'/report/pdf/gms_client_proposals.report_gms_proposal_document/%s' % o.id"
+                               class="btn btn-primary">
+                                Download PDF
+                            </a>
                         </div>
 
-                        <h3>Proposed Solutions</h3>
-                        <table class="table table-sm">
-                            <thead>
+                        <!-- Header -->
+                        <div style="border-bottom:3px solid #0b4f9c; padding-bottom:18px; margin-bottom:28px;">
+                            <table style="width:100%; border-collapse:collapse;">
                                 <tr>
-                                    <th>Merchant</th>
-                                    <th>Category</th>
-                                    <th>Supplier</th>
-                                    <th>Monthly</th>
-                                    <th>One-Time</th>
-                                    <th>Term</th>
+                                    <td style="width:60%; vertical-align:top;">
+                                        <h1 style="font-size:34px; margin:0; color:#000000;">
+                                            Client Proposal
+                                        </h1>
+                                        <p style="font-size:18px; margin:8px 0 0 0; color:#333333;">
+                                            Prepared for
+                                            <strong>
+                                                <span t-esc="o.partner_id.display_name"/>
+                                            </strong>
+                                        </p>
+                                    </td>
+                                    <td style="width:40%; text-align:right; vertical-align:top;">
+                                        <p style="margin:0;">
+                                            <strong>Proposal #:</strong>
+                                            <span t-esc="o.name"/>
+                                        </p>
+                                        <p style="margin:4px 0 0 0;">
+                                            <strong>Proposal Date:</strong>
+                                            <span t-esc="o.proposal_date"/>
+                                        </p>
+                                        <p style="margin:4px 0 0 0;">
+                                            <strong>Valid Until:</strong>
+                                            <span t-esc="o.valid_until"/>
+                                        </p>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <tr t-foreach="o.line_ids.filtered(lambda l: l.client_decision_status != 'removed_from_final')" t-as="line">
-                                    <td><span t-esc="line.proposal_merchant_id.name"/></td>
-                                    <td><span t-esc="line.product_id.display_name"/></td>
-                                    <td><span t-esc="line.supplier_id.display_name"/></td>
-                                    <td><span t-esc="line.monthly_recurring_fee"/></td>
-                                    <td><span t-esc="line.one_time_fee"/></td>
-                                    <td><span t-esc="line.contract_term_months"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <h3>Pricing Summary</h3>
-                        <p>Monthly Recurring: <span t-esc="o.total_monthly_recurring"/></p>
-                        <p>One-Time Fees: <span t-esc="o.total_one_time_fees"/></p>
-                        <p>Total Contract Value: <span t-esc="o.total_contract_value"/></p>
-
-                        <div t-foreach="o.section_ids.filtered(lambda s: s.included)" t-as="section">
-                            <h3><span t-esc="section.title"/></h3>
-                            <div t-raw="section.edited_text"/>
+                            </table>
                         </div>
 
-                        <div t-if="o.ack_section_required">
-                            <h3>Client Acknowledgment of Rejected or Modified Recommendations</h3>
-                            <ul>
+                        <!-- Introduction -->
+                        <div t-if="o.document_intro" style="margin-bottom:28px; page-break-inside:avoid;">
+                            <h2 style="font-size:22px; color:#000000; margin-bottom:8px;">
+                                Introduction
+                            </h2>
+                            <div t-raw="o.document_intro"/>
+                        </div>
+
+                        <!-- Executive Summary -->
+                        <div t-if="o.document_summary" style="margin-bottom:28px; page-break-inside:avoid;">
+                            <h2 style="font-size:22px; color:#000000; margin-bottom:8px;">
+                                Executive Summary
+                            </h2>
+                            <div style="background:#eef5ff; border-left:4px solid #0b4f9c; padding:12px 14px;">
+                                <div t-raw="o.document_summary"/>
+                            </div>
+                        </div>
+
+                        <!-- Recommended Solutions -->
+                        <div style="margin-bottom:28px; page-break-inside:avoid;">
+                            <h2 style="font-size:22px; color:#000000; margin-bottom:10px;">
+                                Recommended Solutions
+                            </h2>
+
+                            <table style="width:100%; border-collapse:collapse;">
+                                <thead>
+                                    <tr style="background:#eef5ff; border-bottom:2px solid #0b4f9c;">
+                                        <th style="text-align:left; padding:9px;">Merchant</th>
+                                        <th style="text-align:left; padding:9px;">Solution</th>
+                                        <th style="text-align:left; padding:9px;">Supplier</th>
+                                        <th style="text-align:right; padding:9px;">Monthly</th>
+                                        <th style="text-align:right; padding:9px;">One-Time</th>
+                                        <th style="text-align:center; padding:9px;">Term</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.line_ids.filtered(lambda l: l.client_decision_status != 'removed')" t-as="line"
+                                        style="border-bottom:1px solid #d1d5db;">
+                                        <td style="padding:8px;">
+                                            <span t-esc="line.proposal_merchant_id.name or ''"/>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="line.product_id.display_name or ''"/>
+                                        </td>
+                                        <td style="padding:8px;">
+                                            <span t-esc="line.supplier_id.display_name or ''"/>
+                                        </td>
+                                        <td style="padding:8px; text-align:right;">
+                                            <span t-field="line.monthly_recurring_fee"
+                                                  t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                        <td style="padding:8px; text-align:right;">
+                                            <span t-field="line.one_time_fee"
+                                                  t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                        <td style="padding:8px; text-align:center;">
+                                            <span t-esc="line.contract_term_months or 0"/> months
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pricing Summary -->
+                        <div style="margin-bottom:30px; page-break-inside:avoid;">
+                            <h2 style="font-size:22px; color:#000000; margin-bottom:10px;">
+                                Pricing Summary
+                            </h2>
+
+                            <table style="width:55%; border-collapse:collapse;">
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #d1d5db;">
+                                        <strong>Monthly Recurring</strong>
+                                    </td>
+                                    <td style="padding:8px; text-align:right; border-bottom:1px solid #d1d5db;">
+                                        <span t-field="o.total_monthly_recurring"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #d1d5db;">
+                                        <strong>One-Time Fees</strong>
+                                    </td>
+                                    <td style="padding:8px; text-align:right; border-bottom:1px solid #d1d5db;">
+                                        <span t-field="o.total_one_time_fees"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+                                <tr style="background:#eef5ff;">
+                                    <td style="padding:10px; border-top:3px solid #0b4f9c;">
+                                        <strong>Total Contract Value</strong>
+                                    </td>
+                                    <td style="padding:10px; text-align:right; border-top:3px solid #0b4f9c; font-size:18px;">
+                                        <strong>
+                                            <span t-field="o.total_contract_value"
+                                                  t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Assumptions -->
+                        <div t-if="o.document_assumptions" style="margin-bottom:28px; page-break-inside:avoid;">
+                            <h2 style="font-size:22px; color:#000000; margin-bottom:8px;">
+                                Assumptions
+                            </h2>
+                            <div t-raw="o.document_assumptions"/>
+                        </div>
+
+                        <!-- Exclusions -->
+                        <div t-if="o.document_exclusions" style="margin-bottom:28px; page-break-inside:avoid;">
+                            <h2 style="font-size:22px; color:#000000; margin-bottom:8px;">
+                                Exclusions
+                            </h2>
+                            <div t-raw="o.document_exclusions"/>
+                        </div>
+
+                        <!-- Dynamic SOW Sections -->
+                        <div t-foreach="o.section_ids.filtered(lambda s: s.included)" t-as="section"
+                             style="margin-bottom:28px; page-break-inside:avoid;">
+                            <h2 style="font-size:22px; color:#000000; margin-bottom:8px;">
+                                <span t-esc="section.title"/>
+                            </h2>
+                            <div t-raw="section.body_html"/>
+                        </div>
+
+                        <!-- Acknowledgments / Initials -->
+                        <div t-if="o.ack_section_required"
+                             style="margin-top:28px; margin-bottom:30px; padding:14px; border:1px solid #9bbce6; background:#eef5ff; page-break-inside:avoid;">
+                            <h2 style="font-size:21px; color:#000000; margin-top:0;">
+                                Client Acknowledgment of Rejected or Modified Recommendations
+                            </h2>
+
+                            <p style="margin-bottom:10px;">
+                                The client acknowledges the following rejected, modified, removed, or deferred recommendations:
+                            </p>
+
+                            <ul style="margin-top:0;">
                                 <li t-foreach="o.ack_item_ids.filtered(lambda a: a.active and not a.resolved)" t-as="ack">
                                     <span t-esc="ack.client_facing_text"/>
                                 </li>
                             </ul>
-                            <p><strong>Client Initials:</strong> ____________________</p>
+
+                            <p style="margin-top:18px;">
+                                <strong>Client Initials:</strong>
+                                <span data-oe-sign-placeholder="client_initials"
+                                      style="display:inline-block; border-bottom:1px solid #000000; width:160px; height:20px;">
+                                </span>
+                            </p>
                         </div>
 
-                        <div t-if="o.acceptance_block_text">
-                            <h3>Acceptance</h3>
-                            <div t-raw="o.acceptance_block_text"/>
-                            <p>Accepted By: ____________________</p>
-                            <p>Title: ____________________</p>
-                            <p>Signature: ____________________</p>
-                            <p>Date: ____________________</p>
+                        <!-- Acceptance / E-Signature Ready -->
+                        <div style="margin-top:40px; border-top:4px solid #0b4f9c; padding-top:22px; page-break-inside:avoid;">
+                            <h2 style="font-size:24px; color:#000000; margin-top:0;">
+                                Acceptance
+                            </h2>
+
+                            <div t-if="o.acceptance_block_text" style="margin-bottom:18px;">
+                                <div t-raw="o.acceptance_block_text"/>
+                            </div>
+
+                            <p style="font-size:13px; color:#222222; margin-bottom:20px;">
+                                By signing this proposal, both parties agree to the scope, pricing, and terms outlined
+                                in this document. Work will commence upon formal approval and confirmation of initial
+                                requirements.
+                            </p>
+
+                            <table style="width:100%; border-collapse:collapse; margin-top:24px;">
+                                <tr>
+                                    <td style="width:50%; padding:16px 24px 16px 0;">
+                                        <strong style="color:#000000;">Client Name</strong><br/>
+                                        <span data-oe-sign-placeholder="client_name"
+                                              style="display:inline-block; margin-top:18px; border-bottom:1px solid #000000; width:92%; height:22px;">
+                                        </span>
+                                    </td>
+                                    <td style="width:50%; padding:16px 0;">
+                                        <strong style="color:#000000;">Title</strong><br/>
+                                        <span data-oe-sign-placeholder="client_title"
+                                              style="display:inline-block; margin-top:18px; border-bottom:1px solid #000000; width:92%; height:22px;">
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding:16px 24px 16px 0;">
+                                        <strong style="color:#000000;">Signature</strong><br/>
+                                        <span data-oe-sign-placeholder="client_signature"
+                                              style="display:inline-block; margin-top:18px; border-bottom:1px solid #000000; width:92%; height:34px;">
+                                        </span>
+                                    </td>
+                                    <td style="padding:16px 0;">
+                                        <strong style="color:#000000;">Date</strong><br/>
+                                        <span data-oe-sign-placeholder="client_date"
+                                              style="display:inline-block; margin-top:18px; border-bottom:1px solid #000000; width:92%; height:22px;">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="font-size:11px; color:#555555; margin-top:12px;">
+                                E-signature ready fields: client name, title, signature, date, and initials where applicable.
+                            </p>
                         </div>
+
+                        <!-- Footer Note -->
+                        <div style="margin-top:40px; font-size:11px; color:#666666; text-align:center;">
+                            This proposal is confidential and intended solely for the recipient.
+                        </div>
+
                     </div>
                 </t>
             </t>

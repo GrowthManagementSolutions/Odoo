@@ -1,22 +1,38 @@
 <odoo>
+    <!-- ROOT -->
     <menuitem id="menu_gms_root"
               name="GMS Proposals"
               sequence="80"
               web_icon="gms_client_proposals,static/description/gms_logo.jpeg"/>
 
+    <!-- MAIN -->
     <menuitem id="menu_gms_proposals"
               name="Proposals"
               parent="menu_gms_root"
               action="action_gms_client_proposal"
               sequence="10"/>
 
+    <!-- TEMPLATES -->
     <menuitem id="menu_gms_templates"
               name="Templates"
               parent="menu_gms_root"
               sequence="20"/>
 
+    <menuitem id="menu_gms_sow_templates"
+              name="SOW Templates"
+              parent="menu_gms_templates"
+              action="action_gms_sow_template"
+              sequence="10"/>
+
+    <!-- CONFIGURATION -->
     <menuitem id="menu_gms_config"
               name="Configuration"
               parent="menu_gms_root"
               sequence="30"/>
+
+    <menuitem id="menu_gms_rate_tables"
+              name="Rate Tables"
+              parent="menu_gms_config"
+              action="action_gms_proposal_rate_table"
+              sequence="10"/>
 </odoo>

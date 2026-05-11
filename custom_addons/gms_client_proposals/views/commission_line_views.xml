@@ -1,0 +1,38 @@
+<odoo>
+    <record id="view_commission_line_form" model="ir.ui.view">
+        <field name="name">gms.commission.line.form</field>
+        <field name="model">gms.commission.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_run_matching"
+                            type="object"
+                            string="Run Matching"
+                            class="btn-primary"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="merchant_name"/>
+                        <field name="supplier_reference"/>
+                        <field name="revenue_amount"/>
+                    </group>
+
+                    <group string="Matching">
+                        <field name="match_status"/>
+                        <field name="match_confidence"/>
+                        <field name="needs_review"/>
+                        <field name="exception_reason"/>
+                    </group>
+
+                    <group string="Matched Records">
+                        <field name="matched_merchant_id"/>
+                        <field name="matched_customer_id"/>
+                        <field name="matched_service_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

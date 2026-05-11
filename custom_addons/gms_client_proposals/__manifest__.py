@@ -28,6 +28,8 @@
     "views/sow_template_views.xml",
     "views/proposal_menu.xml",
 
+    "views/payout_views.xml",
+
     "wizard/proposal_convert_wizard_views.xml",
 
     "report/proposal_report.xml",
