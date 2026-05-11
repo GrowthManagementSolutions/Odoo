@@ -33,11 +33,11 @@ class ResPartner(models.Model):
     gms_opportunity_ids = fields.One2many(
         "crm.lead",
         "partner_id",
-        string="Opportunities",
+        string="GMS Opportunities",
     )
 
     gms_opportunity_count = fields.Integer(
-        string="Opportunity Count",
+        string="GMS Opportunity Count",
         compute="_compute_gms_opportunity_count",
     )
 
