@@ -47,10 +47,10 @@ class GmsSowTemplateSection(models.Model):
     sort_order = fields.Integer(default=10)
     active = fields.Boolean(default=True)
 
-    _sql_constraints = [
-        (
-            "template_section_code_unique",
-            "unique(template_id, section_code)",
-            "Section code must be unique per template.",
-        ),
-    ]
+    #_sql_constraints = [
+        #(
+           # "template_section_code_unique",
+            #"unique(template_id, section_code)",
+            #"Section code must be unique per template.",
+        #),
+    #]

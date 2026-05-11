@@ -108,9 +108,9 @@ class GmsClientProposal(models.Model):
         required=True,
     )
 
-    _sql_constraints = [
-        ("proposal_name_unique", "unique(name, company_id)", "Proposal number must be unique per company."),
-    ]
+    #_sql_constraints = [
+    #    ("proposal_name_unique", "unique(name, company_id)", "Proposal number must be unique per company."),
+    #]
 
     @api.model_create_multi
     def create(self, vals_list):

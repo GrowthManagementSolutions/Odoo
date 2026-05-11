@@ -62,13 +62,13 @@ class GmsClientProposalLine(models.Model):
     notes_internal = fields.Text()
     active = fields.Boolean(default=True)
 
-    _sql_constraints = [
-        (
-            "proposal_line_unique_scope",
-            "unique(proposal_id, proposal_merchant_id, product_id)",
-            "Only one solution category line per merchant per proposal is allowed in MVP.",
-        )
-    ]
+    #_sql_constraints = [
+        #(
+            #"proposal_line_unique_scope",
+            #"unique(proposal_id, proposal_merchant_id, product_id)",
+            #"Only one solution category line per merchant per proposal is allowed in MVP.",
+        #)
+    #]
 
     @api.depends("monthly_recurring_fee", "one_time_fee", "contract_term_months")
     def _compute_amounts(self):

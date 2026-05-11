@@ -49,13 +49,13 @@ class GmsProposalRateTable(models.Model):
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company, required=True)
     notes = fields.Text()
 
-    _sql_constraints = [
-        (
-            "gms_rate_table_name_company_unique",
-            "unique(name, company_id)",
-            "Rate table name must be unique per company.",
-        ),
-    ]
+    #_sql_constraints = [
+        #(
+            #"gms_rate_table_name_company_unique",
+            #"unique(name, company_id)",
+            #"Rate table name must be unique per company.",
+        #),
+    #]
 
     def name_get(self):
         result = []
