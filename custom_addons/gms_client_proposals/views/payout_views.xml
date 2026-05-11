@@ -14,7 +14,7 @@
           name="Payouts"
           parent="gms_client_proposals.menu_gms_root"
           sequence="50"/>
-          
+
     <menuitem id="menu_gms_payout_batches"
               name="Payout Batches"
               parent="menu_gms_payout_root"
@@ -31,7 +31,7 @@
                 <field name="name"/>
                 <field name="payout_month"/>
                 <field name="total_payout_amount"/>
-                <field name="state"/>
+                <field name="merchant_state"/>
             </list>
         </field>
     </record>

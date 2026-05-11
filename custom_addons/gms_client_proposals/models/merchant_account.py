@@ -16,7 +16,7 @@ class GmsMerchantAccount(models.Model):
     state_id = fields.Many2one("res.country.state")
     zip = fields.Char()
     country_id = fields.Many2one("res.country")
-    state = fields.Selection([
+    merchant_state = fields.Selection([
         ("draft", "Draft"),
         ("active", "Active"),
         ("inactive", "Inactive"),
