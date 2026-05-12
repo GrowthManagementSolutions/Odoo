@@ -33,10 +33,7 @@
         <field name="arch" type="xml">
             <form string="Client Proposal">
                 <header>
-                    <button name="%(gms_client_proposals.action_report_gms_proposal)d"
-                            type="action"
-                            string="Print Proposal"
-                            class="btn-primary"/>
+                    
 
                     <button name="action_set_in_progress"
                             type="object"
