@@ -135,10 +135,6 @@
         </field>
     </record>
 
-    <!-- MENU -->
-    <menuitem id="menu_gms_rate_tables"
-              name="Rate Tables"
-              action="action_gms_proposal_rate_table"
-              sequence="10"/>
+ 
 
 </odoo>
