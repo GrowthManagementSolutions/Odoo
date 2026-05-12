@@ -1,41 +1,39 @@
 <odoo>
 
-    <!-- ✅ SEARCH VIEW FIRST -->
-   <record id="view_gms_proposal_rate_table_search" model="ir.ui.view">
-    <field name="name">gms.proposal.rate.table.search</field>
-    <field name="model">gms.proposal.rate.table</field>
-    <field name="arch" type="xml">
-        <search>
-            <field name="name"/>
-            <field name="product_id"/>
-            <field name="supplier_id"/>
+    <!-- SEARCH VIEW -->
+    <record id="view_gms_proposal_rate_table_search" model="ir.ui.view">
+        <field name="name">gms.proposal.rate.table.search</field>
+        <field name="model">gms.proposal.rate.table</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="supplier_id"/>
 
-            <!-- Filters -->
-            <filter name="active_filter"
-                    string="Active"
-                    domain="[('active', '=', True)]"/>
+                <filter name="active_filter"
+                        string="Active"
+                        domain="[('active', '=', True)]"/>
 
-            <filter name="inactive_filter"
-                    string="Inactive"
-                    domain="[('active', '=', False)]"/>
+                <filter name="inactive_filter"
+                        string="Inactive"
+                        domain="[('active', '=', False)]"/>
 
-            <!-- Group By (NO expand, NO extra attributes) -->
-            <filter name="group_product"
-                    string="Group by Product"
-                    context="{'group_by': 'product_id'}"/>
+                <filter name="group_product"
+                        string="Group by Product"
+                        context="{'group_by': 'product_id'}"/>
 
-            <filter name="group_supplier"
-                    string="Group by Supplier"
-                    context="{'group_by': 'supplier_id'}"/>
+                <filter name="group_supplier"
+                        string="Group by Supplier"
+                        context="{'group_by': 'supplier_id'}"/>
 
-            <filter name="group_company"
-                    string="Group by Company"
-                    context="{'group_by': 'company_id'}"/>
-        </search>
-    </field>
-</record>
+                <filter name="group_company"
+                        string="Group by Company"
+                        context="{'group_by': 'company_id'}"/>
+            </search>
+        </field>
+    </record>
 
-    <!-- ✅ ACTION AFTER -->
+    <!-- ACTION -->
     <record id="action_gms_proposal_rate_table" model="ir.actions.act_window">
         <field name="name">Rate Tables</field>
         <field name="res_model">gms.proposal.rate.table</field>
@@ -84,6 +82,7 @@
                             <field name="company_id"/>
                             <field name="active"/>
                         </group>
+
                         <group>
                             <field name="effective_start"/>
                             <field name="effective_end"/>
@@ -95,6 +94,7 @@
                     </group>
 
                     <notebook>
+
                         <page string="Monthly Fees">
                             <group>
                                 <group>
@@ -102,6 +102,7 @@
                                     <field name="target_monthly_fee"/>
                                     <field name="maximum_monthly_fee"/>
                                 </group>
+
                                 <group>
                                     <field name="approval_required_below_monthly"/>
                                 </group>
@@ -115,6 +116,7 @@
                                     <field name="target_one_time_fee"/>
                                     <field name="maximum_one_time_fee"/>
                                 </group>
+
                                 <group>
                                     <field name="approval_required_below_one_time"/>
                                 </group>
@@ -126,6 +128,7 @@
                                 <field name="notes"/>
                             </group>
                         </page>
+
                     </notebook>
                 </sheet>
             </form>
@@ -135,7 +138,6 @@
     <!-- MENU -->
     <menuitem id="menu_gms_rate_tables"
               name="Rate Tables"
-              parent="menu_gms_config"
               action="action_gms_proposal_rate_table"
               sequence="10"/>
 
