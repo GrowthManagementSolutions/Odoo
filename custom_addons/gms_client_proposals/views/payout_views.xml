@@ -11,9 +11,9 @@
     <!-- MENUS -->
 
     <menuitem id="menu_gms_payout_root"
-          name="Payouts"
-          parent="gms_client_proposals.menu_gms_root"
-          sequence="50"/>
+              name="Payouts"
+              parent="gms_client_proposals.menu_gms_root"
+              sequence="50"/>
 
     <menuitem id="menu_gms_payout_batches"
               name="Payout Batches"
@@ -31,7 +31,7 @@
                 <field name="name"/>
                 <field name="payout_month"/>
                 <field name="total_payout_amount"/>
-                <field name="merchant_state"/>
+                <field name="state"/>
             </list>
         </field>
     </record>
@@ -43,6 +43,7 @@
         <field name="model">gms.payout.batch</field>
         <field name="arch" type="xml">
             <form string="Payout Batch">
+
                 <header>
                     <button name="action_approve"
                             type="object"
@@ -62,6 +63,7 @@
                 </header>
 
                 <sheet>
+
                     <group>
                         <field name="name"/>
                         <field name="payout_month"/>
@@ -69,6 +71,7 @@
                     </group>
 
                     <notebook>
+
                         <page string="Payout Lines">
                             <field name="payout_line_ids">
                                 <list editable="bottom">
@@ -77,8 +80,11 @@
                                 </list>
                             </field>
                         </page>
+
                     </notebook>
+
                 </sheet>
+
             </form>
         </field>
     </record>
