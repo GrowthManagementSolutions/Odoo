@@ -16,7 +16,7 @@
                 <field name="partner_id"/>
                 <field name="crm_lead_id"/>
                 <field name="assigned_rep_id"/>
-                <field name="merchant_state"/>
+                <field name="state"/>
                 <field name="proposal_date"/>
                 <field name="valid_until"/>
                 <field name="requires_review"/>
