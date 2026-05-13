@@ -4,7 +4,7 @@
         <field name="name">Proposals</field>
         <field name="res_model">gms.client.proposal</field>
         <field name="view_mode">list,form</field>
-        <field name="view_id" ref="view_gms_client_proposal_list"/>
+        
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first proposal
