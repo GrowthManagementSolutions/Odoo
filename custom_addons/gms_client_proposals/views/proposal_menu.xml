@@ -1,8 +1,20 @@
 <odoo>
+
+    <!-- ROOT -->
     <menuitem id="menu_gms_root"
               name="GMS Proposals"
               sequence="80"
               web_icon="gms_client_proposals,static/description/gms_logo.jpeg"/>
+
+    <!-- ====================================================== -->
+    <!-- PROPOSALS -->
+    <!-- ====================================================== -->
+
+    <record id="action_gms_client_proposal" model="ir.actions.act_window">
+        <field name="name">Proposals</field>
+        <field name="res_model">gms.client.proposal</field>
+        <field name="view_mode">list,form</field>
+    </record>
 
     <menuitem id="menu_gms_proposals"
               name="Proposals"
@@ -10,9 +22,20 @@
               action="action_gms_client_proposal"
               sequence="10"/>
 
+    <!-- ====================================================== -->
+    <!-- TEMPLATES -->
+    <!-- ====================================================== -->
+
+    <record id="action_gms_sow_template" model="ir.actions.act_window">
+        <field name="name">SOW Templates</field>
+        <field name="res_model">gms.sow.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
     <menuitem id="menu_gms_templates"
               name="Templates"
               parent="menu_gms_root"
+              action="action_gms_sow_template"
               sequence="20"/>
 
     <menuitem id="menu_gms_sow_templates"
@@ -21,9 +44,20 @@
               action="action_gms_sow_template"
               sequence="10"/>
 
+    <!-- ====================================================== -->
+    <!-- CONFIGURATION -->
+    <!-- ====================================================== -->
+
+    <record id="action_gms_proposal_rate_table" model="ir.actions.act_window">
+        <field name="name">Rate Tables</field>
+        <field name="res_model">gms.proposal.rate.table</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
     <menuitem id="menu_gms_config"
               name="Configuration"
               parent="menu_gms_root"
+              action="action_gms_proposal_rate_table"
               sequence="30"/>
 
     <menuitem id="menu_gms_rate_tables"
@@ -31,4 +65,5 @@
               parent="menu_gms_config"
               action="action_gms_proposal_rate_table"
               sequence="10"/>
+
 </odoo>
