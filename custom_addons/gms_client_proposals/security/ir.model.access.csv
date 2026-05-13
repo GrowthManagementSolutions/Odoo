@@ -31,6 +31,9 @@ access_gms_client_proposal_ack_item_admin,gms.client.proposal.ack.item admin,mod
 access_gms_proposal_rate_table_admin,gms.proposal.rate.table admin,model_gms_proposal_rate_table,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
 access_gms_sow_template_admin,gms.sow.template admin,model_gms_sow_template,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
 access_gms_sow_template_section_admin,gms.sow.template.section admin,model_gms_sow_template_section,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
+access_gms_sow_template_user,gms.sow.template user,model_gms_sow_template,base.group_user,1,1,1,1
+access_gms_sow_template_section_user,gms.sow.template.section user,model_gms_sow_template_section,base.group_user,1,1,1,1
+access_gms_proposal_rate_table_user,gms.proposal.rate.table user,model_gms_proposal_rate_table,base.group_user,1,1,1,1
 access_gms_customer_account_admin,gms.customer.account admin,model_gms_customer_account,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
 access_gms_merchant_account_admin,gms.merchant.account admin,model_gms_merchant_account,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
 access_gms_supplier_service_admin,gms.supplier.service admin,model_gms_supplier_service,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
