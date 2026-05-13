@@ -36,3 +36,18 @@ access_gms_merchant_account_admin,gms.merchant.account admin,model_gms_merchant_
 access_gms_supplier_service_admin,gms.supplier.service admin,model_gms_supplier_service,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
 access_gms_forecast_record_admin,gms.forecast.record admin,model_gms_forecast_record,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
 access_gms_proposal_convert_wizard_admin,gms.proposal.convert.wizard admin,model_gms_proposal_convert_wizard,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
+
+access_gms_commission_earning_admin,gms.commission.earning admin,model_gms_commission_earning,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
+access_gms_commission_line_admin,gms.commission.line admin,model_gms_commission_line,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
+access_gms_payout_batch_admin,gms.payout.batch admin,model_gms_payout_batch,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
+access_gms_payout_line_admin,gms.payout.line admin,model_gms_payout_line,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
+
+access_gms_commission_earning_rep,gms.commission.earning rep,model_gms_commission_earning,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
+access_gms_commission_line_rep,gms.commission.line rep,model_gms_commission_line,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
+access_gms_payout_batch_rep,gms.payout.batch rep,model_gms_payout_batch,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
+access_gms_payout_line_rep,gms.payout.line rep,model_gms_payout_line,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
+
+access_gms_commission_earning_user,gms.commission.earning user,model_gms_commission_earning,base.group_user,1,0,0,0
+access_gms_commission_line_user,gms.commission.line user,model_gms_commission_line,base.group_user,1,0,0,0
+access_gms_payout_batch_user,gms.payout.batch user,model_gms_payout_batch,base.group_user,1,0,0,0
+access_gms_payout_line_user,gms.payout.line user,model_gms_payout_line,base.group_user,1,0,0,0
