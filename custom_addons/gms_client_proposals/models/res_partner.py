@@ -58,6 +58,44 @@ class ResPartner(models.Model):
                 "default_contact_name": self.name,
             },
         }
+    
+    gms_deal_ids = fields.One2many(
+        "crm.lead",
+        "partner_id",
+        string="Deals",
+    )
+
+    gms_deal_count = fields.Integer(
+        string="Deals",
+        compute="_compute_gms_deal_count",
+    )
+
+
+    def _compute_gms_deal_count(self):
+        for rec in self:
+            rec.gms_deal_count = self.env["crm.lead"].search_count([
+                ("partner_id", "=", rec.id),
+                ("type", "=", "opportunity"),
+        ])
+    
+    def action_open_gms_deals(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Deals",
+            "res_model": "crm.lead",
+            "view_mode": "list,form",
+            "domain": [
+                ("partner_id", "=", self.id),
+                ("type", "=", "opportunity"),
+            ],
+            "context": {
+                "default_partner_id": self.id,
+                "default_type": "opportunity",
+                "default_x_gms_company_id": self.id,
+                "default_x_gms_deal_name": f"{self.name} Opportunity",
+            },
+        }
 
     def action_create_gms_opportunity(self):
         self.ensure_one()

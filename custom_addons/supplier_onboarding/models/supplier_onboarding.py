@@ -59,10 +59,28 @@ class SupplierOnboarding(models.Model):
     notes = fields.Text()
 
     def action_submit(self):
+        paul = self.env["res.users"].search([
+            ("name", "ilike", "Paul")
+        ], limit=1)
+
         for rec in self:
             if not rec.contact_email:
                 raise UserError(_("Contact Email is required before submission."))
+
             rec.state = "submitted"
+
+            if paul:
+                rec.message_post(
+                    body=f"New supplier onboarding application submitted: {rec.legal_business_name}",
+                    partner_ids=[paul.partner_id.id],
+                )
+
+                rec.activity_schedule(
+                    "mail.mail_activity_data_todo",
+                    user_id=paul.id,
+                    summary="Review supplier onboarding application",
+                    note=f"Please review supplier onboarding application for {rec.legal_business_name}.",
+                )
 
     def action_send_nda(self):
         template = self.env.ref(

@@ -5,6 +5,18 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
 
+            <!-- Top smart button beside Opportunities, Sales, Invoiced, etc. -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_gms_deals"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-handshake-o">
+                    <field name="gms_deal_count"
+                           widget="statinfo"
+                           string="Deals"/>
+                </button>
+            </xpath>
+
             <!-- GMS tab -->
             <xpath expr="//sheet/notebook" position="inside">
                 <page string="GMS">
@@ -16,6 +28,7 @@
                             <field name="x_gms_is_commission_recipient"/>
                             <field name="x_gms_active_for_proposals"/>
                         </group>
+
                         <group>
                             <field name="x_gms_primary_rep_id"/>
                             <field name="x_gms_support_manager_id"/>
@@ -37,7 +50,6 @@
                 </page>
             </xpath>
 
-           
         </field>
     </record>
 </odoo>

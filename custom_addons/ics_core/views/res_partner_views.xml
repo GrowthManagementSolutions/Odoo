@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_ics_core" model="ir.ui.view">
+        <field name="name">res.partner.form.ics.core</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="ICS Info" groups="ics_core.group_ics_sales_rep,ics_core.group_ics_admin">
+                    <group>
+                        <group string="ICS Flags">
+                            <field name="is_referral_partner"/>
+                            <field name="is_msp_customer"/>
+                            <field name="is_vendor_carrier"/>
+                            <field name="is_site"/>
+                        </group>
+                        <group string="Account Info">
+                            <field name="ics_vertical_interest"/>
+                            <field name="assigned_account_exec_id"/>
+                            <field name="ics_industry"/>
+                            <field name="site_count"/>
+                        </group>
+                    </group>
+
+                    <group string="MSA">
+                        <field name="msa_signed"/>
+                        <field name="msa_signed_date"/>
+                        <field name="msa_sign_envelope_ref"/>
+                    </group>
+
+                    <group string="Site Details">
+                        <field name="site_code"/>
+                        <field name="site_manager_name"/>
+                        <field name="site_hours_of_operation"/>
+                        <field name="site_type"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -21,4 +21,6 @@ from . import commission_line
 from . import commission_earning
 from . import payout_batch
 from . import payout_line
+from . import recipient_statement
+from . import recipient_statement_line
 
