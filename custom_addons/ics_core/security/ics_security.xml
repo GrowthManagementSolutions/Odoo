@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_ics" model="ir.module.category">
+        <field name="name">ICS</field>
+        <field name="description">ICS security roles</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <record id="group_ics_sales_rep" model="res.groups">
+        <field name="name">ICS / Sales Rep</field>
+    </record>
+
+    <record id="group_ics_sales_manager" model="res.groups">
+        <field name="name">ICS / Sales Manager</field>
+        <field name="implied_ids" eval="[(4, ref('ics_core.group_ics_sales_rep'))]"/>
+    </record>
+
+    <record id="group_ics_operations_tech" model="res.groups">
+        <field name="name">ICS / Operations Tech</field>
+    </record>
+
+    <record id="group_ics_operations_manager" model="res.groups">
+        <field name="name">ICS / Operations Manager</field>
+        <field name="implied_ids" eval="[(4, ref('ics_core.group_ics_operations_tech'))]"/>
+    </record>
+
+    <record id="group_ics_helpdesk_agent" model="res.groups">
+        <field name="name">ICS / Helpdesk Agent</field>
+    </record>
+
+    <record id="group_ics_finance" model="res.groups">
+        <field name="name">ICS / Finance</field>
+    </record>
+
+    <record id="group_ics_executive" model="res.groups">
+        <field name="name">ICS / Executive</field>
+    </record>
+
+    <record id="group_ics_admin" model="res.groups">
+        <field name="name">ICS / Admin</field>
+        <field name="implied_ids" eval="[
+            (4, ref('ics_core.group_ics_sales_manager')),
+            (4, ref('ics_core.group_ics_operations_manager')),
+            (4, ref('ics_core.group_ics_helpdesk_agent')),
+            (4, ref('ics_core.group_ics_finance')),
+            (4, ref('ics_core.group_ics_executive'))
+        ]"/>
+    </record>
+
+</odoo>

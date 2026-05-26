@@ -30,10 +30,13 @@
 
     "views/payout_views.xml",
 
+    "views/recipient_statement_views.xml",
+
     "wizard/proposal_convert_wizard_views.xml",
 
     "report/proposal_report.xml",
     "report/proposal_report_templates.xml",
+
         
     ],
     "installable": True,

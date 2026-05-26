@@ -54,3 +54,9 @@ access_gms_commission_earning_user,gms.commission.earning user,model_gms_commiss
 access_gms_commission_line_user,gms.commission.line user,model_gms_commission_line,base.group_user,1,0,0,0
 access_gms_payout_batch_user,gms.payout.batch user,model_gms_payout_batch,base.group_user,1,0,0,0
 access_gms_payout_line_user,gms.payout.line user,model_gms_payout_line,base.group_user,1,0,0,0
+
+access_gms_recipient_statement_admin,gms.recipient.statement admin,model_gms_recipient_statement,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
+access_gms_recipient_statement_line_admin,gms.recipient.statement.line admin,model_gms_recipient_statement_line,gms_client_proposals.group_gms_proposal_admin,1,1,1,1
+
+access_gms_recipient_statement_rep,gms.recipient.statement rep,model_gms_recipient_statement,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
+access_gms_recipient_statement_line_rep,gms.recipient.statement.line rep,model_gms_recipient_statement_line,gms_client_proposals.group_gms_proposal_rep,1,1,1,0

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="product_category_ics_install_services" model="product.category">
+        <field name="name">ICS - Install Services</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_msp" model="product.category">
+        <field name="name">ICS - MSP &amp; Co-Managed</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_naas" model="product.category">
+        <field name="name">ICS - Network as a Service</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_cloud" model="product.category">
+        <field name="name">ICS - Virtual Desktop / Cloud</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_cameras" model="product.category">
+        <field name="name">ICS - Cameras as a Service</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_voice" model="product.category">
+        <field name="name">ICS - Voice</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_signage" model="product.category">
+        <field name="name">ICS - Digital Signage</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_hardware" model="product.category">
+        <field name="name">ICS - Hardware</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_professional_services" model="product.category">
+        <field name="name">ICS - Professional Services</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_support" model="product.category">
+        <field name="name">ICS - Support</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_email" model="product.category">
+        <field name="name">ICS - Email Hosting &amp; Archiving</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_websites" model="product.category">
+        <field name="name">ICS - Websites</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+    <record id="product_category_ics_ai_agents" model="product.category">
+        <field name="name">ICS - AI Agents</field>
+        <field name="is_ics_solution_category">1</field>
+    </record>
+
+</odoo>

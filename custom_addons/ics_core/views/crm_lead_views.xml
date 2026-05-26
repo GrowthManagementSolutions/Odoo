@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_lead_view_form_ics_core" model="ir.ui.view">
+        <field name="name">crm.lead.form.ics.core</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='opportunity_partner']" position="after">
+                <group string="ICS Opportunity" groups="ics_core.group_ics_sales_rep,ics_core.group_ics_admin">
+                    <field name="ics_vertical"/>
+                    <field name="expected_mrr"/>
+                    <field name="expected_one_time"/>
+                    <field name="expected_term_months"/>
+                    <field name="multi_site_flag"/>
+                    <field name="site_count_estimate"/>
+                    <field name="referred_by_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

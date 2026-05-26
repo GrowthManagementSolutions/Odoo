@@ -5,4 +5,13 @@
         <field name="prefix">PROP/%(year)s/</field>
         <field name="padding">5</field>
     </record>
+
+    <record id="seq_gms_recipient_statement" model="ir.sequence">
+        <field name="name">Recipient Statement</field>
+        <field name="code">gms.recipient.statement</field>
+        <field name="prefix">STM/%(year)s/</field>
+        <field name="padding">5</field>
+    </record>
 </odoo>
+
+

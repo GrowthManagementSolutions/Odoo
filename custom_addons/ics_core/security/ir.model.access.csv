@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_category_ics_admin,product.category.ics.admin,product.model_product_category,ics_core.group_ics_admin,1,1,1,1
+access_product_category_ics_sales,product.category.ics.sales,product.model_product_category,ics_core.group_ics_sales_rep,1,0,0,0
+access_product_category_ics_finance,product.category.ics.finance,product.model_product_category,ics_core.group_ics_finance,1,1,0,0

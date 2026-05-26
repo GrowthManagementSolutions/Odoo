@@ -5,6 +5,7 @@
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet/notebook" position="inside">
+
                 <page string="GMS Proposal">
                     <group>
                         <field name="x_gms_primary_solution_category_id"/>
@@ -26,6 +27,56 @@
                         </list>
                     </field>
                 </page>
+
+                <page string="GMS Deal">
+                    <group>
+                        <group string="Deal">
+                            <field name="x_gms_deal_name"/>
+                            <field name="x_gms_deal_unique_identifier"/>
+                            <field name="x_gms_company_id"/>
+                            <field name="x_gms_deal_stage_id"/>
+                            <field name="contact_name"/>
+                            <field name="x_gms_federal_tax_id"/>
+                            <field name="x_gms_attachment" filename="x_gms_attachment_filename"/>
+                            <field name="x_gms_attachment_filename" invisible="1"/>
+                        </group>
+
+                        <group string="Category">
+                            <field name="x_gms_service_category_id"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Supplier">
+                            <field name="x_gms_supplier_id" required="1"/>
+                            <field name="x_gms_master_supplier_id" required="1"/>
+                            <field name="x_gms_contract_term" required="1"/>
+                            <field name="x_gms_estimated_monthly_cost" required="1"/>
+                            <field name="x_gms_estimated_one_time_revenue"/>
+                        </group>
+
+                        <group string="Pricing">
+                            <field name="x_gms_estimated_monthly_cost"/>
+                            <field name="x_gms_estimated_one_time_revenue"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Agent &amp; Partner">
+                            <field name="x_gms_primary_agent_id"/>
+                            <field name="x_gms_primary_commission_rate"/>
+                            <field name="x_gms_secondary_agent_id"/>
+                            <field name="x_gms_referral_partner_id"/>
+                            <field name="x_gms_regional_manager_id"/>
+                            <field name="x_gms_regional_manager_override_rate"/>
+                        </group>
+
+                        <group string="Notes">
+                            <field name="x_gms_deal_notes"/>
+                        </group>
+                    </group>
+                </page>
+
             </xpath>
         </field>
     </record>
