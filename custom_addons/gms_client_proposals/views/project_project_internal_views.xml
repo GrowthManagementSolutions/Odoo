@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_project_project_form_gms_internal" model="ir.ui.view">
+        <field name="name">project.project.form.gms.internal</field>
+        <field name="model">project.project</field>
+
+        <field name="inherit_id" ref="project.edit_project"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+
+                <page string="GMS Internal Details">
+
+                    <group string="Project Details">
+
+                        <group>
+                            <field name="gms_project_type"/>
+                            <field name="gms_project_manager_id"/>
+                            <field name="gms_assigned_user_ids"
+                                   widget="many2many_tags"/>
+                            <field name="gms_priority"/>
+                            <field name="gms_due_date"/>
+                        </group>
+
+                        <group>
+                            <field name="gms_url"/>
+                            <field name="gms_attachment_ids"
+                                   widget="many2many_binary"/>
+                            <field name="gms_remarks"/>
+                        </group>
+
+                    </group>
+
+                    <group string="References">
+
+                        <group>
+                            <field name="gms_account_id"/>
+                            <field name="gms_applicant_id"/>
+                            <field name="gms_commission_id"/>
+                            <field name="gms_company_id"/>
+                            <field name="gms_configuration_document_id"/>
+                        </group>
+
+                        <group>
+                            <field name="gms_contact_id"/>
+                            <field name="gms_deal_id"/>
+                            <field name="gms_deployment_id"/>
+                            <field name="gms_lead_id"/>
+                            <field name="gms_user_id"/>
+                            <field name="gms_task_id"/>
+                        </group>
+
+                    </group>
+
+                    <group string="Output">
+
+                        <group>
+                            <field name="gms_output_file_ids"
+                                   widget="many2many_binary"/>
+                        </group>
+
+                        <group>
+                            <field name="gms_link_output"/>
+                            <field name="gms_text_output"/>
+                        </group>
+
+                    </group>
+
+                </page>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -60,3 +60,4 @@ access_gms_recipient_statement_line_admin,gms.recipient.statement.line admin,mod
 
 access_gms_recipient_statement_rep,gms.recipient.statement rep,model_gms_recipient_statement,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
 access_gms_recipient_statement_line_rep,gms.recipient.statement.line rep,model_gms_recipient_statement_line,gms_client_proposals.group_gms_proposal_rep,1,1,1,0
+
