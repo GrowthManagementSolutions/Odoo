@@ -23,4 +23,4 @@ from . import payout_batch
 from . import payout_line
 from . import recipient_statement
 from . import recipient_statement_line
-
+from . import project_project
