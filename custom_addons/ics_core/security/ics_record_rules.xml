@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- CRM Leads -->
+    <record id="crm_lead_ics_company_rule" model="ir.rule">
+        <field name="name">ICS CRM Leads Company Rule</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+        <field name="domain_force">
+            [('company_id.name', '=', 'INTEGRATED COMPUTER SERVICES INC.')]
+        </field>
+        <field name="groups" eval="[
+            (4, ref('ics_core.group_ics_sales_rep')),
+            (4, ref('ics_core.group_ics_sales_manager'))
+        ]"/>
+    </record>
+
+</odoo>
