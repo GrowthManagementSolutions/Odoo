@@ -4,7 +4,8 @@
     <menuitem id="menu_gms_root"
               name="GMS Proposals"
               sequence="80"
-              web_icon="gms_client_proposals,static/description/gms_logo.jpeg"/>
+              web_icon="gms_client_proposals,static/description/gms_logo.jpeg"
+              groups="base.group_no_one"/>
 
     <!-- PROPOSALS -->
 
@@ -39,6 +40,5 @@
               parent="menu_gms_config"
               action="action_gms_proposal_rate_table"
               sequence="10"/>
-
 
 </odoo>

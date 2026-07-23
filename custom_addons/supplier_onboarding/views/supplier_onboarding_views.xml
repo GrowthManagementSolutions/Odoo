@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="action_supplier_onboarding" model="ir.actions.act_window">
         <field name="name">Supplier Onboarding</field>
         <field name="res_model">supplier.onboarding</field>
@@ -7,7 +9,8 @@
 
     <menuitem id="menu_supplier_onboarding_root"
               name="Supplier Onboarding"
-              sequence="90"/>
+              sequence="90"
+              groups="base.group_no_one"/>
 
     <menuitem id="menu_supplier_onboarding_records"
               name="Suppliers"
@@ -129,4 +132,5 @@
             </form>
         </field>
     </record>
+
 </odoo>
