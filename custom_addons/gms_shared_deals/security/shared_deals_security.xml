@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="privilege_gms_shared_deals" model="res.groups.privilege">
+        <field name="name">GMS Shared Deals</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="group_gms_shared_deal_access" model="res.groups">
+        <field name="name">GMS Shared Deal Access</field>
+        <field name="privilege_id"
+               ref="gms_shared_deals.privilege_gms_shared_deals"/>
+        <field name="comment">
+            Allows selected GMS sales users to view and update CRM
+            opportunities assigned to the GMS Sales team.
+        </field>
+    </record>
+
+    <record id="rule_crm_gms_shared_deals" model="ir.rule">
+        <field name="name">CRM - GMS Shared Deals</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+
+        <field name="groups"
+               eval="[(4, ref('gms_shared_deals.group_gms_shared_deal_access'))]"/>
+
+        <field name="domain_force">
+            [('team_id.name', '=', 'GMS Sales')]
+        </field>
+
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+</odoo>
