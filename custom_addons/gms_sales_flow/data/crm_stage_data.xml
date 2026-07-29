@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="gms_stage_lead_received"
+            model="crm.stage">
+        <field name="name">Lead Received</field>
+        <field name="sequence">10</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="gms_stage_lead_classification"
+            model="crm.stage">
+        <field name="name">Lead Classification</field>
+        <field name="sequence">20</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="gms_stage_appointment_scheduled"
+            model="crm.stage">
+        <field name="name">Appointment Scheduled</field>
+        <field name="sequence">30</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="gms_stage_discovery_completed"
+            model="crm.stage">
+        <field name="name">Discovery Completed</field>
+        <field name="sequence">40</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="gms_stage_opportunity_deal"
+            model="crm.stage">
+        <field name="name">Opportunity / Deal</field>
+        <field name="sequence">50</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="gms_stage_supplier_review"
+            model="crm.stage">
+        <field name="name">Supplier Review</field>
+        <field name="sequence">60</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="gms_stage_budget_client_review"
+            model="crm.stage">
+        <field name="name">Budget / Client Review</field>
+        <field name="sequence">70</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="gms_stage_supplier_contract_submitted"
+            model="crm.stage">
+        <field name="name">
+            Supplier Contract / Order Submitted
+        </field>
+        <field name="sequence">80</field>
+        <field name="fold">False</field>
+    </record>
+
+    <record id="gms_stage_deal_closed_won"
+            model="crm.stage">
+        <field name="name">Deal Closed / Won</field>
+        <field name="sequence">90</field>
+        <field name="fold">True</field>
+        <field name="is_won">True</field>
+    </record>
+
+</odoo>

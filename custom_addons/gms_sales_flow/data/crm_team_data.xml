@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="gms_crm_team_direct"
+            model="crm.team">
+        <field name="name">
+            Direct Representation / Solution Architects
+        </field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="gms_crm_team_channel"
+            model="crm.team">
+        <field name="name">
+            Channel Managers / Independent Agents
+        </field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>
