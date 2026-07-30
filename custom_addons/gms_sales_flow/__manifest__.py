@@ -37,6 +37,7 @@ Week 1B:
         "data/crm_stage_data.xml",
         "views/crm_lead_views.xml",
         "views/lead_webform_templates.xml",
+        "wizard/opportunity_intake_wizard_views.xml",
     ],
     "installable": True,
     "application": False,
