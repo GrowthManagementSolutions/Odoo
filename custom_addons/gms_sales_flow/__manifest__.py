@@ -1,6 +1,6 @@
 {
     "name": "GMS Sales Flow",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "summary": "GMS CRM intake, routing, and sales-flow foundation",
     "description": """
 GMS Sales Flow - Week 1
@@ -40,6 +40,6 @@ Week 1B:
         "wizard/opportunity_intake_wizard_views.xml",
     ],
     "installable": True,
-    "application": False,
+    "application": True,   
     "auto_install": False,
 }
