@@ -131,11 +131,11 @@
 
 
     <!-- Remove Expected Revenue from the standard New Opportunity popup -->
-    <record id="view_crm_quick_create_remove_expected_revenue"
+   <record id="view_crm_quick_create_remove_expected_revenue"
         model="ir.ui.view">
 
     <field name="name">
-        crm.lead.quick.create.remove.expected.revenue
+        crm.lead.quick.create.remove.revenue.fields
     </field>
 
     <field name="model">crm.lead</field>
@@ -147,14 +147,12 @@
 
     <field name="arch" type="xml">
 
-        <xpath expr="//field[@name='expected_revenue']/ancestor::div[contains(@class, 'd-flex')][1]"
+        <!-- Replace Expected Revenue row with Priority only -->
+        <xpath expr="//field[@name='expected_revenue']/ancestor::div[hasclass('d-flex')][1]"
                position="replace">
 
-            <div class="d-flex align-items-center"
-                 colspan="2">
-
-                <i class="fa fa-star"
-                   title="Priority"/>
+            <div class="d-flex align-items-center" colspan="2">
+                <i class="fa fa-star" title="Priority"/>
 
                 <div class="mb-0">
                     <field name="priority"
@@ -162,10 +160,13 @@
                            nolabel="1"
                            widget="priority"/>
                 </div>
-
             </div>
 
         </xpath>
+
+        <!-- Remove complete Recurring Revenue row -->
+        <xpath expr="//field[@name='recurring_revenue']/ancestor::div[hasclass('d-flex')][1]"
+               position="replace"/>
 
     </field>
 
