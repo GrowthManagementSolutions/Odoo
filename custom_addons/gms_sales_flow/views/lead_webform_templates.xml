@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ======================================================
+         DIRECT LEAD FORM
+         ====================================================== -->
+
+    <template id="gms_direct_lead_form_template"
+              name="GMS Direct Lead Form">
+
+        <t t-call="website.layout">
+
+            <div id="wrap"
+                 class="oe_structure">
+
+                <section class="py-5 bg-light">
+
+                    <div class="container"
+                         style="max-width: 850px;">
+
+                        <div class="text-center mb-5">
+
+                            <h1 class="display-5 fw-bold">
+                                Speak With a GMS Solution Architect
+                            </h1>
+
+                            <p class="lead text-muted">
+                                Tell us about your business and the
+                                solutions you are exploring.
+                            </p>
+
+                        </div>
+
+                        <div class="card shadow-sm border-0">
+
+                            <div class="card-body p-4 p-lg-5">
+
+                                <div t-if="error"
+                                     class="alert alert-danger"
+                                     role="alert">
+
+                                    <t t-esc="error"/>
+
+                                </div>
+
+                                <form action="/gms/lead/direct/submit"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           name="csrf_token"
+                                           t-att-value="request.csrf_token()"/>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label"
+                                               for="company_name">
+                                            Company Name *
+                                        </label>
+
+                                        <input type="text"
+                                               id="company_name"
+                                               name="company_name"
+                                               class="form-control"
+                                               required="required"
+                                               t-att-value="values.get(
+                                                   'company_name', ''
+                                               )"/>
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label"
+                                               for="contact_name">
+                                            Contact Name *
+                                        </label>
+
+                                        <input type="text"
+                                               id="contact_name"
+                                               name="contact_name"
+                                               class="form-control"
+                                               required="required"
+                                               t-att-value="values.get(
+                                                   'contact_name', ''
+                                               )"/>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6 mb-3">
+
+                                            <label class="form-label"
+                                                   for="email">
+                                                Email
+                                            </label>
+
+                                            <input type="email"
+                                                   id="email"
+                                                   name="email"
+                                                   class="form-control"
+                                                   t-att-value="values.get(
+                                                       'email', ''
+                                                   )"/>
+
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+
+                                            <label class="form-label"
+                                                   for="phone">
+                                                Phone
+                                            </label>
+
+                                            <input type="tel"
+                                                   id="phone"
+                                                   name="phone"
+                                                   class="form-control"
+                                                   t-att-value="values.get(
+                                                       'phone', ''
+                                                   )"/>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mb-4">
+
+                                        <label class="form-label"
+                                               for="description">
+                                            What solutions or services
+                                            are you interested in?
+                                        </label>
+
+                                        <textarea id="description"
+                                                  name="description"
+                                                  rows="6"
+                                                  class="form-control"><t t-esc="values.get('description', '')"/></textarea>
+
+                                    </div>
+
+                                    <button type="submit"
+                                            class="btn btn-primary btn-lg w-100">
+                                        Submit Request
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </t>
+
+    </template>
+
+    <!-- ======================================================
+         CHANNEL LEAD FORM
+         ====================================================== -->
+
+    <template id="gms_channel_lead_form_template"
+              name="GMS Channel Lead Form">
+
+        <t t-call="website.layout">
+
+            <div id="wrap"
+                 class="oe_structure">
+
+                <section class="py-5 bg-light">
+
+                    <div class="container"
+                         style="max-width: 850px;">
+
+                        <div class="text-center mb-5">
+
+                            <h1 class="display-5 fw-bold">
+                                Submit a Channel Opportunity
+                            </h1>
+
+                            <p class="lead text-muted">
+                                Referral Partners, Independent Agents,
+                                and suppliers can submit a new
+                                opportunity here.
+                            </p>
+
+                        </div>
+
+                        <div class="card shadow-sm border-0">
+
+                            <div class="card-body p-4 p-lg-5">
+
+                                <div t-if="error"
+                                     class="alert alert-danger"
+                                     role="alert">
+
+                                    <t t-esc="error"/>
+
+                                </div>
+
+                                <form action="/gms/lead/channel/submit"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           name="csrf_token"
+                                           t-att-value="request.csrf_token()"/>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label"
+                                               for="lead_source">
+                                            Submission Source *
+                                        </label>
+
+                                        <select id="lead_source"
+                                                name="lead_source"
+                                                class="form-select"
+                                                required="required">
+
+                                            <option value="independent_agent">
+                                                Independent Agent
+                                            </option>
+
+                                            <option value="referral_partner">
+                                                Referral Partner
+                                            </option>
+
+                                            <option value="supplier">
+                                                Supplier
+                                            </option>
+
+                                            <option value="other">
+                                                Other
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label"
+                                               for="company_name">
+                                            Prospect Company *
+                                        </label>
+
+                                        <input type="text"
+                                               id="company_name"
+                                               name="company_name"
+                                               class="form-control"
+                                               required="required"
+                                               t-att-value="values.get(
+                                                   'company_name', ''
+                                               )"/>
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label"
+                                               for="contact_name">
+                                            Prospect Contact *
+                                        </label>
+
+                                        <input type="text"
+                                               id="contact_name"
+                                               name="contact_name"
+                                               class="form-control"
+                                               required="required"
+                                               t-att-value="values.get(
+                                                   'contact_name', ''
+                                               )"/>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6 mb-3">
+
+                                            <label class="form-label"
+                                                   for="email">
+                                                Prospect Email
+                                            </label>
+
+                                            <input type="email"
+                                                   id="email"
+                                                   name="email"
+                                                   class="form-control"
+                                                   t-att-value="values.get(
+                                                       'email', ''
+                                                   )"/>
+
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+
+                                            <label class="form-label"
+                                                   for="phone">
+                                                Prospect Phone
+                                            </label>
+
+                                            <input type="tel"
+                                                   id="phone"
+                                                   name="phone"
+                                                   class="form-control"
+                                                   t-att-value="values.get(
+                                                       'phone', ''
+                                                   )"/>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mb-4">
+
+                                        <label class="form-label"
+                                               for="description">
+                                            Opportunity Details
+                                        </label>
+
+                                        <textarea id="description"
+                                                  name="description"
+                                                  rows="6"
+                                                  class="form-control"><t t-esc="values.get('description', '')"/></textarea>
+
+                                    </div>
+
+                                    <button type="submit"
+                                            class="btn btn-primary btn-lg w-100">
+                                        Submit Opportunity
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </t>
+
+    </template>
+
+    <!-- ======================================================
+         SUCCESS PAGES
+         ====================================================== -->
+
+    <template id="gms_direct_lead_success_template"
+              name="GMS Direct Lead Success">
+
+        <t t-call="website.layout">
+
+            <div id="wrap"
+                 class="oe_structure">
+
+                <section class="py-5">
+
+                    <div class="container text-center"
+                         style="max-width: 720px;">
+
+                        <h1 class="display-5 fw-bold">
+                            Thank You
+                        </h1>
+
+                        <p class="lead mt-3">
+                            Your request was submitted successfully.
+                            A GMS Solution Architect will review it.
+                        </p>
+
+                        <a href="/"
+                           class="btn btn-primary mt-3">
+                            Return Home
+                        </a>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </t>
+
+    </template>
+
+    <template id="gms_channel_lead_success_template"
+              name="GMS Channel Lead Success">
+
+        <t t-call="website.layout">
+
+            <div id="wrap"
+                 class="oe_structure">
+
+                <section class="py-5">
+
+                    <div class="container text-center"
+                         style="max-width: 720px;">
+
+                        <h1 class="display-5 fw-bold">
+                            Opportunity Submitted
+                        </h1>
+
+                        <p class="lead mt-3">
+                            The opportunity has been routed to the
+                            GMS Channel team for review.
+                        </p>
+
+                        <a href="/"
+                           class="btn btn-primary mt-3">
+                            Return Home
+                        </a>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- GMS fields on the Opportunity form -->
+    <record id="view_crm_lead_form_gms_week1"
+            model="ir.ui.view">
+
+        <field name="name">crm.lead.form.gms.week1</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">30</field>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//form/sheet" position="inside">
+                <field name="gms_is_gms_record" invisible="1"/>
+                <field name="gms_intake_notification_sent" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+
+                <page string="GMS Intake"
+                      groups="gms_sales_flow.group_gms_crm_user">
+
+                    <group>
+
+                        <group string="Workflow">
+
+                            <field name="gms_is_gms_record"/>
+
+                            <field name="gms_sales_channel"
+                                   invisible="not gms_is_gms_record"/>
+
+                            <field name="gms_lead_status"
+                                   invisible="not gms_is_gms_record"/>
+
+                            <field name="gms_lead_source"
+                                   invisible="not gms_is_gms_record"/>
+
+                        </group>
+
+                        <group string="Routing">
+                            <field name="team_id"/>
+                            <field name="user_id"/>
+                            <field name="stage_id"/>
+                        </group>
+
+                    </group>
+
+                </page>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+
+    <!-- GMS filters -->
+    <record id="view_crm_lead_search_gms_week1"
+            model="ir.ui.view">
+
+        <field name="name">crm.lead.search.gms.week1</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id"
+               ref="crm.view_crm_case_leads_filter"/>
+        <field name="priority">30</field>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+
+                <field name="gms_sales_channel"/>
+                <field name="gms_lead_status"/>
+                <field name="gms_lead_source"/>
+
+                <separator/>
+
+                <filter string="GMS Records"
+                        name="gms_records"
+                        domain="[('gms_is_gms_record', '=', True)]"/>
+
+                <filter string="Direct"
+                        name="gms_direct"
+                        domain="[('gms_sales_channel', '=', 'direct')]"/>
+
+                <filter string="Channel"
+                        name="gms_channel"
+                        domain="[('gms_sales_channel', '=', 'channel')]"/>
+
+                <filter string="New GMS Leads"
+                        name="gms_new_leads"
+                        domain="[
+                            ('gms_is_gms_record', '=', True),
+                            ('gms_lead_status', '=', 'new')
+                        ]"/>
+
+                <filter string="Needs Contact"
+                        name="gms_needs_contact"
+                        domain="[
+                            ('gms_lead_status', 'in',
+                            ['new', 'attempting', 'gatekeeper'])
+                        ]"/>
+
+                <filter string="Appointments Set"
+                        name="gms_appointments"
+                        domain="[
+                            ('gms_lead_status', '=',
+                            'connected_appointment')
+                        ]"/>
+
+                <separator/>
+
+                <filter string="GMS Channel"
+                        name="group_gms_channel"
+                        context="{'group_by': 'gms_sales_channel'}"/>
+
+                <filter string="GMS Status"
+                        name="group_gms_status"
+                        context="{'group_by': 'gms_lead_status'}"/>
+
+                <filter string="GMS Source"
+                        name="group_gms_source"
+                        context="{'group_by': 'gms_lead_source'}"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+
+    <!-- Remove Expected Revenue from the standard New Opportunity popup -->
+    <record id="view_crm_quick_create_remove_expected_revenue"
+        model="ir.ui.view">
+
+    <field name="name">
+        crm.lead.quick.create.remove.expected.revenue
+    </field>
+
+    <field name="model">crm.lead</field>
+
+    <field name="inherit_id"
+           ref="crm.quick_create_opportunity_form"/>
+
+    <field name="priority">1100</field>
+
+    <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='expected_revenue']/ancestor::div[contains(@class, 'd-flex')][1]"
+               position="replace">
+
+            <div class="d-flex align-items-center"
+                 colspan="2">
+
+                <i class="fa fa-star"
+                   title="Priority"/>
+
+                <div class="mb-0">
+                    <field name="priority"
+                           class="oe_inline mb-0"
+                           nolabel="1"
+                           widget="priority"/>
+                </div>
+
+            </div>
+
+        </xpath>
+
+    </field>
+
+</record>
+
+</odoo>
