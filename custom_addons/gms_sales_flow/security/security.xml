@@ -95,4 +95,44 @@
                ]"/>
     </record>
 
+    <!-- ======================================================
+         CRM SALES-TEAM DEAL SHARING
+         ====================================================== -->
+
+    <!--
+        A GMS CRM user may read and update an opportunity when
+        the user is a member of the opportunity's Sales Team.
+
+        The user's existing "Own Documents Only" access remains.
+        This rule adds access to deals from the user's teams.
+
+        It does not grant delete permission.
+    -->
+
+    <record id="rule_gms_crm_team_deal_access"
+            model="ir.rule">
+
+        <field name="name">
+            GMS CRM: Access deals from my sales teams
+        </field>
+
+        <field name="model_id"
+               ref="crm.model_crm_lead"/>
+
+        <field name="domain_force">
+            [('team_id.member_ids', 'in', [user.id])]
+        </field>
+
+        <field name="groups"
+               eval="[
+                   (4, ref('group_gms_crm_user'))
+               ]"/>
+
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+
+    </record>
+
 </odoo>

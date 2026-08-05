@@ -1,25 +1,24 @@
 {
     "name": "GMS Sales Flow",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "summary": "GMS CRM intake, routing, and sales-flow foundation",
     "description": """
-GMS Sales Flow - Week 1
-=======================
+GMS Sales Flow
+==============
 
-Week 1A:
+Features:
 - Two GMS CRM teams
 - Shared GMS stage flow
 - Lead status taxonomy
 - Sales channel classification
 - Lead source classification
 - Odoo 19 security roles
-
-Week 1B:
 - Direct lead webform
 - Channel lead webform
 - Automatic team routing
 - SA/CM notification activities
 - CRM search filters
+- Sales-team opportunity sharing
     """,
     "category": "Sales/CRM",
     "author": "Growth Management Solutions",
@@ -40,6 +39,6 @@ Week 1B:
         "wizard/opportunity_intake_wizard_views.xml",
     ],
     "installable": True,
-    "application": True,   
+    "application": True,
     "auto_install": False,
 }
