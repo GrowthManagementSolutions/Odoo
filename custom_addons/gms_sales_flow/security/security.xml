@@ -96,16 +96,17 @@
     </record>
 
     <!-- ======================================================
-         SALES-TEAM DEAL SHARING
+         CRM SALES-TEAM DEAL SHARING
          ====================================================== -->
 
     <!--
-        Users with a GMS CRM role can read and edit opportunities
-        assigned to a sales team of which they are a member.
+        A GMS CRM user may read and update an opportunity when
+        the user is a member of the opportunity's Sales Team.
 
-        This is combined with Odoo's standard "Own Documents Only"
-        rule, so users retain access to their own deals and gain
-        access to deals belonging to their shared sales teams.
+        The user's existing "Own Documents Only" access remains.
+        This rule adds access to deals from the user's teams.
+
+        It does not grant delete permission.
     -->
 
     <record id="rule_gms_crm_team_deal_access"
@@ -127,7 +128,6 @@
                    (4, ref('group_gms_crm_user'))
                ]"/>
 
-        <!-- The rule applies only when reading or editing records -->
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="True"/>
         <field name="perm_create" eval="False"/>
