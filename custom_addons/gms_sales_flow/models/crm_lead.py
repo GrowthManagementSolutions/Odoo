@@ -4,6 +4,10 @@ from odoo import api, fields, models, _
 class CrmLead(models.Model):
     _inherit = "crm.lead"
 
+    # ============================================================
+    # WEEK 1 - GMS FOUNDATION
+    # ============================================================
+
     gms_is_gms_record = fields.Boolean(
         string="GMS Sales Record",
         default=False,
@@ -71,6 +75,60 @@ class CrmLead(models.Model):
         readonly=True,
     )
 
+    # ============================================================
+    # WEEK 2 - CLASSIFICATION / CHANNEL / DEAL FOUNDATION
+    # ============================================================
+
+    gms_industry_id = fields.Many2one(
+        comodel_name="gms.solution.category",
+        string="Industry",
+        tracking=True,
+        domain="[('parent_id', '=', False)]",
+    )
+
+    gms_industry_subset_id = fields.Many2one(
+        comodel_name="gms.solution.category",
+        string="Industry Subset",
+        tracking=True,
+        domain="[('parent_id', '=', gms_industry_id)]",
+    )
+
+    gms_channel_type = fields.Selection(
+        selection=[
+            ("referral_partner", "Referral Partner"),
+            ("independent_agent", "Independent Agent"),
+        ],
+        string="Channel Type",
+        tracking=True,
+    )
+
+    gms_referral_partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Referral Partner",
+        tracking=True,
+    )
+
+    gms_independent_agent_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Independent Agent",
+        tracking=True,
+    )
+
+    gms_closed_lost_reason_id = fields.Many2one(
+        comodel_name="gms.closed.lost.reason",
+        string="Closed Lost Reason",
+        tracking=True,
+    )
+
+    gms_closed_lost_notes = fields.Text(
+        string="Closed Lost Notes",
+        tracking=True,
+    )
+
+    # ============================================================
+    # ONCHANGE LOGIC
+    # ============================================================
+
     @api.onchange("gms_sales_channel")
     def _onchange_gms_sales_channel(self):
         direct_team = self.env.ref(
@@ -84,11 +142,113 @@ class CrmLead(models.Model):
         )
 
         for lead in self:
-            if lead.gms_sales_channel == "direct" and direct_team:
-                lead.team_id = direct_team
+            if lead.gms_sales_channel == "direct":
+                if direct_team:
+                    lead.team_id = direct_team
 
-            elif lead.gms_sales_channel == "channel" and channel_team:
-                lead.team_id = channel_team
+                lead.gms_channel_type = False
+                lead.gms_referral_partner_id = False
+                lead.gms_independent_agent_id = False
+
+            elif lead.gms_sales_channel == "channel":
+                if channel_team:
+                    lead.team_id = channel_team
+
+    @api.onchange("gms_channel_type")
+    def _onchange_gms_channel_type(self):
+        for lead in self:
+            if lead.gms_channel_type == "referral_partner":
+                lead.gms_independent_agent_id = False
+
+            elif lead.gms_channel_type == "independent_agent":
+                lead.gms_referral_partner_id = False
+
+            else:
+                lead.gms_referral_partner_id = False
+                lead.gms_independent_agent_id = False
+
+    @api.onchange("gms_industry_id")
+    def _onchange_gms_industry_id(self):
+        for lead in self:
+            if (
+                lead.gms_industry_subset_id
+                and lead.gms_industry_subset_id.parent_id
+                != lead.gms_industry_id
+            ):
+                lead.gms_industry_subset_id = False
+
+    # ============================================================
+    # VALIDATIONS
+    # ============================================================
+
+    @api.constrains(
+        "gms_is_gms_record",
+        "gms_sales_channel",
+        "gms_channel_type",
+        "gms_referral_partner_id",
+        "gms_independent_agent_id",
+    )
+    def _check_gms_channel_configuration(self):
+        for lead in self:
+            if not lead.gms_is_gms_record:
+                continue
+
+            if lead.gms_sales_channel == "direct":
+                if (
+                    lead.gms_channel_type
+                    or lead.gms_referral_partner_id
+                    or lead.gms_independent_agent_id
+                ):
+                    raise models.ValidationError(
+                        _(
+                            "Direct GMS opportunities cannot have "
+                            "a Referral Partner or Independent Agent."
+                        )
+                    )
+
+            if lead.gms_sales_channel == "channel":
+                if not lead.gms_channel_type:
+                    raise models.ValidationError(
+                        _("Select a Channel Type.")
+                    )
+
+                if (
+                    lead.gms_channel_type == "referral_partner"
+                    and not lead.gms_referral_partner_id
+                ):
+                    raise models.ValidationError(
+                        _("Select a Referral Partner.")
+                    )
+
+                if (
+                    lead.gms_channel_type == "independent_agent"
+                    and not lead.gms_independent_agent_id
+                ):
+                    raise models.ValidationError(
+                        _("Select an Independent Agent.")
+                    )
+
+    @api.constrains(
+        "gms_industry_id",
+        "gms_industry_subset_id",
+    )
+    def _check_gms_industry_subset(self):
+        for lead in self:
+            if (
+                lead.gms_industry_subset_id
+                and lead.gms_industry_subset_id.parent_id
+                != lead.gms_industry_id
+            ):
+                raise models.ValidationError(
+                    _(
+                        "The selected Industry Subset must belong "
+                        "to the selected Industry."
+                    )
+                )
+
+    # ============================================================
+    # ROUTING
+    # ============================================================
 
     def _get_gms_target_team(self):
         self.ensure_one()
@@ -120,6 +280,10 @@ class CrmLead(models.Model):
                         "team_id": target_team.id,
                     }
                 )
+
+    # ============================================================
+    # NOTIFICATIONS
+    # ============================================================
 
     def _gms_get_notification_user(self):
         self.ensure_one()
@@ -211,7 +375,9 @@ class CrmLead(models.Model):
                     "user_id": target_user.id,
                     "summary": _("Review new GMS lead"),
                     "note": note,
-                    "date_deadline": fields.Date.context_today(lead),
+                    "date_deadline": fields.Date.context_today(
+                        lead
+                    ),
                 }
             )
 
@@ -230,6 +396,10 @@ class CrmLead(models.Model):
                     "gms_intake_notification_sent": True,
                 }
             )
+
+    # ============================================================
+    # CREATE / WRITE
+    # ============================================================
 
     @api.model_create_multi
     def create(self, vals_list):

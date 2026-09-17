@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- GMS fields on the Opportunity form -->
+    <!-- =========================================================
+         GMS fields on the Opportunity form
+         ========================================================= -->
     <record id="view_crm_lead_form_gms_week1"
             model="ir.ui.view">
 
@@ -12,16 +14,28 @@
 
         <field name="arch" type="xml">
 
+            <!-- Hidden technical fields -->
             <xpath expr="//form/sheet" position="inside">
-                <field name="gms_is_gms_record" invisible="1"/>
-                <field name="gms_intake_notification_sent" invisible="1"/>
+
+                <field name="gms_is_gms_record"
+                       invisible="1"/>
+
+                <field name="gms_intake_notification_sent"
+                       invisible="1"/>
+
             </xpath>
 
+            <!-- =================================================
+                 GMS Intake tab
+                 ================================================= -->
             <xpath expr="//notebook" position="inside">
 
                 <page string="GMS Intake"
                       groups="gms_sales_flow.group_gms_crm_user">
 
+                    <!-- =============================
+                         WORKFLOW + ROUTING
+                         ============================= -->
                     <group>
 
                         <group string="Workflow">
@@ -29,7 +43,8 @@
                             <field name="gms_is_gms_record"/>
 
                             <field name="gms_sales_channel"
-                                   invisible="not gms_is_gms_record"/>
+                                   invisible="not gms_is_gms_record"
+                                   required="gms_is_gms_record"/>
 
                             <field name="gms_lead_status"
                                    invisible="not gms_is_gms_record"/>
@@ -40,9 +55,96 @@
                         </group>
 
                         <group string="Routing">
+
                             <field name="team_id"/>
+
                             <field name="user_id"/>
+
                             <field name="stage_id"/>
+
+                        </group>
+
+                    </group>
+
+                    <!-- =============================
+                         CLIENT CLASSIFICATION
+                         ============================= -->
+                    <group string="Client Classification"
+                           invisible="not gms_is_gms_record">
+
+                        <group>
+
+                            <field name="gms_industry_id"
+                                   options="{'no_create_edit': False}"/>
+
+                            <field name="gms_industry_subset_id"
+                                   domain="[('parent_id', '=', gms_industry_id)]"
+                                   invisible="not gms_industry_id"
+                                   options="{'no_create_edit': False}"/>
+
+                        </group>
+
+                    </group>
+
+                    <!-- =============================
+                         CHANNEL DETAILS
+                         ============================= -->
+                    <group string="Channel Details"
+                           invisible="
+                               not gms_is_gms_record
+                               or gms_sales_channel != 'channel'
+                           ">
+
+                        <group>
+
+                            <field name="gms_channel_type"
+                                   required="
+                                       gms_is_gms_record
+                                       and gms_sales_channel == 'channel'
+                                   "/>
+
+                            <field name="gms_referral_partner_id"
+                                   invisible="
+                                       gms_channel_type
+                                       != 'referral_partner'
+                                   "
+                                   required="
+                                       gms_sales_channel == 'channel'
+                                       and gms_channel_type
+                                       == 'referral_partner'
+                                   "/>
+
+                            <field name="gms_independent_agent_id"
+                                   invisible="
+                                       gms_channel_type
+                                       != 'independent_agent'
+                                   "
+                                   required="
+                                       gms_sales_channel == 'channel'
+                                       and gms_channel_type
+                                       == 'independent_agent'
+                                   "/>
+
+                        </group>
+
+                    </group>
+
+                    <!-- =============================
+                         CLOSED / LOST
+                         ============================= -->
+                    <group string="Closed / Lost"
+                           invisible="not gms_is_gms_record">
+
+                        <group>
+
+                            <field name="gms_closed_lost_reason_id"/>
+
+                            <field name="gms_closed_lost_notes"
+                                   placeholder="
+                                       Add details about why the deal
+                                       was closed or lost...
+                                   "/>
+
                         </group>
 
                     </group>
@@ -56,7 +158,9 @@
     </record>
 
 
-    <!-- GMS filters -->
+    <!-- =========================================================
+         GMS filters
+         ========================================================= -->
     <record id="view_crm_lead_search_gms_week1"
             model="ir.ui.view">
 
@@ -71,8 +175,14 @@
             <xpath expr="//search" position="inside">
 
                 <field name="gms_sales_channel"/>
+
                 <field name="gms_lead_status"/>
+
                 <field name="gms_lead_source"/>
+
+                <field name="gms_industry_id"/>
+
+                <field name="gms_industry_subset_id"/>
 
                 <separator/>
 
@@ -82,11 +192,15 @@
 
                 <filter string="Direct"
                         name="gms_direct"
-                        domain="[('gms_sales_channel', '=', 'direct')]"/>
+                        domain="[
+                            ('gms_sales_channel', '=', 'direct')
+                        ]"/>
 
                 <filter string="Channel"
                         name="gms_channel"
-                        domain="[('gms_sales_channel', '=', 'channel')]"/>
+                        domain="[
+                            ('gms_sales_channel', '=', 'channel')
+                        ]"/>
 
                 <filter string="New GMS Leads"
                         name="gms_new_leads"
@@ -113,15 +227,27 @@
 
                 <filter string="GMS Channel"
                         name="group_gms_channel"
-                        context="{'group_by': 'gms_sales_channel'}"/>
+                        context="{
+                            'group_by': 'gms_sales_channel'
+                        }"/>
 
                 <filter string="GMS Status"
                         name="group_gms_status"
-                        context="{'group_by': 'gms_lead_status'}"/>
+                        context="{
+                            'group_by': 'gms_lead_status'
+                        }"/>
 
                 <filter string="GMS Source"
                         name="group_gms_source"
-                        context="{'group_by': 'gms_lead_source'}"/>
+                        context="{
+                            'group_by': 'gms_lead_source'
+                        }"/>
+
+                <filter string="Industry"
+                        name="group_gms_industry"
+                        context="{
+                            'group_by': 'gms_industry_id'
+                        }"/>
 
             </xpath>
 
@@ -130,46 +256,60 @@
     </record>
 
 
-    <!-- Remove Expected Revenue from the standard New Opportunity popup -->
-   <record id="view_crm_quick_create_remove_expected_revenue"
-        model="ir.ui.view">
+    <!-- =========================================================
+         Remove revenue fields from standard quick-create popup
+         ========================================================= -->
+    <record id="view_crm_quick_create_remove_expected_revenue"
+            model="ir.ui.view">
 
-    <field name="name">
-        crm.lead.quick.create.remove.revenue.fields
-    </field>
+        <field name="name">
+            crm.lead.quick.create.remove.revenue.fields
+        </field>
 
-    <field name="model">crm.lead</field>
+        <field name="model">crm.lead</field>
 
-    <field name="inherit_id"
-           ref="crm.quick_create_opportunity_form"/>
+        <field name="inherit_id"
+               ref="crm.quick_create_opportunity_form"/>
 
-    <field name="priority">1100</field>
+        <field name="priority">1100</field>
 
-    <field name="arch" type="xml">
+        <field name="arch" type="xml">
 
-        <!-- Replace Expected Revenue row with Priority only -->
-        <xpath expr="//field[@name='expected_revenue']/ancestor::div[hasclass('d-flex')][1]"
-               position="replace">
+            <!-- Replace Expected Revenue row with Priority only -->
+            <xpath expr="
+                //field[@name='expected_revenue']
+                /ancestor::div[hasclass('d-flex')][1]
+            "
+                   position="replace">
 
-            <div class="d-flex align-items-center" colspan="2">
-                <i class="fa fa-star" title="Priority"/>
+                <div class="d-flex align-items-center"
+                     colspan="2">
 
-                <div class="mb-0">
-                    <field name="priority"
-                           class="oe_inline mb-0"
-                           nolabel="1"
-                           widget="priority"/>
+                    <i class="fa fa-star"
+                       title="Priority"/>
+
+                    <div class="mb-0">
+
+                        <field name="priority"
+                               class="oe_inline mb-0"
+                               nolabel="1"
+                               widget="priority"/>
+
+                    </div>
+
                 </div>
-            </div>
 
-        </xpath>
+            </xpath>
 
-        <!-- Remove complete Recurring Revenue row -->
-        <xpath expr="//field[@name='recurring_revenue']/ancestor::div[hasclass('d-flex')][1]"
-               position="replace"/>
+            <!-- Remove complete Recurring Revenue row -->
+            <xpath expr="
+                //field[@name='recurring_revenue']
+                /ancestor::div[hasclass('d-flex')][1]
+            "
+                   position="replace"/>
 
-    </field>
+        </field>
 
-</record>
+    </record>
 
 </odoo>

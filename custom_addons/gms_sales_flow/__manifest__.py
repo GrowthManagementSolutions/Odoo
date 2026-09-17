@@ -32,6 +32,7 @@ Features:
     ],
     "data": [
         "security/security.xml",
+        "security/ir.model.access.csv",
         "data/crm_team_data.xml",
         "data/crm_stage_data.xml",
         "views/crm_lead_views.xml",
