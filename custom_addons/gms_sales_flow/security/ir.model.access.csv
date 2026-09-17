@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gms_solution_category_user,GMS Solution Category User,model_gms_solution_category,gms_sales_flow.group_gms_crm_user,1,0,0,0
+access_gms_closed_lost_reason_user,GMS Closed Lost Reason User,model_gms_closed_lost_reason,gms_sales_flow.group_gms_crm_user,1,0,0,0
+
+access_gms_solution_category_manager,GMS Solution Category Manager,model_gms_solution_category,gms_sales_flow.group_gms_sales_manager,1,1,1,1
+access_gms_closed_lost_reason_manager,GMS Closed Lost Reason Manager,model_gms_closed_lost_reason,gms_sales_flow.group_gms_sales_manager,1,1,1,1
