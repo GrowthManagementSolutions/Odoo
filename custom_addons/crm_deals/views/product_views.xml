@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- "Suppliers & Routes" tab, after Sales (#53). A rule is the only
+         product-to-supplier link, so this is one list, not two: a supplier
+         sells this product when it has a rule on one of its routes. The #36
+         vendors table and Master Suppliers table are left alone here; #55
+         removes them once #54 has moved deal lines over. -->
+    <record id="product_template_form_suppliers_routes" model="ir.ui.view">
+        <field name="name">product.template.form.suppliers.routes</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']" position="after">
+                <page name="suppliers_routes" string="Suppliers &amp; Routes">
+                    <separator string="Route Rules"/>
+                    <div class="text-muted">
+                        Only routes with a rule for this product can be
+                        selected on deal lines.
+                    </div>
+                    <field name="route_rule_ids" nolabel="1"
+                           context="{'default_product_tmpl_id': id}">
+                        <list editable="bottom" open_form_view="True">
+                            <field name="route_id"
+                                   options="{'no_create': True}"/>
+                            <field name="is_default"/>
+                            <field name="recurring_basis"/>
+                            <field name="residual_rate" widget="percentage"
+                                   invisible="recurring_basis == 'none'"/>
+                            <field name="gms_share" widget="percentage"
+                                   readonly="1"/>
+                            <field name="net_rate" widget="percentage"
+                                   readonly="1"
+                                   invisible="recurring_basis == 'none'"/>
+                            <field name="spiff_multiplier"
+                                   readonly="recurring_basis != 'mrc'"/>
+                            <field name="spiff_eligible"/>
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="nrc_margin_type"/>
+                            <field name="nrc_margin_percent"
+                                   widget="percentage"
+                                   invisible="nrc_margin_type != 'percent'"/>
+                            <field name="nrc_margin_amount"
+                                   invisible="nrc_margin_type != 'fixed'"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

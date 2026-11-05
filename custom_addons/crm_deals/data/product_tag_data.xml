@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Tags only: no categories or products, not assigned anywhere. -->
+    <record id="product_tag_kitchen_display_system_kds_hardware" model="product.tag">
+        <field name="name">Kitchen Display System (KDS) - Hardware</field>
+    </record>
+
+    <record id="product_tag_kitchen_display_system_kds_saas" model="product.tag">
+        <field name="name">Kitchen Display System (KDS) - SaaS</field>
+    </record>
+
+    <record id="product_tag_kitchen_display_system_kds_tablet" model="product.tag">
+        <field name="name">Kitchen Display System (KDS) - Tablet</field>
+    </record>
+
+    <record id="product_tag_kitchen_display_systems" model="product.tag">
+        <field name="name">Kitchen Display Systems</field>
+    </record>
+
+    <record id="product_tag_kitchen_bar_printers" model="product.tag">
+        <field name="name">Kitchen/Bar Printers</field>
+    </record>
+
+    <record id="product_tag_receipt_printers" model="product.tag">
+        <field name="name">Receipt Printers</field>
+    </record>
+
+    <record id="product_tag_pos_printers" model="product.tag">
+        <field name="name">POS Printers</field>
+    </record>
+
+    <record id="product_tag_self_order_kiosk" model="product.tag">
+        <field name="name">Self Order Kiosk</field>
+    </record>
+
+    <record id="product_tag_online_ordering" model="product.tag">
+        <field name="name">Online Ordering</field>
+    </record>
+
+    <record id="product_tag_gift_cards" model="product.tag">
+        <field name="name">Gift Cards</field>
+    </record>
+
+    <record id="product_tag_professional_services" model="product.tag">
+        <field name="name">Professional Services</field>
+    </record>
+
+    <record id="product_tag_gms_hardware_aggregation" model="product.tag">
+        <field name="name">GMS Hardware Aggregation</field>
+    </record>
+
+    <record id="product_tag_gms_professional_services" model="product.tag">
+        <field name="name">GMS Professional Services</field>
+    </record>
+
+    <record id="product_tag_hardware_aggregation" model="product.tag">
+        <field name="name">Hardware Aggregation</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_crm_deal_line" model="ir.sequence">
+        <field name="name">CRM Deal ID</field>
+        <field name="code">crm.deal.line</field>
+        <field name="prefix">DEA-</field>
+        <field name="padding">3</field>
+        <field name="number_increment">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_config_document" model="ir.sequence">
+        <field name="name">Configuration Document ID</field>
+        <field name="code">config.document</field>
+        <field name="prefix">CFG-</field>
+        <field name="padding">3</field>
+        <field name="number_increment">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

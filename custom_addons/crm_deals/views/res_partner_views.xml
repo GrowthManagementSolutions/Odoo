@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_view_form_deals" model="ir.ui.view">
+        <field name="name">res.partner.form.deals</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object"
+                        name="action_view_deal_lines"
+                        class="oe_stat_button"
+                        icon="fa-handshake-o"
+                        invisible="deal_line_count == 0">
+                    <field name="deal_line_count" widget="statinfo" string="Deals"/>
+                </button>
+                <button type="object"
+                        name="action_view_master_agreements"
+                        class="oe_stat_button"
+                        icon="fa-file-contract"
+                        invisible="not is_master_supplier_tagged">
+                    <field name="master_agreement_count" widget="statinfo"
+                           string="Agreements"/>
+                </button>
+                <button type="object"
+                        name="action_view_config_documents"
+                        class="oe_stat_button"
+                        icon="fa-file-text-o"
+                        invisible="config_document_count == 0">
+                    <field name="config_document_count" widget="statinfo"
+                           string="Config Documents"/>
+                </button>
+            </xpath>
+            <!-- Billing ribbon, first child of the sheet (where Odoo's own
+                 ribbons sit). -->
+            <xpath expr="//div[@name='button_box']" position="before">
+                <widget name="web_ribbon" title="Billing" bg_color="text-bg-info"
+                        invisible="type != 'invoice'"/>
+            </xpath>
+            <!-- Fill the column the address block will vacate with
+                 Sub-sector and No. of Locations. -->
+            <xpath expr="//span[@name='address_name']" position="before">
+                <field name="subsector_id" options="{'no_create': True}" invisible="not is_company"/>
+                <field name="core_line_of_business" invisible="not is_company"/>
+                <field name="technology_ids" widget="many2many_tags" invisible="not is_company"/>
+                <field name="location_count" invisible="not is_company"/>
+                <field name="is_master_supplier_tagged" invisible="1"/>
+            </xpath>
+            <!-- Move Industry out of the Sales &amp; Purchase tab to the top of
+                 that column, keeping its company-only visibility. -->
+            <xpath expr="//field[@name='subsector_id']" position="before">
+                <xpath expr="//page[@name='sales_purchases']//field[@name='industry_id']"
+                       position="move"/>
+            </xpath>
+            <!-- Person fields on the main contact form: Title directly above Job
+                 Position (function), the rest just below. All shown only for
+                 individuals of address type Contact. The child_ids subtree is
+                 excluded so only the main-form function is targeted. -->
+            <xpath expr="//field[@name='function'][not(ancestor::field[@name='child_ids'])]" position="before">
+                <field name="job_title_id" invisible="is_company or type != 'contact'"/>
+            </xpath>
+            <xpath expr="//field[@name='function'][not(ancestor::field[@name='child_ids'])]" position="after">
+                <field name="personal_email" widget="email" invisible="is_company or type != 'contact'"/>
+                <field name="personal_phone" widget="phone" invisible="is_company or type != 'contact'"/>
+                <field name="scheduling_link" widget="url" invisible="is_company or type != 'contact'"/>
+                <field name="birthday" invisible="is_company or type != 'contact'"/>
+                <field name="ownership_percentage" widget="percentage" invisible="is_company or type != 'contact'"/>
+            </xpath>
+            <!-- Same six person fields in the Add Contact dialog (the child_ids
+                 inline form), reached by pathing through the parent view. Same
+                 Contact-only condition, applied once at group level. -->
+            <xpath expr="//field[@name='child_ids']/form//field[@name='function']/ancestor::div[hasclass('align-items-center')]" position="after">
+                <group invisible="is_company or type != 'contact'">
+                    <field name="job_title_id"/>
+                    <field name="personal_email" widget="email"/>
+                    <field name="personal_phone" widget="phone"/>
+                    <field name="scheduling_link" widget="url"/>
+                    <field name="birthday"/>
+                    <field name="ownership_percentage" widget="percentage"/>
+                </group>
+            </xpath>
+            <!-- Billing badge overlaying the top-right corner of the inline
+                 child-contact kanban card. The card root (.o_kanban_record) is
+                 position-relative, so the absolute badge anchors to the card.
+                 This kanban has no menu template, so no top-right dropdown
+                 renders to collide with it. type is already read by the kanban.
+                 web_ribbon is form-only, so a badge span is used here. -->
+            <xpath expr="//field[@name='child_ids']//t[@t-name='card']" position="inside">
+                <span class="badge text-bg-info position-absolute top-0 end-0 m-2"
+                      invisible="type != 'invoice'">Billing</span>
+            </xpath>
+            <!-- Read job_title_id in the child-contact kanban so the card
+                 template can use it. -->
+            <xpath expr="//field[@name='child_ids']/kanban/field[@name='type']" position="after">
+                <field name="job_title_id"/>
+            </xpath>
+            <!-- Title badge: same top-right corner overlay as the Billing badge,
+                 distinct colour, rendering the contact's Title only when set.
+                 (Mutually exclusive with Billing in practice: titles are set on
+                 Contact-type records, Billing shows on invoice-type ones.) -->
+            <xpath expr="//field[@name='child_ids']//t[@t-name='card']" position="inside">
+                <span class="badge text-bg-primary position-absolute top-0 end-0 m-2"
+                      invisible="not job_title_id">
+                    <field name="job_title_id"/>
+                </span>
+            </xpath>
+            <!-- Add a People page directly after Contacts & Addresses. -->
+            <xpath expr="//page[@name='contact_addresses']" position="after">
+                <!-- The Default SA / CM rows are the one part of this tab
+                     that shows on an individual contact too (#61), so the
+                     page opens for a tagged person as well as a company. -->
+                <page string="People" name="people"
+                      invisible="not is_company and not is_referral_partner_tagged and not is_independent_agent_tagged">
+                    <field name="is_referral_partner_tagged" invisible="1"/>
+                    <field name="is_independent_agent_tagged" invisible="1"/>
+                    <group invisible="not is_referral_partner_tagged and not is_independent_agent_tagged">
+                        <group>
+                            <field name="default_solution_architect_id"
+                                   invisible="not is_referral_partner_tagged"/>
+                            <field name="default_channel_manager_id"
+                                   invisible="not is_independent_agent_tagged"/>
+                            <!-- Only a contact wearing both hats chooses
+                                 which way it submits (#62). -->
+                            <field name="default_partner_role"
+                                   invisible="not is_referral_partner_tagged or not is_independent_agent_tagged"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <group invisible="not is_company">
+                        <group>
+                            <field name="primary_partner_id"/>
+                            <field name="secondary_partner_id"/>
+                            <field name="referral_partner_id"/>
+                            <field name="district_manager_id"/>
+                            <field name="regional_manager_id"/>
+                        </group>
+                        <group/>
+                    </group>
+                </page>
+            </xpath>
+            <!-- Secondary Details page, directly after People. -->
+            <xpath expr="//page[@name='people']" position="after">
+                <page string="Secondary Details" name="secondary_details" invisible="not is_company">
+                    <group>
+                        <group>
+                            <field name="w9_legal_business_name"/>
+                            <field name="dba"/>
+                            <!-- Federal Tax ID (vat) is moved in here below. -->
+                            <field name="business_type"/>
+                            <field name="company_status"/>
+                            <field name="business_established_date"/>
+                            <field name="main_technical_contact_id"/>
+                        </group>
+                        <group/>
+                    </group>
+                </page>
+            </xpath>
+            <!-- Relocate the existing vat field into Secondary Details, between
+                 DBA and Business Type, and relabel it Federal Tax ID. -->
+            <xpath expr="//field[@name='business_type']" position="before">
+                <field name="vat" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="string">Federal Tax ID</attribute>
+            </xpath>
+            <!-- Move the whole address block (label + o_address_format widget
+                 container) into its own group directly beneath the two-column
+                 group. -->
+            <xpath expr="//field[@name='properties']/parent::div" position="before">
+                <group name="partner_address_group">
+                    <group name="partner_address_group_inner"/>
+                </group>
+            </xpath>
+            <!-- position="move" only executes as a DIRECT child of the node
+                 carrying the position attribute, hence the separate step. -->
+            <xpath expr="//group[@name='partner_address_group_inner']" position="inside">
+                <xpath expr="//span[@name='address_name']" position="move"/>
+                <xpath expr="//div[hasclass('o_address_format') and not(@name)]" position="move"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

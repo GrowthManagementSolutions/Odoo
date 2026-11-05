@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The sub-sectors ship with noupdate="1", so their Default Tech Stack
+         cannot be given a value by redefining those records - an upgrade would
+         skip the change. This function fills them instead, and only where the
+         field is still empty, so anything a user sets up afterwards survives.
+
+         Deliberately NOT noupdate="1": the function has to run on upgrade too,
+         on a database where the sub-sector records already exist. It is
+         idempotent, so running it on every upgrade is harmless. -->
+    <function model="res.partner.subsector" name="_seed_default_technologies"/>
+</odoo>

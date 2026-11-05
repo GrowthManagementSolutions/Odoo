@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Applied to the lead when the customer signs the budget (#58). -->
+        <record id="crm_tag_budget_signed" model="crm.tag">
+            <field name="name">BUDGET SIGNED</field>
+        </record>
+
+        <!-- One per accepted service when the customer signs (#60). -->
+        <record id="mail_activity_type_prepare_contracts" model="mail.activity.type">
+            <field name="name">Prepare Contracts</field>
+            <field name="res_model">crm.lead</field>
+            <field name="icon">fa-file-text-o</field>
+            <field name="category">default</field>
+            <field name="summary">Prepare Contracts</field>
+            <field name="delay_count">3</field>
+            <field name="delay_unit">days</field>
+            <field name="delay_from">current_date</field>
+        </record>
+
+        <!-- One per lead reaching a stage flagged schedule_budget_review
+             (#61). category "meeting" so Schedule opens the calendar. -->
+        <record id="mail_activity_type_budget_review" model="mail.activity.type">
+            <field name="name">Budget Review Meeting</field>
+            <field name="res_model">crm.lead</field>
+            <field name="icon">fa-users</field>
+            <field name="category">meeting</field>
+            <field name="summary">Budget Review Meeting</field>
+            <field name="delay_count">2</field>
+            <field name="delay_unit">days</field>
+            <field name="delay_from">current_date</field>
+        </record>
+
+        <!-- One per portal submission (#62). Overdue after 2 days is the
+             signal to reassign; no cron and no separate timer. -->
+        <record id="mail_activity_type_follow_up_new_lead" model="mail.activity.type">
+            <field name="name">Follow Up on New Lead</field>
+            <field name="res_model">crm.lead</field>
+            <field name="icon">fa-phone</field>
+            <field name="category">default</field>
+            <field name="summary">Follow Up on New Lead</field>
+            <field name="delay_count">2</field>
+            <field name="delay_unit">days</field>
+            <field name="delay_from">current_date</field>
+        </record>
+
+        <record id="mail_template_budget_summary" model="mail.template">
+            <field name="name">CRM: Send Budget Summary</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="subject">Your Budget Summary from {{ object.company_id.name or user.company_id.name }}</field>
+            <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="description">Sent to the customer with a secure link to their Budget Summary.</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello <t t-out="object.partner_id.name or ''">Brandon Freeman</t>,
+                        <br/><br/>
+                        The budget summary for
+                        <t t-out="object.name or ''">Office Fit-out</t>
+                        is ready for your review.
+                        <br/><br/>
+                        <a t-att-href="object.get_portal_url()">Review Budget</a>
+                        <br/><br/>
+                        Kind regards,
+                        <br/>
+                        <t t-out="object.user_id.name or ''">Mitchell Admin</t>
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Confirmation to the partner who submitted a lead (#61). -->
+        <record id="mail_template_portal_lead_submitted" model="mail.template">
+            <field name="name">CRM: Portal Lead Submitted</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="subject">We received your referral: {{ object.partner_name or object.name }}</field>
+            <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.portal_submitter_id.id }}</field>
+            <field name="description">Sent to the referral partner or independent agent who submitted the lead.</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello <t t-out="object.portal_submitter_id.name or ''">Brandon Freeman</t>,
+                        <br/><br/>
+                        Thank you for your submission. Here is what we received:
+                    </p>
+                    <ul style="font-size: 13px;">
+                        <li>Company Name: <t t-out="object.partner_name or ''">Deco Addict</t></li>
+                        <li>Contact Name: <t t-out="object.contact_name or ''">Brandon Freeman</t></li>
+                        <li>Email: <t t-out="object.email_from or ''">brandon@example.com</t></li>
+                        <li t-if="object.phone">Phone: <t t-out="object.phone"/></li>
+                        <li t-if="object.industry_id">Industry: <t t-out="object.industry_id.name"/><t t-if="object.subsector_id"> / <t t-out="object.subsector_id.name"/></t></li>
+                        <li>Lead Type: <t t-out="dict(object._fields['lead_type'].selection).get(object.lead_type) or ''">Referral Partner</t></li>
+                        <li t-if="object.solution_architect_ids">Solution Architect: <t t-out="', '.join(object.solution_architect_ids.mapped('name'))"/></li>
+                        <li t-if="object.channel_manager_id">Channel Manager: <t t-out="object.channel_manager_id.name"/></li>
+                    </ul>
+                    <p style="font-size: 13px;">
+                        <a t-attf-href="/my/leads/{{ object.id }}">View Submission</a>
+                        <br/><br/>
+                        Kind regards,
+                        <br/>
+                        <t t-out="object.user_id.name or object.company_id.name or ''">Mitchell Admin</t>
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.portal_submitter_id.lang }}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

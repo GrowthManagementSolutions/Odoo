@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_job_title_view_list" model="ir.ui.view">
+        <field name="name">res.partner.job.title.list</field>
+        <field name="model">res.partner.job.title</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="res_partner_job_title_view_form" model="ir.ui.view">
+        <field name="name">res.partner.job.title.form</field>
+        <field name="model">res.partner.job.title</field>
+        <field name="arch" type="xml">
+            <form string="Contact Title">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_partner_job_title_action" model="ir.actions.act_window">
+        <field name="name">Contact Titles</field>
+        <field name="res_model">res.partner.job.title</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="res_partner_job_title_menu"
+              name="Contact Titles"
+              action="res_partner_job_title_action"
+              parent="contacts.res_partner_menu_config"
+              sequence="3"/>
+</odoo>

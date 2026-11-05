@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============ Route product rules ============ -->
+    <record id="product_route_rule_view_list" model="ir.ui.view">
+        <field name="name">product.route.rule.list</field>
+        <field name="model">product.route.rule</field>
+        <field name="arch" type="xml">
+            <list string="Product Rules">
+                <field name="route_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="is_default"/>
+                <field name="recurring_basis"/>
+                <field name="residual_rate" widget="percentage"/>
+                <field name="gms_share" widget="percentage"/>
+                <field name="net_rate" widget="percentage"/>
+                <field name="spiff_display"/>
+                <field name="spiff_eligible"/>
+                <field name="margin_display"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="product_route_rule_view_form" model="ir.ui.view">
+        <field name="name">product.route.rule.form</field>
+        <field name="model">product.route.rule</field>
+        <field name="arch" type="xml">
+            <form string="Product Rule">
+                <header>
+                    <button name="action_copy_to_products" type="object"
+                            string="Copy to Products" class="btn-secondary"
+                            invisible="not id"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="route_id"
+                                   options="{'no_create': True}"/>
+                            <field name="product_tmpl_id"
+                                   options="{'no_create': True}"/>
+                            <field name="is_default"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Recurring">
+                            <field name="recurring_basis"/>
+                            <field name="residual_rate" widget="percentage"
+                                   invisible="recurring_basis == 'none'"/>
+                            <field name="gms_share" widget="percentage"/>
+                            <field name="net_rate" widget="percentage"
+                                   invisible="recurring_basis == 'none'"/>
+                        </group>
+                        <group string="One-Time">
+                            <field name="spiff_eligible"/>
+                            <field name="spiff_multiplier"
+                                   invisible="recurring_basis != 'mrc'"/>
+                            <field name="spiff_display" readonly="1"
+                                   invisible="recurring_basis != 'mrc'"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="nrc_margin_type"/>
+                            <field name="nrc_margin_percent"
+                                   widget="percentage"
+                                   invisible="nrc_margin_type != 'percent'"/>
+                            <field name="nrc_margin_amount"
+                                   invisible="nrc_margin_type != 'fixed'"/>
+                            <field name="margin_display" readonly="1"
+                                   invisible="nrc_margin_type == 'none'"/>
+                            <div class="text-muted" colspan="2">
+                                SPIFF is always calculated on the
+                                SPIFF-eligible MRC, never on processing volume
+                                or NRC, and the master supplier's share never
+                                reduces it. The NRC margin is entered in its
+                                own unit - 10% or $250 - and changing the type
+                                clears the previous figure.
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_route_rule_view_search" model="ir.ui.view">
+        <field name="name">product.route.rule.search</field>
+        <field name="model">product.route.rule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="route_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="supplier_id"/>
+                <group>
+                    <filter name="group_route" string="Route"
+                            context="{'group_by': 'route_id'}"/>
+                    <filter name="group_product" string="Product"
+                            context="{'group_by': 'product_tmpl_id'}"/>
+                    <filter name="group_supplier" string="Supplier"
+                            context="{'group_by': 'supplier_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="product_route_rule_action" model="ir.actions.act_window">
+        <field name="name">Route Product Rules</field>
+        <field name="res_model">product.route.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ============ Copy to Products wizard ============ -->
+    <record id="product_route_rule_copy_view_form" model="ir.ui.view">
+        <field name="name">product.route.rule.copy.form</field>
+        <field name="model">product.route.rule.copy</field>
+        <field name="arch" type="xml">
+            <form string="Copy to Products">
+                <field name="rule_id" invisible="1"/>
+                <field name="allowed_product_tmpl_ids" invisible="1"/>
+                <group>
+                    <field name="route_id" readonly="1"/>
+                    <field name="product_tmpl_ids" widget="many2many_tags"
+                           domain="[('id', 'in', allowed_product_tmpl_ids)]"
+                           options="{'no_create': True}"/>
+                </group>
+                <div class="text-muted">
+                    Only products with no rule on this route effective today
+                    can be selected.
+                </div>
+                <footer>
+                    <button name="action_copy" type="object" string="Copy"
+                            class="btn-primary"
+                            invisible="not product_tmpl_ids"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============ Routes ============ -->
+    <record id="product_supplier_route_view_list" model="ir.ui.view">
+        <field name="name">product.supplier.route.list</field>
+        <field name="model">product.supplier.route</field>
+        <field name="arch" type="xml">
+            <list string="Supplier Routes">
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <field name="master_id"/>
+                <field name="is_direct"/>
+                <field name="contract_prepared_by"/>
+                <field name="rule_count"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="product_supplier_route_view_form" model="ir.ui.view">
+        <field name="name">product.supplier.route.form</field>
+        <field name="model">product.supplier.route</field>
+        <field name="arch" type="xml">
+            <form string="Supplier Route">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <field name="active" invisible="1"/>
+                    <field name="is_direct" invisible="1"/>
+                    <field name="has_gms_share_today" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="supplier_id"
+                                   options="{'no_create': True}"/>
+                            <field name="master_id"
+                                   options="{'no_create': True}"/>
+                            <label for="gms_share_today"/>
+                            <div class="o_row">
+                                <field name="gms_share_today"
+                                       widget="percentage" readonly="1"
+                                       invisible="not has_gms_share_today"/>
+                                <span class="text-muted"
+                                      invisible="not is_direct">Direct</span>
+                                <span class="text-muted"
+                                      invisible="is_direct or not has_gms_share_today">
+                                    from <field name="master_id" readonly="1"
+                                                nolabel="1"/> agreement
+                                </span>
+                                <span class="text-danger"
+                                      invisible="is_direct or has_gms_share_today">
+                                    No agreement in effect for this master
+                                    supplier - add one before relying on the
+                                    residual figures.
+                                </span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="contract_prepared_by"/>
+                            <field name="supplier_contact_id"
+                                   invisible="not supplier_id"/>
+                            <field name="master_contact_id"
+                                   invisible="is_direct"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="rules" string="Product Rules">
+                            <field name="rule_ids"
+                                   context="{'default_route_id': id}">
+                                <list editable="bottom" open_form_view="True">
+                                    <field name="product_tmpl_id"
+                                           options="{'no_create': True}"/>
+                                    <field name="is_default"/>
+                                    <field name="recurring_basis"/>
+                                    <field name="residual_rate"
+                                           widget="percentage"
+                                           invisible="recurring_basis == 'none'"/>
+                                    <field name="spiff_multiplier"
+                                           readonly="recurring_basis != 'mrc'"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="nrc_margin_type"/>
+                                    <field name="nrc_margin_percent"
+                                           widget="percentage"
+                                           invisible="nrc_margin_type != 'percent'"/>
+                                    <field name="nrc_margin_amount"
+                                           invisible="nrc_margin_type != 'fixed'"/>
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="notes" string="Notes">
+                            <field name="notes" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_supplier_route_view_search" model="ir.ui.view">
+        <field name="name">product.supplier.route.search</field>
+        <field name="model">product.supplier.route</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <field name="master_id"/>
+                <filter name="direct" string="Direct"
+                        domain="[('is_direct', '=', True)]"/>
+                <filter name="through_master" string="Through Master"
+                        domain="[('is_direct', '=', False)]"/>
+                <separator/>
+                <filter name="archived" string="Archived"
+                        domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_supplier" string="Supplier"
+                            context="{'group_by': 'supplier_id'}"/>
+                    <filter name="group_master" string="Master Supplier"
+                            context="{'group_by': 'master_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="product_supplier_route_action" model="ir.actions.act_window">
+        <field name="name">Supplier Routes</field>
+        <field name="res_model">product.supplier.route</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="product_supplier_route_menu"
+              name="Supplier Routes"
+              action="product_supplier_route_action"
+              parent="crm.crm_menu_config"
+              sequence="16"/>
+</odoo>

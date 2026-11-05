@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <t t-name="crm_deals.DealLineKanbanList">
+        <t t-if="props.record.displayDealLines">
+            <div class="deal_line_list">
+                <div t-foreach="lines" t-as="line" t-key="line.id"
+                     class="deal_line_list_row">
+                    <span t-attf-class="fa fa-circle deal_line_status_col {{ statusClass(line) }}"
+                          t-att-title="line.status"/>
+                    <a class="deal_line_name_col"
+                       t-att-title="lineLabel(line)"
+                       t-esc="lineLabel(line)"
+                       t-on-click.prevent.stop="() => this.openDealLine(line.id)"/>
+                </div>
+            </div>
+        </t>
+    </t>
+
+</templates>

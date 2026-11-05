@@ -1,0 +1,1130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Service categories, then the services themselves. -->
+    <record id="product_category_accounting" model="product.category">
+        <field name="name">Accounting</field>
+    </record>
+
+    <record id="product_category_business_professional_services" model="product.category">
+        <field name="name">Business Professional Services</field>
+    </record>
+
+    <record id="product_category_commercial_facility_solutions" model="product.category">
+        <field name="name">Commercial Facility Solutions</field>
+    </record>
+
+    <record id="product_category_energy" model="product.category">
+        <field name="name">Energy</field>
+        <field name="parent_id" ref="product_category_commercial_facility_solutions"/>
+    </record>
+
+    <record id="product_category_financial_services" model="product.category">
+        <field name="name">Financial Services</field>
+    </record>
+
+    <record id="product_category_loans" model="product.category">
+        <field name="name">Loans</field>
+        <field name="parent_id" ref="product_category_financial_services"/>
+    </record>
+
+    <record id="product_category_internet_of_things_iot" model="product.category">
+        <field name="name">Internet of Things (IoT)</field>
+    </record>
+
+    <record id="product_category_it_lan_products_and_services" model="product.category">
+        <field name="name">IT (LAN Products and Services)</field>
+    </record>
+
+    <record id="product_category_cybersecurity" model="product.category">
+        <field name="name">Cybersecurity</field>
+        <field name="parent_id" ref="product_category_it_lan_products_and_services"/>
+    </record>
+
+    <record id="product_category_it_services" model="product.category">
+        <field name="name">IT Services</field>
+        <field name="parent_id" ref="product_category_it_lan_products_and_services"/>
+    </record>
+
+    <record id="product_category_managed_services_it" model="product.category">
+        <field name="name">Managed Services (IT)</field>
+        <field name="parent_id" ref="product_category_it_services"/>
+    </record>
+
+    <record id="product_category_break_fix_repair_it" model="product.category">
+        <field name="name">Break/Fix Repair (IT)</field>
+        <field name="parent_id" ref="product_category_it_services"/>
+    </record>
+
+    <record id="product_category_print_copy_management" model="product.category">
+        <field name="name">Print/Copy Management</field>
+        <field name="parent_id" ref="product_category_it_lan_products_and_services"/>
+    </record>
+
+    <record id="product_category_low_voltage_integration" model="product.category">
+        <field name="name">Low Voltage Integration</field>
+        <field name="parent_id" ref="product_category_it_lan_products_and_services"/>
+    </record>
+
+    <record id="product_category_physical_security_security_cameras" model="product.category">
+        <field name="name">Physical Security (Security Cameras)</field>
+        <field name="parent_id" ref="product_category_low_voltage_integration"/>
+    </record>
+
+    <record id="product_category_structured_low_voltage_cabling" model="product.category">
+        <field name="name">Structured Low Voltage Cabling</field>
+        <field name="parent_id" ref="product_category_low_voltage_integration"/>
+    </record>
+
+    <record id="product_category_security_systems_and_monitoring" model="product.category">
+        <field name="name">Security Systems and Monitoring</field>
+        <field name="parent_id" ref="product_category_low_voltage_integration"/>
+    </record>
+
+    <record id="product_category_access_control_systems" model="product.category">
+        <field name="name">Access Control Systems</field>
+        <field name="parent_id" ref="product_category_low_voltage_integration"/>
+    </record>
+
+    <record id="product_category_it_professional_services" model="product.category">
+        <field name="name">IT Professional Services</field>
+        <field name="parent_id" ref="product_category_it_lan_products_and_services"/>
+    </record>
+
+    <record id="product_category_cloud_services" model="product.category">
+        <field name="name">Cloud Services</field>
+        <field name="parent_id" ref="product_category_it_professional_services"/>
+    </record>
+
+    <record id="product_category_payment_processing_solutions" model="product.category">
+        <field name="name">Payment Processing Solutions</field>
+    </record>
+
+    <record id="product_category_point_of_sale" model="product.category">
+        <field name="name">Point of Sale</field>
+    </record>
+
+    <record id="product_category_robotics_ai" model="product.category">
+        <field name="name">Robotics/AI</field>
+    </record>
+
+    <record id="product_category_software_solutions" model="product.category">
+        <field name="name">Software Solutions</field>
+    </record>
+
+    <record id="product_category_practice_management_software" model="product.category">
+        <field name="name">Practice Management Software</field>
+        <field name="parent_id" ref="product_category_software_solutions"/>
+    </record>
+
+    <record id="product_category_telecommunications" model="product.category">
+        <field name="name">Telecommunications</field>
+    </record>
+
+    <record id="product_category_internet_service" model="product.category">
+        <field name="name">Internet Service</field>
+        <field name="parent_id" ref="product_category_telecommunications"/>
+    </record>
+
+    <record id="product_category_traditional_telecommunications_services" model="product.category">
+        <field name="name">Traditional Telecommunications Services</field>
+        <field name="parent_id" ref="product_category_telecommunications"/>
+    </record>
+
+    <record id="product_category_mobility" model="product.category">
+        <field name="name">Mobility</field>
+        <field name="parent_id" ref="product_category_telecommunications"/>
+    </record>
+
+    <record id="product_category_tv_services" model="product.category">
+        <field name="name">TV Services</field>
+    </record>
+
+    <record id="product_category_marketing" model="product.category">
+        <field name="name">Marketing</field>
+    </record>
+
+    <record id="product_category_web_design" model="product.category">
+        <field name="name">Web Design</field>
+    </record>
+
+    <record id="product_category_workforce_management" model="product.category">
+        <field name="name">Workforce Management</field>
+    </record>
+
+    <record id="product_category_employee_scheduling" model="product.category">
+        <field name="name">Employee Scheduling</field>
+        <field name="parent_id" ref="product_category_workforce_management"/>
+    </record>
+
+    <!-- Services: every leaf of the hierarchy. -->
+    <record id="product_accounting_bookkeeping" model="product.template">
+        <field name="name">Bookkeeping</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_accounting"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_accounting_cpas_and_advisors" model="product.template">
+        <field name="name">CPAs &amp; Advisors</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_accounting"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_accounting_payroll" model="product.template">
+        <field name="name">Payroll</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_accounting"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_accounting_tax_preparation" model="product.template">
+        <field name="name">Tax Preparation</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_accounting"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_accounting_accounts_payable_automation" model="product.template">
+        <field name="name">Accounts Payable Automation</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_accounting"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_business_professional_services_virtual_assistance" model="product.template">
+        <field name="name">Virtual Assistance</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_business_professional_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_business_professional_services_business_coaching" model="product.template">
+        <field name="name">Business Coaching</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_business_professional_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_business_professional_services_personal_coaching" model="product.template">
+        <field name="name">Personal Coaching</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_business_professional_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_business_professional_services_contact_center" model="product.template">
+        <field name="name">Contact Center</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_business_professional_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_energy_natural_gas" model="product.template">
+        <field name="name">Natural Gas</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_energy"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_energy_electric" model="product.template">
+        <field name="name">Electric</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_energy"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_commercial_facility_solutions_commercial_construction" model="product.template">
+        <field name="name">Commercial Construction</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_commercial_facility_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_commercial_facility_solutions_waste_garbage_hauling" model="product.template">
+        <field name="name">Waste/Garbage Hauling</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_commercial_facility_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_financial_services_atm" model="product.template">
+        <field name="name">ATM</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_financial_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_financial_services_banking" model="product.template">
+        <field name="name">Banking</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_financial_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_financial_services_business_credit_cards" model="product.template">
+        <field name="name">Business Credit Cards</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_financial_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_financial_services_leasing" model="product.template">
+        <field name="name">Leasing</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_financial_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_loans_line_of_credit" model="product.template">
+        <field name="name">Line of Credit</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_loans"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_loans_cash_advance" model="product.template">
+        <field name="name">Cash Advance</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_loans"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_internet_of_things_iot_internet_of_things_iot" model="product.template">
+        <field name="name">Internet of Things (IoT)</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_internet_of_things_iot"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_cybersecurity_managed_network_security" model="product.template">
+        <field name="name">Managed Network Security</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_cybersecurity"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_cybersecurity_licensed_network_security" model="product.template">
+        <field name="name">Licensed Network Security</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_cybersecurity"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_cybersecurity_managed_endpoint_security" model="product.template">
+        <field name="name">Managed Endpoint Security</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_cybersecurity"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_cybersecurity_mdm_security" model="product.template">
+        <field name="name">MDM Security</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_cybersecurity"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_cybersecurity_endpoint_security_antivirus" model="product.template">
+        <field name="name">Endpoint Security (Antivirus)</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_cybersecurity"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_managed_services_it_prepaid_labor_with_sla" model="product.template">
+        <field name="name">Prepaid Labor with SLA</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_managed_services_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_managed_services_it_managed_hardware" model="product.template">
+        <field name="name">Managed Hardware</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_managed_services_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_managed_services_it_google_licensing" model="product.template">
+        <field name="name">Google Licensing</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_managed_services_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_managed_services_it_microsoft_licensing" model="product.template">
+        <field name="name">Microsoft Licensing</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_managed_services_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_break_fix_repair_it_microsoft_licensing" model="product.template">
+        <field name="name">Microsoft Licensing</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_break_fix_repair_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_break_fix_repair_it_lan_management" model="product.template">
+        <field name="name">LAN Management</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_break_fix_repair_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_break_fix_repair_it_google_licensing" model="product.template">
+        <field name="name">Google Licensing</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_break_fix_repair_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_break_fix_repair_it_desktop_printers" model="product.template">
+        <field name="name">Desktop Printers</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_break_fix_repair_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_break_fix_repair_it_network_printers" model="product.template">
+        <field name="name">Network Printers</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_break_fix_repair_it"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_print_copy_management_managed_desktop_printers" model="product.template">
+        <field name="name">Managed Desktop Printers</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_print_copy_management"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_print_copy_management_managed_network_printers" model="product.template">
+        <field name="name">Managed Network Printers</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_print_copy_management"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_physical_security_security_cameras_security_cameras" model="product.template">
+        <field name="name">Security Cameras</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_physical_security_security_cameras"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_physical_security_security_cameras_door_access_control" model="product.template">
+        <field name="name">Door Access Control</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_physical_security_security_cameras"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_structured_low_voltage_cabling_low_voltage" model="product.template">
+        <field name="name">Low Voltage</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_structured_low_voltage_cabling"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_security_systems_and_monitoring_security_monitoring" model="product.template">
+        <field name="name">Security Monitoring</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_security_systems_and_monitoring"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_access_control_systems_security_system" model="product.template">
+        <field name="name">Security System</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_access_control_systems"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_low_voltage_integration_audio_visual_systems" model="product.template">
+        <field name="name">Audio/Visual Systems</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_low_voltage_integration"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_low_voltage_integration_digital_signage" model="product.template">
+        <field name="name">Digital Signage</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_low_voltage_integration"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_cloud_services_google_cloud" model="product.template">
+        <field name="name">Google Cloud</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_cloud_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_cloud_services_azure" model="product.template">
+        <field name="name">Azure</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_cloud_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_cloud_services_aws" model="product.template">
+        <field name="name">AWS</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_cloud_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_it_professional_services_colocation_data_center_services" model="product.template">
+        <field name="name">Colocation (Data Center Services)</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_it_professional_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_payment_processing_solutions_hardware_suppliers" model="product.template">
+        <field name="name">Hardware Suppliers</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_payment_processing_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_payment_processing_solutions_ach_services" model="product.template">
+        <field name="name">ACH Services</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_payment_processing_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_payment_processing_solutions_virtual_terminals" model="product.template">
+        <field name="name">Virtual Terminals</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_payment_processing_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_payment_processing_solutions_payment_gateways" model="product.template">
+        <field name="name">Payment Gateways</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_payment_processing_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_payment_processing_solutions_payment_processing" model="product.template">
+        <field name="name">Payment Processing</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_payment_processing_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_point_of_sale_standalone_cc_terminal" model="product.template">
+        <field name="name">Standalone CC Terminal</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_point_of_sale"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_point_of_sale_full_point_of_sale_systems" model="product.template">
+        <field name="name">Full Point of Sale Systems</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_point_of_sale"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_point_of_sale_inventory_management" model="product.template">
+        <field name="name">Inventory Management</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_point_of_sale"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_point_of_sale_invoicing_system" model="product.template">
+        <field name="name">Invoicing System</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_point_of_sale"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_robotics_ai_artificial_intelligence_ai" model="product.template">
+        <field name="name">Artificial Intelligence (AI)</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_robotics_ai"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_robotics_ai_robotics" model="product.template">
+        <field name="name">Robotics</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_robotics_ai"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_software_solutions_crm" model="product.template">
+        <field name="name">CRM</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_software_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_software_solutions_custom_software" model="product.template">
+        <field name="name">Custom Software</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_software_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_software_solutions_custom_app" model="product.template">
+        <field name="name">Custom App</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_software_solutions"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_practice_management_software_event_management" model="product.template">
+        <field name="name">Event Management</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_practice_management_software"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_practice_management_software_health_and_beauty" model="product.template">
+        <field name="name">Health and Beauty</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_practice_management_software"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_practice_management_software_hipaa_compliant_software" model="product.template">
+        <field name="name">HIPAA Compliant Software</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_practice_management_software"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_practice_management_software_service_based_management" model="product.template">
+        <field name="name">Service Based Management</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_practice_management_software"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_telecommunications_ccaas" model="product.template">
+        <field name="name">CCaaS</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_telecommunications"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_telecommunications_cpaas" model="product.template">
+        <field name="name">CPaaS</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_telecommunications"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_telecommunications_data_services" model="product.template">
+        <field name="name">Data Services</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_telecommunications"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_telecommunications_telecom_aggregator" model="product.template">
+        <field name="name">Telecom Aggregator</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_telecommunications"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_telecommunications_ucaas" model="product.template">
+        <field name="name">UCaaS</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_telecommunications"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_telecommunications_wireless_pots_replacement" model="product.template">
+        <field name="name">Wireless POTS Replacement</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_telecommunications"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_internet_service_sd_wan" model="product.template">
+        <field name="name">SD-WAN</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_internet_service"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_internet_service_best_effort_internet" model="product.template">
+        <field name="name">Best Effort Internet</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_internet_service"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_internet_service_ethernet_fiber_metro_e" model="product.template">
+        <field name="name">Ethernet/Fiber/Metro-E</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_internet_service"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_traditional_telecommunications_services_sip_trunks" model="product.template">
+        <field name="name">SIP Trunks</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_traditional_telecommunications_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_traditional_telecommunications_services_t_1_pri" model="product.template">
+        <field name="name">T-1/PRI</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_traditional_telecommunications_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_traditional_telecommunications_services_mpls" model="product.template">
+        <field name="name">MPLS</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_traditional_telecommunications_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_mobility_sd_wan" model="product.template">
+        <field name="name">SD-WAN</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_mobility"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_mobility_cellular_phone_service" model="product.template">
+        <field name="name">Cellular Phone Service</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_mobility"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_tv_services_streaming" model="product.template">
+        <field name="name">Streaming</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_tv_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_tv_services_dish" model="product.template">
+        <field name="name">Dish</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_tv_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_tv_services_cable" model="product.template">
+        <field name="name">Cable</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_tv_services"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_marketing_graphic_design" model="product.template">
+        <field name="name">Graphic Design</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_marketing"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_marketing_digital_marketing" model="product.template">
+        <field name="name">Digital Marketing</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_marketing"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_marketing_content_creation" model="product.template">
+        <field name="name">Content Creation</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_marketing"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_marketing_social_media_consulting" model="product.template">
+        <field name="name">Social Media Consulting</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_marketing"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_marketing_seo" model="product.template">
+        <field name="name">SEO</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_marketing"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_marketing_video_production" model="product.template">
+        <field name="name">Video Production</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_marketing"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_web_design_web_design" model="product.template">
+        <field name="name">Web Design</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_web_design"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_web_design_ecommerce" model="product.template">
+        <field name="name">eCommerce</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_web_design"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_web_design_shopping_carts" model="product.template">
+        <field name="name">Shopping Carts</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_web_design"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_web_design_inventory_management" model="product.template">
+        <field name="name">Inventory Management</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_web_design"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_web_design_seo" model="product.template">
+        <field name="name">SEO</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_web_design"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_web_design_web_hosting" model="product.template">
+        <field name="name">Web Hosting</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_web_design"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_workforce_management_human_resources" model="product.template">
+        <field name="name">Human Resources</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_workforce_management"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_workforce_management_employee_portal" model="product.template">
+        <field name="name">Employee Portal</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_workforce_management"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+    <record id="product_employee_scheduling_time_clock" model="product.template">
+        <field name="name">Time Clock</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="service_tracking">task_in_project</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="categ_id" ref="product_category_employee_scheduling"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+    </record>
+
+</odoo>

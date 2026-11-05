@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="job_title_owner" model="res.partner.job.title">
+        <field name="name">Owner</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="job_title_accountant_bookkeeper" model="res.partner.job.title">
+        <field name="name">Accountant/Bookkeeper</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="job_title_account_executive" model="res.partner.job.title">
+        <field name="name">Account Executive</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="job_title_authorized_representative" model="res.partner.job.title">
+        <field name="name">Authorized Representative</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="job_title_channel_manager" model="res.partner.job.title">
+        <field name="name">Channel Manager</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="job_title_ceo" model="res.partner.job.title">
+        <field name="name">Chief Executive Officer (CEO)</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="job_title_cfo" model="res.partner.job.title">
+        <field name="name">Chief Financial Officer (CFO)</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="job_title_coo" model="res.partner.job.title">
+        <field name="name">Chief Operations Officer (COO)</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="job_title_co_owner" model="res.partner.job.title">
+        <field name="name">Co-Owner</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="job_title_customer_support" model="res.partner.job.title">
+        <field name="name">Customer Support</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="job_title_director" model="res.partner.job.title">
+        <field name="name">Director</field>
+        <field name="sequence">110</field>
+    </record>
+    <record id="job_title_founder" model="res.partner.job.title">
+        <field name="name">Founder</field>
+        <field name="sequence">120</field>
+    </record>
+    <record id="job_title_manager" model="res.partner.job.title">
+        <field name="name">Manager</field>
+        <field name="sequence">130</field>
+    </record>
+    <record id="job_title_partner" model="res.partner.job.title">
+        <field name="name">Partner</field>
+        <field name="sequence">140</field>
+    </record>
+    <record id="job_title_president" model="res.partner.job.title">
+        <field name="name">President</field>
+        <field name="sequence">150</field>
+    </record>
+    <record id="job_title_secretary" model="res.partner.job.title">
+        <field name="name">Secretary</field>
+        <field name="sequence">160</field>
+    </record>
+    <record id="job_title_treasurer" model="res.partner.job.title">
+        <field name="name">Treasurer</field>
+        <field name="sequence">170</field>
+    </record>
+    <record id="job_title_vice_president" model="res.partner.job.title">
+        <field name="name">Vice President</field>
+        <field name="sequence">180</field>
+    </record>
+</odoo>

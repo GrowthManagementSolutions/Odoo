@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_industry_view_form_subsectors" model="ir.ui.view">
+        <field name="name">res.partner.industry.form.subsectors</field>
+        <field name="model">res.partner.industry</field>
+        <field name="inherit_id" ref="base.res_partner_industry_view_form"/>
+        <field name="arch" type="xml">
+            <!-- The Default Tech Stack is a sub-sector concept only: the
+                 industry carries none, so the only column here is the
+                 sub-sector's own. -->
+            <xpath expr="//sheet/group" position="after">
+                <field name="subsector_ids">
+                    <!-- industry_id is filled from the parent, so it is left
+                         out of the inline columns. -->
+                    <list editable="bottom">
+                        <field name="name"/>
+                        <field name="default_technology_ids"
+                               widget="many2many_tags"
+                               options="{'color_field': 'color'}"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+</odoo>

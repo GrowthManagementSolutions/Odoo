@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- #53 demo configuration, from GMS's own examples. Contacts carry
+             the #5 Supplier / Master Supplier tags; a pre-migration adopts
+             same-named contacts that already exist, so this never duplicates
+             them. Square is already seeded by res_partner_supplier_data.xml.
+
+             Every rate is stored as a fraction: 0.85 renders as 85%. -->
+
+        <!-- ===== Suppliers ===== -->
+        <record id="partner_supplier_broadvoice" model="res.partner">
+            <field name="name">Broadvoice</field>
+            <field name="is_company" eval="True"/>
+            <field name="category_id"
+                   eval="[Command.link(ref('partner_category_supplier'))]"/>
+        </record>
+        <record id="partner_supplier_zoom" model="res.partner">
+            <field name="name">Zoom</field>
+            <field name="is_company" eval="True"/>
+            <field name="category_id"
+                   eval="[Command.link(ref('partner_category_supplier'))]"/>
+        </record>
+        <record id="partner_supplier_cci_network_services" model="res.partner">
+            <field name="name">CCI Network Services</field>
+            <field name="is_company" eval="True"/>
+            <field name="category_id"
+                   eval="[Command.link(ref('partner_category_supplier'))]"/>
+        </record>
+
+        <!-- ===== Master suppliers ===== -->
+        <record id="partner_master_supplier_sandler_partners" model="res.partner">
+            <field name="name">Sandler Partners</field>
+            <field name="is_company" eval="True"/>
+            <field name="category_id"
+                   eval="[Command.link(ref('partner_category_master_supplier'))]"/>
+        </record>
+        <record id="partner_master_supplier_telarus" model="res.partner">
+            <field name="name">Telarus</field>
+            <field name="is_company" eval="True"/>
+            <field name="category_id"
+                   eval="[Command.link(ref('partner_category_master_supplier'))]"/>
+        </record>
+
+        <!-- ===== Master agreements ===== -->
+        <record id="master_agreement_sandler_partners" model="product.master.agreement">
+            <field name="master_id" ref="partner_master_supplier_sandler_partners"/>
+            <field name="gms_share">0.85</field>
+            <field name="date_from">2024-01-01</field>
+        </record>
+        <record id="master_agreement_telarus" model="product.master.agreement">
+            <field name="master_id" ref="partner_master_supplier_telarus"/>
+            <field name="gms_share">0.80</field>
+            <field name="date_from">2024-01-01</field>
+        </record>
+
+        <!-- ===== Routes ===== -->
+        <record id="route_broadvoice_sandler" model="product.supplier.route">
+            <field name="supplier_id" ref="partner_supplier_broadvoice"/>
+            <field name="master_id" ref="partner_master_supplier_sandler_partners"/>
+        </record>
+        <record id="route_broadvoice_telarus" model="product.supplier.route">
+            <field name="supplier_id" ref="partner_supplier_broadvoice"/>
+            <field name="master_id" ref="partner_master_supplier_telarus"/>
+        </record>
+        <record id="route_zoom_telarus" model="product.supplier.route">
+            <field name="supplier_id" ref="partner_supplier_zoom"/>
+            <field name="master_id" ref="partner_master_supplier_telarus"/>
+        </record>
+        <!-- Legacy: GMS no longer sells Zoom through Sandler. -->
+        <record id="route_zoom_sandler" model="product.supplier.route">
+            <field name="supplier_id" ref="partner_supplier_zoom"/>
+            <field name="master_id" ref="partner_master_supplier_sandler_partners"/>
+            <field name="active" eval="False"/>
+        </record>
+        <record id="route_square_direct" model="product.supplier.route">
+            <field name="supplier_id" ref="partner_supplier_square"/>
+        </record>
+        <record id="route_cci_direct" model="product.supplier.route">
+            <field name="supplier_id" ref="partner_supplier_cci_network_services"/>
+        </record>
+
+        <!-- ===== Route product rules ===== -->
+        <record id="rule_broadvoice_sandler_ucaas" model="product.route.rule">
+            <field name="route_id" ref="route_broadvoice_sandler"/>
+            <field name="product_tmpl_id" ref="product_telecommunications_ucaas"/>
+            <field name="recurring_basis">mrc</field>
+            <field name="residual_rate">0.30</field>
+            <field name="spiff_multiplier">6</field>
+            <field name="date_from">2024-01-01</field>
+            <field name="is_default" eval="True"/>
+        </record>
+        <record id="rule_broadvoice_telarus_ucaas" model="product.route.rule">
+            <field name="route_id" ref="route_broadvoice_telarus"/>
+            <field name="product_tmpl_id" ref="product_telecommunications_ucaas"/>
+            <field name="recurring_basis">mrc</field>
+            <field name="residual_rate">0.24</field>
+            <field name="spiff_multiplier">6</field>
+            <field name="date_from">2024-01-01</field>
+        </record>
+        <record id="rule_zoom_telarus_ucaas" model="product.route.rule">
+            <field name="route_id" ref="route_zoom_telarus"/>
+            <field name="product_tmpl_id" ref="product_telecommunications_ucaas"/>
+            <field name="recurring_basis">mrc</field>
+            <field name="residual_rate">0.24</field>
+            <field name="spiff_multiplier">6</field>
+            <field name="date_from">2024-01-01</field>
+            <field name="is_default" eval="True"/>
+        </record>
+        <record id="rule_zoom_sandler_ucaas" model="product.route.rule">
+            <field name="route_id" ref="route_zoom_sandler"/>
+            <field name="product_tmpl_id" ref="product_telecommunications_ucaas"/>
+            <field name="recurring_basis">mrc</field>
+            <field name="residual_rate">0.30</field>
+            <field name="spiff_multiplier">6</field>
+            <field name="date_from">2024-01-01</field>
+            <field name="date_to">2025-12-31</field>
+        </record>
+        <record id="rule_square_direct_pos" model="product.route.rule">
+            <field name="route_id" ref="route_square_direct"/>
+            <field name="product_tmpl_id"
+                   ref="product_point_of_sale_full_point_of_sale_systems"/>
+            <field name="recurring_basis">mrc</field>
+            <field name="residual_rate">0.25</field>
+            <field name="spiff_multiplier">0</field>
+            <field name="date_from">2024-01-01</field>
+            <field name="is_default" eval="True"/>
+        </record>
+        <record id="rule_square_direct_payment_processing" model="product.route.rule">
+            <field name="route_id" ref="route_square_direct"/>
+            <field name="product_tmpl_id"
+                   ref="product_payment_processing_solutions_payment_processing"/>
+            <field name="recurring_basis">volume</field>
+            <field name="residual_rate">0.009</field>
+            <field name="spiff_multiplier">0</field>
+            <field name="date_from">2024-01-01</field>
+            <field name="is_default" eval="True"/>
+        </record>
+        <record id="rule_cci_direct_ucaas" model="product.route.rule">
+            <field name="route_id" ref="route_cci_direct"/>
+            <field name="product_tmpl_id" ref="product_telecommunications_ucaas"/>
+            <field name="recurring_basis">mrc</field>
+            <field name="residual_rate">0.22</field>
+            <field name="spiff_multiplier">6</field>
+            <field name="date_from">2024-01-01</field>
+            <field name="is_default" eval="True"/>
+        </record>
+        <record id="rule_cci_direct_best_effort_internet" model="product.route.rule">
+            <field name="route_id" ref="route_cci_direct"/>
+            <field name="product_tmpl_id"
+                   ref="product_internet_service_best_effort_internet"/>
+            <field name="recurring_basis">mrc</field>
+            <field name="residual_rate">0.22</field>
+            <field name="spiff_multiplier">1</field>
+            <field name="date_from">2024-01-01</field>
+            <field name="is_default" eval="True"/>
+        </record>
+        <record id="rule_cci_direct_ethernet_fiber_metro_e" model="product.route.rule">
+            <field name="route_id" ref="route_cci_direct"/>
+            <field name="product_tmpl_id"
+                   ref="product_internet_service_ethernet_fiber_metro_e"/>
+            <field name="recurring_basis">mrc</field>
+            <field name="residual_rate">0.22</field>
+            <field name="spiff_multiplier">2</field>
+            <field name="date_from">2024-01-01</field>
+            <field name="is_default" eval="True"/>
+        </record>
+    </data>
+
+    <!-- Default-route flags, deliberately outside the noupdate block: that
+         block skips a record which already exists, so the flags above cannot
+         reach a database that is upgrading rather than installing. The method
+         only sets a flag where that product and supplier have no default yet,
+         so a choice made by a user survives. -->
+    <function model="product.supplier.route" name="_seed_default_route_rules"/>
+</odoo>

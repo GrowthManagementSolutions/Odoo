@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Supplier and master supplier company contacts for the template
+         services (#40). Tagged with the #5 Supplier / Master Supplier tags.
+         A pre-migration adopts same-named contacts that already exist so
+         this never duplicates them. -->
+
+    <record id="partner_supplier_ach_com" model="res.partner">
+        <field name="name">ACH.com</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_adheft_marketing" model="res.partner">
+        <field name="name">Adheft Marketing</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_advance_marketing_group" model="res.partner">
+        <field name="name">Advance Marketing Group</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_aspire_software" model="res.partner">
+        <field name="name">Aspire Software</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_buddy_punch" model="res.partner">
+        <field name="name">Buddy Punch</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_cardconnect" model="res.partner">
+        <field name="name">CardConnect</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_clover" model="res.partner">
+        <field name="name">Clover</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_comcast" model="res.partner">
+        <field name="name">Comcast</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_critical_coordination" model="res.partner">
+        <field name="name">Critical Coordination</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_cyber_advisors" model="res.partner">
+        <field name="name">Cyber Advisors</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_directv" model="res.partner">
+        <field name="name">DIRECTV</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_daysmart" model="res.partner">
+        <field name="name">Daysmart</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_dejavoo" model="res.partner">
+        <field name="name">Dejavoo</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_digital_matrix" model="res.partner">
+        <field name="name">Digital Matrix</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_finale_inventory" model="res.partner">
+        <field name="name">Finale Inventory</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_for2fi" model="res.partner">
+        <field name="name">For2Fi</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_giltech" model="res.partner">
+        <field name="name">Giltech</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_gusto" model="res.partner">
+        <field name="name">Gusto</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_integrated_computer_services" model="res.partner">
+        <field name="name">Integrated Computer Services</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_lumen" model="res.partner">
+        <field name="name">Lumen</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_marco" model="res.partner">
+        <field name="name">Marco</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_microsoft_azure" model="res.partner">
+        <field name="name">Microsoft Azure</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_midwest_atm" model="res.partner">
+        <field name="name">Midwest ATM</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_monday_com" model="res.partner">
+        <field name="name">Monday.com</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_ooma" model="res.partner">
+        <field name="name">Ooma</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_rectangle_health" model="res.partner">
+        <field name="name">Rectangle Health</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_ringcentral" model="res.partner">
+        <field name="name">RingCentral</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_spectrum" model="res.partner">
+        <field name="name">Spectrum</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_square" model="res.partner">
+        <field name="name">Square</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_trileaf_designs" model="res.partner">
+        <field name="name">TriLeaf Designs</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_verizon" model="res.partner">
+        <field name="name">Verizon</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_windstream_enterprise" model="res.partner">
+        <field name="name">Windstream Enterprise</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_worry_free_bookkeeping" model="res.partner">
+        <field name="name">Worry Free Bookkeeping</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_supplier_onpay" model="res.partner">
+        <field name="name">onPay</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_supplier'))]"/>
+    </record>
+
+    <record id="partner_master_supplier_asset_black_momentum" model="res.partner">
+        <field name="name">Asset Black / Momentum</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_master_supplier'))]"/>
+    </record>
+
+    <record id="partner_master_supplier_granite" model="res.partner">
+        <field name="name">Granite</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_master_supplier'))]"/>
+    </record>
+
+    <record id="partner_master_supplier_mettel" model="res.partner">
+        <field name="name">MetTel</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_master_supplier'))]"/>
+    </record>
+
+    <record id="partner_master_supplier_priority_commerce" model="res.partner">
+        <field name="name">Priority Commerce</field>
+        <field name="is_company" eval="True"/>
+        <field name="category_id" eval="[Command.link(ref('partner_category_master_supplier'))]"/>
+    </record>
+
+</odoo>

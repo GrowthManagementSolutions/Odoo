@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Color palette indices: 1=red, 5=purple, 8=blue, 10=green, 0=grey -->
+
+    <record id="partner_category_active_client" model="res.partner.category">
+        <field name="name">Active Client</field>
+        <field name="color">10</field>
+    </record>
+
+    <record id="partner_category_active_opportunity" model="res.partner.category">
+        <field name="name">Active Opportunity</field>
+        <field name="color">10</field>
+    </record>
+
+    <record id="partner_category_child_company" model="res.partner.category">
+        <field name="name">Child Company</field>
+        <field name="color">8</field>
+    </record>
+
+    <record id="partner_category_dead_opportunity" model="res.partner.category">
+        <field name="name">Dead Opportunity</field>
+        <field name="color">1</field>
+    </record>
+
+    <record id="partner_category_inactive_client" model="res.partner.category">
+        <field name="name">Inactive Client</field>
+        <field name="color">1</field>
+    </record>
+
+    <record id="partner_category_lead" model="res.partner.category">
+        <field name="name">Lead</field>
+        <field name="color">0</field>
+    </record>
+
+    <record id="partner_category_master_supplier" model="res.partner.category">
+        <field name="name">Master Supplier</field>
+        <field name="color">8</field>
+    </record>
+
+    <record id="partner_category_networking_contact" model="res.partner.category">
+        <field name="name">Networking Contact</field>
+        <field name="color">0</field>
+    </record>
+
+    <record id="partner_category_parent_company" model="res.partner.category">
+        <field name="name">Parent Company</field>
+        <field name="color">5</field>
+    </record>
+
+    <record id="partner_category_supplier" model="res.partner.category">
+        <field name="name">Supplier</field>
+        <field name="color">0</field>
+    </record>
+
+    <!-- Tags backing the lead contact-field domains (#25). -->
+    <record id="partner_category_independent_agent" model="res.partner.category">
+        <field name="name">Independent Agent</field>
+    </record>
+
+    <record id="partner_category_referral_partner" model="res.partner.category">
+        <field name="name">Referral Partner</field>
+    </record>
+
+    <record id="partner_category_solution_architect" model="res.partner.category">
+        <field name="name">Solution Architect</field>
+    </record>
+
+    <record id="partner_category_channel_manager" model="res.partner.category">
+        <field name="name">Channel Manager</field>
+    </record>
+</odoo>

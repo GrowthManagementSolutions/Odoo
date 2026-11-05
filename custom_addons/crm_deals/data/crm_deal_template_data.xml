@@ -1,0 +1,885 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Deal templates (#21). Each line carries only a section, product and
+         contract term; supplier and master supplier stay empty.
+         product_id is a product.product while #39 defines product.template,
+         so each line looks the variant up from its template XML id. -->
+
+    <record id="deal_template_dental_practice" model="crm.deal.template">
+        <field name="name">Dental Practice</field>
+        <field name="industry_id" ref="industry_medical_clinic"/>
+        <field name="subsector_id" ref="subsector_medical_clinic_dental"/>
+    </record>
+
+    <record id="deal_template_dental_practice_01" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">10</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Network</field>
+    </record>
+    <record id="deal_template_dental_practice_02" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">20</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_managed_services_it_managed_hardware'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_dental_practice_03" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">30</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_cybersecurity_managed_network_security'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_dental_practice_04" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">40</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_structured_low_voltage_cabling_low_voltage'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_dental_practice_05" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">50</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Internet</field>
+    </record>
+    <record id="deal_template_dental_practice_06" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">60</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_internet_service_ethernet_fiber_metro_e'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_dental_practice_07" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">70</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_internet_service_sd_wan'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_dental_practice_08" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">80</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Voice</field>
+    </record>
+    <record id="deal_template_dental_practice_09" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">90</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_telecommunications_ucaas'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_dental_practice_10" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">100</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Software</field>
+    </record>
+    <record id="deal_template_dental_practice_11" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">110</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_practice_management_software_hipaa_compliant_software'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+
+    <record id="deal_template_dental_practice_12" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">120</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Cybersecurity</field>
+    </record>
+    <record id="deal_template_dental_practice_13" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">130</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_cybersecurity_managed_endpoint_security'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+
+    <record id="deal_template_dental_practice_14" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">140</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Cloud &amp; Licensing</field>
+    </record>
+    <record id="deal_template_dental_practice_15" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">150</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_managed_services_it_microsoft_licensing'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+
+    <record id="deal_template_dental_practice_16" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">160</field>
+        <field name="display_type">line_section</field>
+        <field name="name">POS &amp; Payments</field>
+    </record>
+    <record id="deal_template_dental_practice_17" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">170</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_payment_processing_solutions_payment_processing'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_dental_practice_18" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">180</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_point_of_sale_standalone_cc_terminal'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_dental_practice_19" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">190</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Security</field>
+    </record>
+    <record id="deal_template_dental_practice_20" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">200</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_physical_security_security_cameras_security_cameras'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_dental_practice_21" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">210</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_physical_security_security_cameras_door_access_control'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_dental_practice_22" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">220</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Guest Entertainment</field>
+    </record>
+    <record id="deal_template_dental_practice_23" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">230</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_tv_services_streaming'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_dental_practice_24" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">240</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Workforce</field>
+    </record>
+    <record id="deal_template_dental_practice_25" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_dental_practice"/>
+        <field name="sequence">250</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_accounting_payroll'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_hotel_operations" model="crm.deal.template">
+        <field name="name">Hotel Operations</field>
+        <field name="industry_id" ref="industry_lodging"/>
+        <field name="subsector_id" ref="subsector_lodging_hotel"/>
+    </record>
+
+    <record id="deal_template_hotel_operations_01" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">10</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Network</field>
+    </record>
+    <record id="deal_template_hotel_operations_02" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">20</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_managed_services_it_managed_hardware'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hotel_operations_03" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">30</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_break_fix_repair_it_lan_management'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hotel_operations_04" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">40</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_cybersecurity_managed_network_security'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hotel_operations_05" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">50</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_structured_low_voltage_cabling_low_voltage'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hotel_operations_06" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">60</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Internet</field>
+    </record>
+    <record id="deal_template_hotel_operations_07" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">70</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_internet_service_ethernet_fiber_metro_e'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hotel_operations_08" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">80</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_internet_service_sd_wan'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hotel_operations_09" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">90</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Voice</field>
+    </record>
+    <record id="deal_template_hotel_operations_10" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">100</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_traditional_telecommunications_services_sip_trunks'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hotel_operations_11" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">110</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_telecommunications_wireless_pots_replacement'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hotel_operations_12" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">120</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Guest Entertainment</field>
+    </record>
+    <record id="deal_template_hotel_operations_13" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">130</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_tv_services_cable'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hotel_operations_14" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">140</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Signage</field>
+    </record>
+    <record id="deal_template_hotel_operations_15" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">150</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_low_voltage_integration_digital_signage'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hotel_operations_16" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">160</field>
+        <field name="display_type">line_section</field>
+        <field name="name">POS &amp; Payments</field>
+    </record>
+    <record id="deal_template_hotel_operations_17" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">170</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_point_of_sale_full_point_of_sale_systems'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hotel_operations_18" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">180</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_payment_processing_solutions_payment_processing'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hotel_operations_19" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">190</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Security</field>
+    </record>
+    <record id="deal_template_hotel_operations_20" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">200</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_physical_security_security_cameras_security_cameras'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hotel_operations_21" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">210</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_physical_security_security_cameras_door_access_control'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hotel_operations_22" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">220</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_security_systems_and_monitoring_security_monitoring'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hotel_operations_23" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">230</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Workforce</field>
+    </record>
+    <record id="deal_template_hotel_operations_24" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">240</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_employee_scheduling_time_clock'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_hotel_operations_25" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">250</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_accounting_payroll'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_hotel_operations_26" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">260</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_workforce_management_human_resources'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_hotel_operations_27" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">270</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Marketing</field>
+    </record>
+    <record id="deal_template_hotel_operations_28" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">280</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_web_design_web_design'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_hotel_operations_29" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hotel_operations"/>
+        <field name="sequence">290</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_marketing_digital_marketing'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_convenience_store" model="crm.deal.template">
+        <field name="name">Convenience Store</field>
+        <field name="industry_id" ref="industry_retail"/>
+        <field name="subsector_id" ref="subsector_retail_convenience_store"/>
+    </record>
+
+    <record id="deal_template_convenience_store_01" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">10</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Network</field>
+    </record>
+    <record id="deal_template_convenience_store_02" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">20</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_managed_services_it_managed_hardware'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_convenience_store_03" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">30</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_cybersecurity_managed_network_security'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_convenience_store_04" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">40</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Internet</field>
+    </record>
+    <record id="deal_template_convenience_store_05" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">50</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_internet_service_best_effort_internet'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_convenience_store_06" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">60</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_mobility_sd_wan'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_convenience_store_07" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">70</field>
+        <field name="display_type">line_section</field>
+        <field name="name">POS &amp; Payments</field>
+    </record>
+    <record id="deal_template_convenience_store_08" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">80</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_point_of_sale_full_point_of_sale_systems'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_convenience_store_09" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">90</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_point_of_sale_inventory_management'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_convenience_store_10" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">100</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_payment_processing_solutions_payment_processing'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_convenience_store_11" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">110</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Financial</field>
+    </record>
+    <record id="deal_template_convenience_store_12" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">120</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_financial_services_atm'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_convenience_store_13" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">130</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Security</field>
+    </record>
+    <record id="deal_template_convenience_store_14" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">140</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_physical_security_security_cameras_security_cameras'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_convenience_store_15" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">150</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_security_systems_and_monitoring_security_monitoring'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_convenience_store_16" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">160</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Signage</field>
+    </record>
+    <record id="deal_template_convenience_store_17" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">170</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_low_voltage_integration_digital_signage'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_convenience_store_18" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">180</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Workforce</field>
+    </record>
+    <record id="deal_template_convenience_store_19" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">190</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_employee_scheduling_time_clock'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_convenience_store_20" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_convenience_store"/>
+        <field name="sequence">200</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_accounting_payroll'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_law_firm" model="crm.deal.template">
+        <field name="name">Law Firm</field>
+        <field name="industry_id" ref="industry_professional_services"/>
+        <field name="subsector_id" ref="subsector_professional_services_legal"/>
+    </record>
+
+    <record id="deal_template_law_firm_01" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">10</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Network</field>
+    </record>
+    <record id="deal_template_law_firm_02" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">20</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_managed_services_it_managed_hardware'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_law_firm_03" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">30</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_cybersecurity_managed_network_security'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_law_firm_04" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">40</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_structured_low_voltage_cabling_low_voltage'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_law_firm_05" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">50</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Internet</field>
+    </record>
+    <record id="deal_template_law_firm_06" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">60</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_internet_service_ethernet_fiber_metro_e'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_law_firm_07" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">70</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_internet_service_sd_wan'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_law_firm_08" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">80</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Voice</field>
+    </record>
+    <record id="deal_template_law_firm_09" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">90</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_telecommunications_ucaas'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_law_firm_10" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">100</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Cloud &amp; Licensing</field>
+    </record>
+    <record id="deal_template_law_firm_11" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">110</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_managed_services_it_microsoft_licensing'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+    <record id="deal_template_law_firm_12" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">120</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_cloud_services_azure'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+
+    <record id="deal_template_law_firm_13" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">130</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Cybersecurity</field>
+    </record>
+    <record id="deal_template_law_firm_14" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">140</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_cybersecurity_managed_endpoint_security'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+    <record id="deal_template_law_firm_15" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">150</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_cybersecurity_mdm_security'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+
+    <record id="deal_template_law_firm_16" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">160</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Software</field>
+    </record>
+    <record id="deal_template_law_firm_17" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">170</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_practice_management_software_service_based_management'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+    <record id="deal_template_law_firm_18" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">180</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_software_solutions_crm'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+
+    <record id="deal_template_law_firm_19" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">190</field>
+        <field name="display_type">line_section</field>
+        <field name="name">POS &amp; Payments</field>
+    </record>
+    <record id="deal_template_law_firm_20" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">200</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_payment_processing_solutions_ach_services'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_law_firm_21" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">210</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_payment_processing_solutions_virtual_terminals'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_law_firm_22" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">220</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Accounting</field>
+    </record>
+    <record id="deal_template_law_firm_23" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">230</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_accounting_bookkeeping'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_law_firm_24" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">240</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_accounting_payroll'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_law_firm_25" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">250</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Marketing</field>
+    </record>
+    <record id="deal_template_law_firm_26" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">260</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_web_design_web_design'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_law_firm_27" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_law_firm"/>
+        <field name="sequence">270</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_marketing_seo'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_hair_salon" model="crm.deal.template">
+        <field name="name">Hair Salon</field>
+        <field name="industry_id" ref="industry_salon"/>
+        <field name="subsector_id" ref="subsector_salon_hair_salon"/>
+    </record>
+
+    <record id="deal_template_hair_salon_01" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">10</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Internet</field>
+    </record>
+    <record id="deal_template_hair_salon_02" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">20</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_internet_service_best_effort_internet'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hair_salon_03" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">30</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Voice</field>
+    </record>
+    <record id="deal_template_hair_salon_04" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">40</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_telecommunications_ucaas'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hair_salon_05" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">50</field>
+        <field name="display_type">line_section</field>
+        <field name="name">POS &amp; Payments</field>
+    </record>
+    <record id="deal_template_hair_salon_06" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">60</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_point_of_sale_full_point_of_sale_systems'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+    <record id="deal_template_hair_salon_07" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">70</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_payment_processing_solutions_payment_processing'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hair_salon_08" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">80</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Software</field>
+    </record>
+    <record id="deal_template_hair_salon_09" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">90</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_practice_management_software_health_and_beauty'))]"/>
+        <field name="contract_term">12</field>
+    </record>
+
+    <record id="deal_template_hair_salon_10" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">100</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Sound &amp; Entertainment</field>
+    </record>
+    <record id="deal_template_hair_salon_11" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">110</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_low_voltage_integration_audio_visual_systems'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_hair_salon_12" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">120</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_tv_services_streaming'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_hair_salon_13" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">130</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Security</field>
+    </record>
+    <record id="deal_template_hair_salon_14" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">140</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_physical_security_security_cameras_security_cameras'))]"/>
+        <field name="contract_term">36</field>
+    </record>
+
+    <record id="deal_template_hair_salon_15" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">150</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Workforce</field>
+    </record>
+    <record id="deal_template_hair_salon_16" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">160</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_employee_scheduling_time_clock'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_hair_salon_17" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">170</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_accounting_payroll'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+    <record id="deal_template_hair_salon_18" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">180</field>
+        <field name="display_type">line_section</field>
+        <field name="name">Marketing</field>
+    </record>
+    <record id="deal_template_hair_salon_19" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">190</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_marketing_social_media_consulting'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+    <record id="deal_template_hair_salon_20" model="crm.deal.template.line">
+        <field name="template_id" ref="deal_template_hair_salon"/>
+        <field name="sequence">200</field>
+        <field name="product_id" model="product.product"
+               search="[('product_tmpl_id', '=', ref('crm_deals.product_marketing_seo'))]"/>
+        <field name="contract_term">month_to_month</field>
+    </record>
+
+</odoo>

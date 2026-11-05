@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_deal_line_wizard_view_form" model="ir.ui.view">
+        <field name="name">crm.deal.line.wizard.form</field>
+        <field name="model">crm.deal.line.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Deal Line">
+                <field name="lead_id" invisible="1"/>
+                <field name="allowed_supplier_ids" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="category_id"/>
+                        <field name="product_id"/>
+                        <field name="supplier_id"/>
+                        <field name="master_supplier_id"/>
+                    </group>
+                    <group>
+                        <field name="contract_term"/>
+                        <field name="estimated_monthly_cost"/>
+                        <field name="estimated_one_time_revenue"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Add" name="action_confirm" type="object"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="crm_deal_line_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add Deal Line</field>
+        <field name="res_model">crm.deal.line.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

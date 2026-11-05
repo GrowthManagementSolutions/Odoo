@@ -1,0 +1,31 @@
+// Mirrors project's .subtask_list, so the expanded block sits on the card the
+// same way. Two columns here rather than three: a status dot and the name,
+// with no assignee or editable state widget.
+.deal_line_list {
+    margin-top: 6px;
+
+    .deal_line_list_row {
+        display: grid;
+        grid-template-columns: 14px auto;
+        gap: 6px;
+        padding: 4px 0px;
+
+        .deal_line_status_col {
+            align-self: center;
+            font-size: 8px;
+        }
+
+        .deal_line_name_col {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            align-self: center;
+            color: inherit;
+            cursor: pointer;
+        }
+    }
+
+    .deal_line_list_row:hover {
+        background-color: $table-hover-bg;
+    }
+}

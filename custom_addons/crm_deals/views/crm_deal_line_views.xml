@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shared by the customer "Deals" smart button (#3) and the CRM > Sales >
+         Deals menu (#24). -->
+    <record id="crm_deal_line_view_list" model="ir.ui.view">
+        <field name="name">crm.deal.line.list</field>
+        <field name="model">crm.deal.line</field>
+        <field name="arch" type="xml">
+            <list decoration-success="status == 'accepted'"
+                  decoration-danger="status == 'rejected'">
+                <field name="currency_id" column_invisible="1"/>
+                <field name="deal_ref"/>
+                <field name="product_id"/>
+                <field name="category_id"/>
+                <field name="supplier_id"/>
+                <field name="route_id"/>
+                <field name="master_supplier_id" optional="hide" readonly="1"/>
+                <field name="contract_term"/>
+                <field name="recurring_basis" column_invisible="True"/>
+                <field name="quantity" invisible="recurring_basis == 'volume'"/>
+                <field name="unit_price" invisible="recurring_basis == 'volume'"/>
+                <field name="estimated_monthly_cost" string="MRC" sum="Total"
+                       invisible="recurring_basis == 'volume'"/>
+                <field name="processing_volume" sum="Total"
+                       invisible="recurring_basis != 'volume'"/>
+                <field name="estimated_one_time_revenue" string="NRC" sum="Total"/>
+                <field name="start_date"/>
+                <field name="payment_frequency" optional="hide"/>
+                <field name="end_date" optional="hide"/>
+                <field name="commission_payer_id" optional="hide"/>
+                <field name="recurring_commission" sum="Total" optional="hide"/>
+                <field name="one_time_commission" sum="Total" optional="hide"/>
+                <field name="status"/>
+                <field name="lead_id"/>
+                <field name="partner_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="crm_deal_line_view_kanban" model="ir.ui.view">
+        <field name="name">crm.deal.line.kanban</field>
+        <field name="model">crm.deal.line</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="status"/>
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_top">
+                            <strong class="o_kanban_record_title">
+                                <field name="product_id"/>
+                            </strong>
+                            <span class="text-muted small">
+                                <field name="deal_ref"/>
+                            </span>
+                        </div>
+                        <div class="text-muted">
+                            <field name="partner_id"/>
+                        </div>
+                        <div>
+                            <i class="fa fa-fw fa-star-o text-primary" title="Opportunity"/>
+                            <field name="lead_id"/>
+                        </div>
+                        <div class="d-flex justify-content-between mt-1">
+                            <span>
+                                <field name="estimated_monthly_cost" widget="monetary"/>
+                                <span class="text-muted"> /month</span>
+                            </span>
+                            <span>
+                                <field name="estimated_one_time_revenue" widget="monetary"/>
+                                <span class="text-muted"> one-time</span>
+                            </span>
+                        </div>
+                        <div class="mt-1">
+                            <field name="status" widget="badge"
+                                   decoration-success="status == 'accepted'"
+                                   decoration-danger="status == 'rejected'"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="crm_deal_line_view_search" model="ir.ui.view">
+        <field name="name">crm.deal.line.search</field>
+        <field name="model">crm.deal.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="deal_ref"/>
+                <field name="product_id"/>
+                <field name="lead_id"/>
+                <field name="partner_id"/>
+                <filter name="filter_accepted" string="Accepted"
+                        domain="[('status', '=', 'accepted')]"/>
+                <filter name="filter_rejected" string="Rejected"
+                        domain="[('status', '=', 'rejected')]"/>
+                <filter name="filter_accepted_no_start_date"
+                        string="Accepted, missing start date"
+                        domain="[('status', '=', 'accepted'), ('start_date', '=', False)]"/>
+                <group>
+                    <filter name="group_by_lead" string="Opportunity"
+                            context="{'group_by': 'lead_id'}"/>
+                    <filter name="group_by_partner" string="Customer"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_by_product" string="Product"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter name="group_by_category" string="Category"
+                            context="{'group_by': 'category_id'}"/>
+                    <filter name="group_by_supplier" string="Supplier"
+                            context="{'group_by': 'supplier_id'}"/>
+                    <filter name="group_by_status" string="Status"
+                            context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="crm_deal_line_view_form" model="ir.ui.view">
+        <field name="name">crm.deal.line.form</field>
+        <field name="model">crm.deal.line</field>
+        <field name="arch" type="xml">
+            <form string="Deal">
+                <header>
+                    <button name="action_accept" type="object" string="Accept"
+                            class="btn-primary"
+                            invisible="display_type or status == 'accepted'"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            invisible="display_type or status == 'rejected'"/>
+                    <button name="action_request_signature" type="object"
+                            string="Request Signature"
+                            groups="sign.group_sign_user"/>
+                    <button name="action_add_config_document" type="object"
+                            string="Add Configuration Document"
+                            invisible="display_type"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="draft,accepted,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_commissions" type="object"
+                                class="oe_stat_button" icon="fa-money"
+                                invisible="commission_count == 0">
+                            <field name="commission_count" widget="statinfo"
+                                   string="Commissions"/>
+                        </button>
+                        <button name="action_view_config_documents" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o"
+                                invisible="config_document_count == 0">
+                            <field name="config_document_count" widget="statinfo"
+                                   string="Config Documents"/>
+                        </button>
+                        <button name="action_view_sign_requests" type="object"
+                                class="oe_stat_button" icon="fa-pencil-square-o"
+                                groups="sign.group_sign_user"
+                                invisible="sign_request_count == 0">
+                            <field name="sign_request_count" widget="statinfo"
+                                   string="Signatures"/>
+                        </button>
+                    </div>
+                    <field name="display_type" invisible="1"/>
+                    <field name="allowed_supplier_ids" invisible="1"/>
+                    <field name="is_leads_admin" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="display_name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="lead_id"/>
+                            <field name="partner_id"/>
+                            <field name="last_categ_id" invisible="1"/>
+                            <field name="layer_1_has_children" invisible="1"/>
+                            <field name="layer_2_has_children" invisible="1"/>
+                            <field name="layer_3_has_children" invisible="1"/>
+                            <field name="last_categ_has_children" invisible="1"/>
+                            <field name="last_categ_has_products" invisible="1"/>
+                            <field name="layer_1_categ_id"
+                                   domain="[('parent_id', '=', False)]"/>
+                            <field name="layer_2_categ_id"
+                                   invisible="not layer_1_categ_id or not layer_1_has_children"
+                                   domain="[('parent_id', '=', layer_1_categ_id)]"/>
+                            <field name="layer_3_categ_id"
+                                   invisible="not layer_2_categ_id or not layer_2_has_children"
+                                   domain="[('parent_id', '=', layer_2_categ_id)]"/>
+                            <field name="layer_4_categ_id"
+                                   invisible="not layer_3_categ_id or not layer_3_has_children"
+                                   domain="[('parent_id', '=', layer_3_categ_id)]"/>
+                            <field name="product_id"
+                                   invisible="not last_categ_id or (last_categ_has_children and not last_categ_has_products)"
+                                   domain="[('categ_id', '=', last_categ_id), ('type', '=', 'service')]"/>
+                        </group>
+                        <group>
+                            <field name="contract_term"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="quantity"
+                                   invisible="recurring_basis == 'volume'"/>
+                            <field name="unit_price"
+                                   invisible="recurring_basis == 'volume'"/>
+                            <field name="estimated_monthly_cost"
+                                   invisible="recurring_basis == 'volume'"/>
+                            <field name="processing_volume"
+                                   invisible="recurring_basis != 'volume'"/>
+                            <field name="estimated_one_time_revenue"/>
+                        </group>
+                    </group>
+                    <!-- Supplier and route. Everything here locks once the
+                         line leaves Draft; a Leads Administrator keeps it
+                         editable and a route change there refreshes the
+                         snapshot and posts to the chatter (#54). -->
+                    <group string="Supplier and Route" name="supplier_route">
+                        <group>
+                            <field name="allowed_route_ids" invisible="1"/>
+                            <field name="supplier_id"
+                                   domain="[('id', 'in', allowed_supplier_ids)]"
+                                   readonly="status != 'draft' and not is_leads_admin"/>
+                            <field name="route_id"
+                                   domain="[('id', 'in', allowed_route_ids)]"
+                                   readonly="status != 'draft' and not is_leads_admin"/>
+                        </group>
+                        <group>
+                            <field name="master_supplier_id" readonly="1"/>
+                            <field name="is_direct"/>
+                            <!-- Straight off the snapshot, so they follow the
+                                 route live. -->
+                            <field name="gms_share" widget="percentage"
+                                   readonly="1"/>
+                            <field name="residual_rate" string="Residual"
+                                   widget="percentage" readonly="1"
+                                   invisible="recurring_basis == 'none'"/>
+                            <field name="net_rate" widget="percentage"
+                                   readonly="1"
+                                   invisible="recurring_basis == 'none'"/>
+                        </group>
+                    </group>
+                    <group string="Commission Basis" name="commission_basis">
+                        <group string="Recurring">
+                            <field name="rule_id" readonly="1"/>
+                            <field name="recurring_basis" readonly="1"/>
+                        </group>
+                        <group string="One-Time">
+                            <field name="spiff_eligible" readonly="1"/>
+                            <field name="spiff_multiplier" readonly="1"/>
+                            <field name="nrc_margin_type" readonly="1"/>
+                            <field name="nrc_margin_value" readonly="1"
+                                   invisible="nrc_margin_type == 'none'"/>
+                        </group>
+                    </group>
+                    <group string="Commission" name="commission">
+                        <group>
+                            <field name="start_date"/>
+                            <field name="payment_frequency"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="commission_payer_id"/>
+                            <field name="recurring_commission"/>
+                            <field name="one_time_commission"/>
+                        </group>
+                    </group>
+                    <group string="Linked Work"
+                           invisible="not project_id and not task_id">
+                        <field name="project_id" invisible="not project_id"/>
+                        <field name="task_id" invisible="not task_id"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="crm_deal_line_action" model="ir.actions.act_window">
+        <field name="name">Deals</field>
+        <field name="res_model">crm.deal.line</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('status', '!=', 'draft'), ('display_type', '=', False)]</field>
+        <field name="context">{'group_by': 'lead_id'}</field>
+    </record>
+
+    <!-- ir.ui.menu orders by (sequence, id): sequence 1 ties with My Pipeline
+         and our record is created later, so Deals lands directly after it and
+         still before My Activities (sequence 2). -->
+    <menuitem id="crm_deal_line_menu"
+              name="Deals"
+              parent="crm.crm_menu_sales"
+              action="crm_deal_line_action"
+              sequence="1"/>
+</odoo>
