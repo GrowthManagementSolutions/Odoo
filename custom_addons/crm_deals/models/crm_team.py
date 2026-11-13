@@ -52,22 +52,17 @@ class CrmTeam(models.Model):
 
     @api.model
     def _gms_company(self):
-        """Locate the GMS company without using database-specific IDs."""
-        company = self.env['res.company'].sudo().search([
+        """Locate GMS without modifying or creating company records."""
+        return self.env['res.company'].sudo().search([
             ('name', '=', GMS_COMPANY_NAME),
         ], limit=1)
-
-        if not company:
-            raise ValueError(
-                'GMS company not found: %s' % GMS_COMPANY_NAME
-            )
-
-        return company
 
     @api.model
     def _gms_solutions_team(self):
         """Find the existing GMS Solutions team."""
         company = self._gms_company()
+        if not company:
+            return self.browse()
 
         return self.sudo().with_context(active_test=False).search([
             ('company_id', '=', company.id),
@@ -78,6 +73,8 @@ class CrmTeam(models.Model):
     def _gms_agent_channel_team(self):
         """Find the existing GMS Agent Channel team."""
         company = self._gms_company()
+        if not company:
+            return self.browse()
 
         return self.sudo().with_context(active_test=False).search([
             ('company_id', '=', company.id),
@@ -91,15 +88,25 @@ class CrmTeam(models.Model):
         if params.get_param(_SEEDED_PARAM):
             return False
 
+        company = self._gms_company()
+        if not company:
+            _logger.warning(
+                "Skipping GMS CRM team setup: company %s does not exist.",
+                GMS_COMPANY_NAME,
+            )
+            return False
+
         solutions = self._gms_solutions_team()
         agent = self._gms_agent_channel_team()
 
         if not solutions or not agent:
-            raise ValueError(
-                "GMS CRM setup requires both existing GMS sales teams. "
-                "Solutions found: %s; Agent Channel found: %s"
-                % (bool(solutions), bool(agent))
+            _logger.warning(
+                "Skipping GMS CRM team setup: required GMS sales teams "
+                "are missing. Solutions found: %s; Agent Channel found: %s",
+                bool(solutions),
+                bool(agent),
             )
+            return False
 
         company = self._gms_company()
         if solutions.company_id != company or agent.company_id != company:
