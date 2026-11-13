@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Customer-facing Budget Summary (#58), built on the same frame the
+         quotation portal page uses: portal.portal_sidebar, a record sidebar
+         and a document card. Styling is Bootstrap and portal classes only -
+         no colours, fonts or CSS of its own. -->
+    <template id="budget_summary_portal" name="Budget Summary"
+              inherit_id="portal.portal_sidebar" primary="True">
+        <t t-call="portal.portal_layout" position="inside">
+            <t t-set="o_portal_fullwidth_alert" groups="sales_team.group_sale_salesman">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="custom_html">
+                        This is a preview of the customer's Budget Summary.
+                    </t>
+                </t>
+            </t>
+        </t>
+
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="row o_portal_budget_sidebar o_budget_summary"
+                 t-att-data-lead-id="lead.id"
+                 t-att-data-access-token="access_token or ''">
+
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar">
+                    <t t-set="classes" t-value="'col-lg-4 col-xxl-3 d-print-none'"/>
+                    <t t-set="title">
+                        <div>
+                            <h2 class="mb-0 text-break">
+                                <span data-budget-field="total_monthly"
+                                      t-out="monthly"
+                                      t-options="{'widget': 'monetary',
+                                                  'display_currency': lead.deal_currency_id}"/>
+                                <small class="text-muted"> / month</small>
+                            </h2>
+                            <h4 class="mb-0 text-break">
+                                <span data-budget-field="total_onetime"
+                                      t-out="onetime"
+                                      t-options="{'widget': 'monetary',
+                                                  'display_currency': lead.deal_currency_id}"/>
+                                <small class="text-muted"> one-time</small>
+                            </h4>
+                        </div>
+                    </t>
+                    <t t-set="entries">
+                        <div class="d-flex flex-column gap-4 mt-3">
+                            <div class="d-flex flex-column gap-2" id="budget_sidebar_button">
+                                <!-- Signing is the customer's act: hidden for
+                                     an internal user previewing the page. -->
+                                <a t-if="not is_signed and not is_internal_user"
+                                   role="button" href="#"
+                                   class="btn btn-primary o_budget_sign"
+                                   data-bs-toggle="modal" data-bs-target="#modalaccept"
+                                   t-att-disabled="None if all_decided else 'disabled'">
+                                    <i class="fa fa-check"/> Accept &amp; Sign
+                                </a>
+                                <div class="o_download_pdf d-flex gap-2 flex-lg-column flex-xl-row flex-wrap">
+                                    <a class="btn btn-light flex-grow-1" role="button"
+                                       t-att-href="report_url">
+                                        <i class="fa fa-download me-1"/>Download
+                                    </a>
+                                    <a class="btn btn-light o_print_btn flex-grow-1"
+                                       role="button" target="_blank"
+                                       t-att-href="'/my/budget/%s?report_type=pdf' % lead.id">
+                                        <i class="fa fa-print me-1"/>Print
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div t-if="lead.user_id">
+                                <h6><small class="text-muted">Your contact</small></h6>
+                                <t t-call="portal.portal_my_contact">
+                                    <t t-set="_contactAvatar"
+                                       t-value="image_data_uri(lead.user_id.avatar_128)"/>
+                                    <t t-set="_contactName" t-value="lead.user_id.name"/>
+                                    <t t-set="_contactLink" t-value="True"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+                <!-- Page content -->
+                <div id="budget_content" class="col-12 col-lg-8 col-xxl-9 mt-5 mt-lg-0">
+
+                    <!-- Signature modal, as the quotation's #modalaccept -->
+                    <div role="dialog" class="modal fade" id="modalaccept"
+                         t-if="not is_signed and not is_internal_user">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <header class="modal-header">
+                                    <h4 class="modal-title">Validate Budget Summary</h4>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal" aria-label="Close"/>
+                                </header>
+                                <main class="modal-body" id="sign-dialog">
+                                    <span>
+                                        By signing, you accept the services above on behalf of
+                                        <b t-out="lead.partner_id.commercial_partner_id.name or ''"/>.
+                                    </span>
+                                    <t t-call="portal.signature_form">
+                                        <t t-set="call_url" t-value="'/my/budget/%s/sign' % lead.id"/>
+                                        <t t-set="default_name"
+                                           t-value="lead.partner_id.name or lead.partner_id.commercial_partner_id.name"/>
+                                        <t t-set="send_label">Accept &amp; Sign</t>
+                                    </t>
+                                </main>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div t-if="is_signed" class="alert alert-success alert-dismissible d-print-none"
+                         role="status">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"/>
+                        <strong>Thank you!</strong><br/>
+                        Your representative will be in touch with next steps.
+                    </div>
+
+                    <t t-call="crm_deals.budget_summary_portal_content"/>
+
+                    <!-- chatter -->
+                    <hr/>
+                    <div id="budget_communication">
+                        <h3>Communication</h3>
+                        <t t-call="portal.message_thread"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- The document itself. Rendered on its own by the accept/reject route,
+         which swaps this block in place rather than reloading the page. -->
+    <template id="budget_summary_portal_content" name="Budget Summary Content">
+        <div id="budget_card" class="o_portal_budget_content">
+            <div id="introduction" class="pb-3">
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <h2 class="mb-0">
+                        Budget Summary - <em t-out="lead.name"/>
+                    </h2>
+                    <span t-if="is_signed" class="badge rounded-pill text-bg-success">Signed</span>
+                    <span t-else="" class="badge rounded-pill text-bg-info">Awaiting Review</span>
+                </div>
+            </div>
+
+            <div id="informations" class="row">
+                <div class="col-12 col-lg-6 mb-4">
+                    <h5 class="mb-1">Budget Information</h5>
+                    <hr class="mt-1 mb-2"/>
+                    <table class="table table-borderless table-sm">
+                        <tbody style="white-space:nowrap">
+                            <tr>
+                                <th class="ps-0 pb-0">Date Sent:</th>
+                                <td class="w-100 pb-0 text-wrap">
+                                    <span t-if="lead.budget_sent_date" t-field="lead.budget_sent_date"
+                                          t-options='{"widget": "date"}'/>
+                                    <span t-else="" class="text-muted">Not sent yet</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="ps-0 pb-0">Prepared by:</th>
+                                <td class="w-100 pb-0 text-wrap">
+                                    <span t-out="lead.user_id.name or ''"/>
+                                </td>
+                            </tr>
+                            <tr t-if="lead.budget_signed_on">
+                                <th class="ps-0 pb-0">Signed on:</th>
+                                <td class="w-100 pb-0 text-wrap">
+                                    <span t-field="lead.budget_signed_on"
+                                          t-options='{"widget": "date"}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 col-lg-6 mb-4">
+                    <h5 class="mb-1">Client</h5>
+                    <hr class="mt-1 mb-2"/>
+                    <div t-field="lead.partner_id"
+                         t-options="{'widget': 'contact',
+                                     'fields': ['name', 'address', 'phone', 'email'],
+                                     'no_marker': True}"/>
+                </div>
+            </div>
+
+            <!-- Executive Summary -->
+            <section id="budget_sections" class="mb-4">
+                <h5 class="mb-1">Included Sections</h5>
+                <hr class="mt-1 mb-2"/>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th class="text-end">Monthly</th>
+                            <th class="text-end">One-Time</th>
+                            <th>Term</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="blocks" t-as="block">
+                            <td><span t-out="block['name']"/></td>
+                            <td class="text-end">
+                                <span t-out="block['monthly']"
+                                      t-options="{'widget': 'monetary',
+                                                  'display_currency': lead.deal_currency_id}"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-out="block['onetime']"
+                                      t-options="{'widget': 'monetary',
+                                                  'display_currency': lead.deal_currency_id}"/>
+                            </td>
+                            <td><span t-out="block['term']"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <div t-if="not is_signed and not all_decided and not is_internal_user"
+                 class="alert alert-warning d-print-none" role="alert">
+                Please accept or reject every service before signing.
+            </div>
+
+            <!-- Services -->
+            <section id="budget_services">
+                <h5 class="mb-1">Services</h5>
+                <hr class="mt-1 mb-2"/>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th class="text-end">Qty</th>
+                            <th class="text-end d-none d-sm-table-cell">Unit Cost</th>
+                            <th class="text-end">One-Time</th>
+                            <th class="text-end">Monthly</th>
+                            <th class="d-none d-md-table-cell">Notes</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="budget_tbody">
+                        <t t-foreach="blocks" t-as="block">
+                            <tr t-if="block['id']" class="fw-bolder o_line_section">
+                                <td colspan="99"><span t-out="block['name']"/></td>
+                            </tr>
+                            <t t-foreach="block['lines']" t-as="line">
+                                <tr t-if="line.display_type == 'line_note'"
+                                    class="fst-italic o_line_note">
+                                    <td colspan="99"><span t-field="line.name"/></td>
+                                </tr>
+                                <tr t-elif="not line.display_type">
+                                    <td>
+                                        <span t-out="line.product_id.name or line.name or ''"/>
+                                    </td>
+                                    <td class="text-end"><span t-out="'%g' % line.quantity"/></td>
+                                    <td class="text-end d-none d-sm-table-cell">
+                                        <span t-out="line.unit_price"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': lead.deal_currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="line.estimated_one_time_revenue"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': lead.deal_currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-if="line.recurring_basis == 'volume'"
+                                              class="text-muted">Volume-based</span>
+                                        <span t-else="" t-out="line.estimated_monthly_cost"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': lead.deal_currency_id}"/>
+                                    </td>
+                                    <td class="d-none d-md-table-cell small text-muted">
+                                        <div t-if="line.supplier_id" t-out="line.supplier_id.name"/>
+                                        <div t-if="line.name" t-out="line.name"/>
+                                    </td>
+                                    <td class="text-center text-nowrap">
+                                        <span t-att-data-budget-badge="line.id"
+                                              t-attf-class="badge rounded-pill #{line.status == 'accepted' and 'text-bg-success' or (line.status == 'rejected' and 'text-bg-danger' or 'text-bg-secondary')}"
+                                              t-out="line.status == 'accepted' and 'Accepted' or (line.status == 'rejected' and 'Rejected' or 'Pending')"/>
+                                        <div t-if="not is_signed and not is_internal_user" class="mt-1 d-print-none">
+                                            <button type="button"
+                                                    t-attf-class="btn btn-sm o_budget_decision #{line.status == 'accepted' and 'btn-success' or 'btn-outline-success'}"
+                                                    t-att-data-line-id="line.id"
+                                                    data-decision="accept">Accept</button>
+                                            <button type="button"
+                                                    t-attf-class="btn btn-sm ms-1 o_budget_decision #{line.status == 'rejected' and 'btn-danger' or 'btn-outline-danger'}"
+                                                    t-att-data-line-id="line.id"
+                                                    data-decision="reject">Reject</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr t-if="block['id']">
+                                <td colspan="3" class="text-end fw-bold">Subtotal</td>
+                                <td class="text-end fw-bold">
+                                    <span t-out="block['onetime']"
+                                          t-options="{'widget': 'monetary',
+                                                      'display_currency': lead.deal_currency_id}"/>
+                                </td>
+                                <td class="text-end fw-bold">
+                                    <span t-out="block['monthly']"
+                                          t-options="{'widget': 'monetary',
+                                                      'display_currency': lead.deal_currency_id}"/>
+                                </td>
+                                <td colspan="2"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <!-- Totals, as the quotation's totals table -->
+                <div class="clearfix" id="budget_totals">
+                    <div class="row">
+                        <div class="ms-auto col-12 col-md-6">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td class="fw-bold">Monthly Total</td>
+                                    <td class="text-end fw-bold">
+                                        <span t-out="monthly"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': lead.deal_currency_id}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">One-Time Total</td>
+                                    <td class="text-end fw-bold">
+                                        <span t-out="onetime"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': lead.deal_currency_id}"/>
+                                    </td>
+                                </tr>
+                                <tr class="text-muted">
+                                    <td>Proposed</td>
+                                    <td class="text-end">
+                                        <span t-out="proposed_monthly"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': lead.deal_currency_id}"/>
+                                        /
+                                        <span t-out="proposed_onetime"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': lead.deal_currency_id}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- The lead's own notes, as a quotation shows its terms. -->
+            <section t-if="not lead.budget_note_is_empty" id="budget_note"
+                     class="mt-4">
+                <div t-field="lead.budget_note"/>
+            </section>
+
+            <section t-if="lead.budget_signature" id="signature" name="Signature">
+                <div class="row mt-4">
+                    <div class="col-sm-7 col-md-4 ms-auto text-center">
+                        <h5>Signature</h5>
+                        <img t-att-src="image_data_uri(lead.budget_signature)"
+                             style="max-height: 6rem; max-width: 100%;" alt="Signature"/>
+                        <p class="mb-0" t-out="lead.budget_signed_by or ''"/>
+                        <p class="text-muted">
+                            Signed on <span t-field="lead.budget_signed_on"
+                                            t-options='{"widget": "date"}'/>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <!-- Portal home entry and list, as sale's own -->
+    <template id="portal_my_home_budget" name="Budget Summaries"
+              customize_show="True" inherit_id="portal.portal_my_home" priority="30">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <t t-if="budget_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Budget Summaries</t>
+                <t t-set="url" t-value="'/my/budgets'"/>
+                <t t-set="text">Review, accept and sign your budget</t>
+                <t t-set="placeholder_count" t-value="'budget_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_my_budgets" name="My Budget Summaries">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Budget Summaries</t>
+            </t>
+            <div t-if="not budgets" class="alert alert-warning" role="alert">
+                There are currently no budget summaries for your account.
+            </div>
+            <t t-if="budgets" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Opportunity</th>
+                        <th class="text-end">Date Sent</th>
+                        <th class="text-end">Monthly</th>
+                        <th class="text-end">One-Time</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="budgets" t-as="budget">
+                        <td>
+                            <a t-att-href="'/my/budget/%s' % budget.id">
+                                <span t-out="budget.name"/>
+                            </a>
+                        </td>
+                        <td class="text-end">
+                            <span t-if="budget.budget_sent_date" t-field="budget.budget_sent_date"
+                                  t-options='{"widget": "date"}'/>
+                        </td>
+                        <td class="text-end">
+                            <span t-out="budget._budget_data()['monthly']"
+                                  t-options="{'widget': 'monetary',
+                                              'display_currency': budget.deal_currency_id}"/>
+                        </td>
+                        <td class="text-end">
+                            <span t-out="budget._budget_data()['onetime']"
+                                  t-options="{'widget': 'monetary',
+                                              'display_currency': budget.deal_currency_id}"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-if="budget.budget_signed_on"
+                                  class="badge rounded-pill text-bg-success">Signed</span>
+                            <span t-else="" class="badge rounded-pill text-bg-info">Awaiting Review</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+</odoo>

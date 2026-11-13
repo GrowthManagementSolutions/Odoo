@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="config_document_type_view_list" model="ir.ui.view">
+        <field name="name">config.document.type.list</field>
+        <field name="model">config.document.type</field>
+        <field name="arch" type="xml">
+            <list string="Configuration Document Types" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="detail_section"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="config_document_type_view_form" model="ir.ui.view">
+        <field name="name">config.document.type.form</field>
+        <field name="model">config.document.type</field>
+        <field name="arch" type="xml">
+            <form string="Configuration Document Type">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="detail_section"/>
+                        <field name="sequence"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="config_document_type_view_search" model="ir.ui.view">
+        <field name="name">config.document.type.search</field>
+        <field name="model">config.document.type</field>
+        <field name="arch" type="xml">
+            <search string="Configuration Document Types">
+                <field name="name"/>
+                <filter name="filter_inactive" string="Archived"
+                        domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="config_document_type_action" model="ir.actions.act_window">
+        <field name="name">Configuration Document Types</field>
+        <field name="res_model">config.document.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="config_document_type_menu"
+              name="Configuration Document Types"
+              parent="project.menu_project_config"
+              action="config_document_type_action"
+              sequence="20"/>
+</odoo>

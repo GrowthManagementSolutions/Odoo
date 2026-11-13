@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Agriculture -->
+    <record id="subsector_agriculture_farm_and_ranch" model="res.partner.subsector">
+        <field name="name">Farm &amp; Ranch</field>
+        <field name="industry_id" ref="industry_agriculture"/>
+    </record>
+    <record id="subsector_agriculture_nursery_and_greenhouse" model="res.partner.subsector">
+        <field name="name">Nursery &amp; Greenhouse</field>
+        <field name="industry_id" ref="industry_agriculture"/>
+    </record>
+    <record id="subsector_agriculture_agricultural_supply" model="res.partner.subsector">
+        <field name="name">Agricultural Supply</field>
+        <field name="industry_id" ref="industry_agriculture"/>
+    </record>
+
+    <!-- Amusement Parks -->
+    <record id="subsector_amusement_parks_theme_park" model="res.partner.subsector">
+        <field name="name">Theme Park</field>
+        <field name="industry_id" ref="industry_amusement_parks"/>
+    </record>
+    <record id="subsector_amusement_parks_water_park" model="res.partner.subsector">
+        <field name="name">Water Park</field>
+        <field name="industry_id" ref="industry_amusement_parks"/>
+    </record>
+    <record id="subsector_amusement_parks_family_entertainment_center" model="res.partner.subsector">
+        <field name="name">Family Entertainment Center</field>
+        <field name="industry_id" ref="industry_amusement_parks"/>
+    </record>
+
+    <!-- Arts And Entertainment -->
+    <record id="subsector_arts_and_entertainment_theater" model="res.partner.subsector">
+        <field name="name">Theater</field>
+        <field name="industry_id" ref="industry_arts_and_entertainment"/>
+    </record>
+    <record id="subsector_arts_and_entertainment_museum_and_gallery" model="res.partner.subsector">
+        <field name="name">Museum &amp; Gallery</field>
+        <field name="industry_id" ref="industry_arts_and_entertainment"/>
+    </record>
+    <record id="subsector_arts_and_entertainment_live_music_venue" model="res.partner.subsector">
+        <field name="name">Live Music Venue</field>
+        <field name="industry_id" ref="industry_arts_and_entertainment"/>
+    </record>
+
+    <!-- Automotive -->
+    <record id="subsector_automotive_auto_repair" model="res.partner.subsector">
+        <field name="name">Auto Repair</field>
+        <field name="industry_id" ref="industry_automotive"/>
+    </record>
+    <record id="subsector_automotive_car_dealership" model="res.partner.subsector">
+        <field name="name">Car Dealership</field>
+        <field name="industry_id" ref="industry_automotive"/>
+    </record>
+    <record id="subsector_automotive_car_wash" model="res.partner.subsector">
+        <field name="name">Car Wash</field>
+        <field name="industry_id" ref="industry_automotive"/>
+    </record>
+
+    <!-- Barber Shop -->
+    <record id="subsector_barber_shop_traditional_barber" model="res.partner.subsector">
+        <field name="name">Traditional Barber</field>
+        <field name="industry_id" ref="industry_barber_shop"/>
+    </record>
+    <record id="subsector_barber_shop_men_s_grooming_lounge" model="res.partner.subsector">
+        <field name="name">Men's Grooming Lounge</field>
+        <field name="industry_id" ref="industry_barber_shop"/>
+    </record>
+
+    <!-- Campground -->
+    <record id="subsector_campground_rv_park" model="res.partner.subsector">
+        <field name="name">RV Park</field>
+        <field name="industry_id" ref="industry_campground"/>
+    </record>
+    <record id="subsector_campground_tent_campground" model="res.partner.subsector">
+        <field name="name">Tent Campground</field>
+        <field name="industry_id" ref="industry_campground"/>
+    </record>
+
+    <!-- Chiropractic Clinic -->
+    <record id="subsector_chiropractic_clinic_single_practitioner" model="res.partner.subsector">
+        <field name="name">Single Practitioner</field>
+        <field name="industry_id" ref="industry_chiropractic_clinic"/>
+    </record>
+    <record id="subsector_chiropractic_clinic_multi_provider_practice" model="res.partner.subsector">
+        <field name="name">Multi-Provider Practice</field>
+        <field name="industry_id" ref="industry_chiropractic_clinic"/>
+    </record>
+
+    <!-- Construction -->
+    <record id="subsector_construction_residential" model="res.partner.subsector">
+        <field name="name">Residential</field>
+        <field name="industry_id" ref="industry_construction"/>
+    </record>
+    <record id="subsector_construction_commercial" model="res.partner.subsector">
+        <field name="name">Commercial</field>
+        <field name="industry_id" ref="industry_construction"/>
+    </record>
+    <record id="subsector_construction_specialty_trades" model="res.partner.subsector">
+        <field name="name">Specialty Trades</field>
+        <field name="industry_id" ref="industry_construction"/>
+    </record>
+
+    <!-- Digital Marketing/Marketing -->
+    <record id="subsector_digital_marketing_marketing_agency" model="res.partner.subsector">
+        <field name="name">Agency</field>
+        <field name="industry_id" ref="industry_digital_marketing_marketing"/>
+    </record>
+    <record id="subsector_digital_marketing_marketing_freelance_consultant" model="res.partner.subsector">
+        <field name="name">Freelance/Consultant</field>
+        <field name="industry_id" ref="industry_digital_marketing_marketing"/>
+    </record>
+
+    <!-- Dispensary -->
+    <record id="subsector_dispensary_medical" model="res.partner.subsector">
+        <field name="name">Medical</field>
+        <field name="industry_id" ref="industry_dispensary"/>
+    </record>
+    <record id="subsector_dispensary_recreational" model="res.partner.subsector">
+        <field name="name">Recreational</field>
+        <field name="industry_id" ref="industry_dispensary"/>
+    </record>
+
+    <!-- E-Commerce - Retail -->
+    <record id="subsector_e_commerce_retail_direct_to_consumer_brand" model="res.partner.subsector">
+        <field name="name">Direct-to-Consumer Brand</field>
+        <field name="industry_id" ref="industry_e_commerce_retail"/>
+    </record>
+    <record id="subsector_e_commerce_retail_marketplace_seller" model="res.partner.subsector">
+        <field name="name">Marketplace Seller</field>
+        <field name="industry_id" ref="industry_e_commerce_retail"/>
+    </record>
+    <record id="subsector_e_commerce_retail_subscription_box" model="res.partner.subsector">
+        <field name="name">Subscription Box</field>
+        <field name="industry_id" ref="industry_e_commerce_retail"/>
+    </record>
+
+    <!-- E-Commerce - Wholesale -->
+    <record id="subsector_e_commerce_wholesale_b2b_distributor" model="res.partner.subsector">
+        <field name="name">B2B Distributor</field>
+        <field name="industry_id" ref="industry_e_commerce_wholesale"/>
+    </record>
+    <record id="subsector_e_commerce_wholesale_online_wholesale_marketplace" model="res.partner.subsector">
+        <field name="name">Online Wholesale Marketplace</field>
+        <field name="industry_id" ref="industry_e_commerce_wholesale"/>
+    </record>
+
+    <!-- Education -->
+    <record id="subsector_education_k_12_school" model="res.partner.subsector">
+        <field name="name">K-12 School</field>
+        <field name="industry_id" ref="industry_education"/>
+    </record>
+    <record id="subsector_education_higher_education" model="res.partner.subsector">
+        <field name="name">Higher Education</field>
+        <field name="industry_id" ref="industry_education"/>
+    </record>
+    <record id="subsector_education_tutoring_and_training_center" model="res.partner.subsector">
+        <field name="name">Tutoring &amp; Training Center</field>
+        <field name="industry_id" ref="industry_education"/>
+    </record>
+
+    <!-- Event Center -->
+    <record id="subsector_event_center_banquet_hall" model="res.partner.subsector">
+        <field name="name">Banquet Hall</field>
+        <field name="industry_id" ref="industry_event_center"/>
+    </record>
+    <record id="subsector_event_center_conference_center" model="res.partner.subsector">
+        <field name="name">Conference Center</field>
+        <field name="industry_id" ref="industry_event_center"/>
+    </record>
+    <record id="subsector_event_center_wedding_venue" model="res.partner.subsector">
+        <field name="name">Wedding Venue</field>
+        <field name="industry_id" ref="industry_event_center"/>
+    </record>
+
+    <!-- Fairs/Festivals -->
+    <record id="subsector_fairs_festivals_county_fair" model="res.partner.subsector">
+        <field name="name">County Fair</field>
+        <field name="industry_id" ref="industry_fairs_festivals"/>
+    </record>
+    <record id="subsector_fairs_festivals_music_festival" model="res.partner.subsector">
+        <field name="name">Music Festival</field>
+        <field name="industry_id" ref="industry_fairs_festivals"/>
+    </record>
+    <record id="subsector_fairs_festivals_food_festival" model="res.partner.subsector">
+        <field name="name">Food Festival</field>
+        <field name="industry_id" ref="industry_fairs_festivals"/>
+    </record>
+
+    <!-- Finance And Insurance -->
+    <record id="subsector_finance_and_insurance_insurance_agency" model="res.partner.subsector">
+        <field name="name">Insurance Agency</field>
+        <field name="industry_id" ref="industry_finance_and_insurance"/>
+    </record>
+    <record id="subsector_finance_and_insurance_credit_union" model="res.partner.subsector">
+        <field name="name">Credit Union</field>
+        <field name="industry_id" ref="industry_finance_and_insurance"/>
+    </record>
+    <record id="subsector_finance_and_insurance_financial_advisory" model="res.partner.subsector">
+        <field name="name">Financial Advisory</field>
+        <field name="industry_id" ref="industry_finance_and_insurance"/>
+    </record>
+
+    <!-- Food Truck -->
+    <record id="subsector_food_truck_single_truck" model="res.partner.subsector">
+        <field name="name">Single Truck</field>
+        <field name="industry_id" ref="industry_food_truck"/>
+    </record>
+    <record id="subsector_food_truck_fleet" model="res.partner.subsector">
+        <field name="name">Fleet</field>
+        <field name="industry_id" ref="industry_food_truck"/>
+    </record>
+
+    <!-- Full Service Restaurant -->
+    <record id="subsector_full_service_restaurant_casual_dining" model="res.partner.subsector">
+        <field name="name">Casual Dining</field>
+        <field name="industry_id" ref="industry_full_service_restaurant"/>
+    </record>
+    <record id="subsector_full_service_restaurant_fine_dining" model="res.partner.subsector">
+        <field name="name">Fine Dining</field>
+        <field name="industry_id" ref="industry_full_service_restaurant"/>
+    </record>
+    <record id="subsector_full_service_restaurant_bar_and_grill" model="res.partner.subsector">
+        <field name="name">Bar &amp; Grill</field>
+        <field name="industry_id" ref="industry_full_service_restaurant"/>
+    </record>
+
+    <!-- General Contractor -->
+    <record id="subsector_general_contractor_residential" model="res.partner.subsector">
+        <field name="name">Residential</field>
+        <field name="industry_id" ref="industry_general_contractor"/>
+    </record>
+    <record id="subsector_general_contractor_commercial" model="res.partner.subsector">
+        <field name="name">Commercial</field>
+        <field name="industry_id" ref="industry_general_contractor"/>
+    </record>
+
+    <!-- Golf Course -->
+    <record id="subsector_golf_course_public_course" model="res.partner.subsector">
+        <field name="name">Public Course</field>
+        <field name="industry_id" ref="industry_golf_course"/>
+    </record>
+    <record id="subsector_golf_course_private_club" model="res.partner.subsector">
+        <field name="name">Private Club</field>
+        <field name="industry_id" ref="industry_golf_course"/>
+    </record>
+    <record id="subsector_golf_course_driving_range" model="res.partner.subsector">
+        <field name="name">Driving Range</field>
+        <field name="industry_id" ref="industry_golf_course"/>
+    </record>
+
+    <!-- Government -->
+    <record id="subsector_government_municipal" model="res.partner.subsector">
+        <field name="name">Municipal</field>
+        <field name="industry_id" ref="industry_government"/>
+    </record>
+    <record id="subsector_government_county" model="res.partner.subsector">
+        <field name="name">County</field>
+        <field name="industry_id" ref="industry_government"/>
+    </record>
+    <record id="subsector_government_state_agency" model="res.partner.subsector">
+        <field name="name">State Agency</field>
+        <field name="industry_id" ref="industry_government"/>
+    </record>
+
+    <!-- Health And Social Care -->
+    <record id="subsector_health_and_social_care_home_health" model="res.partner.subsector">
+        <field name="name">Home Health</field>
+        <field name="industry_id" ref="industry_health_and_social_care"/>
+    </record>
+    <record id="subsector_health_and_social_care_assisted_living" model="res.partner.subsector">
+        <field name="name">Assisted Living</field>
+        <field name="industry_id" ref="industry_health_and_social_care"/>
+    </record>
+    <record id="subsector_health_and_social_care_social_services" model="res.partner.subsector">
+        <field name="name">Social Services</field>
+        <field name="industry_id" ref="industry_health_and_social_care"/>
+    </record>
+
+    <!-- Information Technology -->
+    <record id="subsector_information_technology_managed_service_provider" model="res.partner.subsector">
+        <field name="name">Managed Service Provider</field>
+        <field name="industry_id" ref="industry_information_technology"/>
+    </record>
+    <record id="subsector_information_technology_it_consulting" model="res.partner.subsector">
+        <field name="name">IT Consulting</field>
+        <field name="industry_id" ref="industry_information_technology"/>
+    </record>
+
+    <!-- Integrated Clinic -->
+    <record id="subsector_integrated_clinic_multi_specialty" model="res.partner.subsector">
+        <field name="name">Multi-Specialty</field>
+        <field name="industry_id" ref="industry_integrated_clinic"/>
+    </record>
+    <record id="subsector_integrated_clinic_physical_therapy_and_rehab" model="res.partner.subsector">
+        <field name="name">Physical Therapy &amp; Rehab</field>
+        <field name="industry_id" ref="industry_integrated_clinic"/>
+    </record>
+
+    <!-- Liquor Store -->
+    <record id="subsector_liquor_store_standalone" model="res.partner.subsector">
+        <field name="name">Standalone</field>
+        <field name="industry_id" ref="industry_liquor_store"/>
+    </record>
+    <record id="subsector_liquor_store_chain" model="res.partner.subsector">
+        <field name="name">Chain</field>
+        <field name="industry_id" ref="industry_liquor_store"/>
+    </record>
+
+    <!-- Lodging -->
+    <record id="subsector_lodging_hotel" model="res.partner.subsector">
+        <field name="name">Hotel</field>
+        <field name="industry_id" ref="industry_lodging"/>
+    </record>
+    <record id="subsector_lodging_motel" model="res.partner.subsector">
+        <field name="name">Motel</field>
+        <field name="industry_id" ref="industry_lodging"/>
+    </record>
+    <record id="subsector_lodging_bed_and_breakfast" model="res.partner.subsector">
+        <field name="name">Bed &amp; Breakfast</field>
+        <field name="industry_id" ref="industry_lodging"/>
+    </record>
+
+    <!-- Logistics -->
+    <record id="subsector_logistics_warehousing" model="res.partner.subsector">
+        <field name="name">Warehousing</field>
+        <field name="industry_id" ref="industry_logistics"/>
+    </record>
+    <record id="subsector_logistics_freight_brokerage" model="res.partner.subsector">
+        <field name="name">Freight Brokerage</field>
+        <field name="industry_id" ref="industry_logistics"/>
+    </record>
+    <record id="subsector_logistics_last_mile_delivery" model="res.partner.subsector">
+        <field name="name">Last-Mile Delivery</field>
+        <field name="industry_id" ref="industry_logistics"/>
+    </record>
+
+    <!-- Manufacturing -->
+    <record id="subsector_manufacturing_food_and_beverage" model="res.partner.subsector">
+        <field name="name">Food &amp; Beverage</field>
+        <field name="industry_id" ref="industry_manufacturing"/>
+    </record>
+    <record id="subsector_manufacturing_industrial_equipment" model="res.partner.subsector">
+        <field name="name">Industrial Equipment</field>
+        <field name="industry_id" ref="industry_manufacturing"/>
+    </record>
+    <record id="subsector_manufacturing_consumer_goods" model="res.partner.subsector">
+        <field name="name">Consumer Goods</field>
+        <field name="industry_id" ref="industry_manufacturing"/>
+    </record>
+
+    <!-- Medical Clinic -->
+    <record id="subsector_medical_clinic_primary_care" model="res.partner.subsector">
+        <field name="name">Primary Care</field>
+        <field name="industry_id" ref="industry_medical_clinic"/>
+    </record>
+    <record id="subsector_medical_clinic_urgent_care" model="res.partner.subsector">
+        <field name="name">Urgent Care</field>
+        <field name="industry_id" ref="industry_medical_clinic"/>
+    </record>
+    <record id="subsector_medical_clinic_dental" model="res.partner.subsector">
+        <field name="name">Dental</field>
+        <field name="industry_id" ref="industry_medical_clinic"/>
+    </record>
+
+    <!-- Mining -->
+    <record id="subsector_mining_aggregates_and_quarrying" model="res.partner.subsector">
+        <field name="name">Aggregates &amp; Quarrying</field>
+        <field name="industry_id" ref="industry_mining"/>
+    </record>
+    <record id="subsector_mining_metal_mining" model="res.partner.subsector">
+        <field name="name">Metal Mining</field>
+        <field name="industry_id" ref="industry_mining"/>
+    </record>
+
+    <!-- Non-Profit -->
+    <record id="subsector_non_profit_charity" model="res.partner.subsector">
+        <field name="name">Charity</field>
+        <field name="industry_id" ref="industry_non_profit"/>
+    </record>
+    <record id="subsector_non_profit_religious_organization" model="res.partner.subsector">
+        <field name="name">Religious Organization</field>
+        <field name="industry_id" ref="industry_non_profit"/>
+    </record>
+    <record id="subsector_non_profit_foundation" model="res.partner.subsector">
+        <field name="name">Foundation</field>
+        <field name="industry_id" ref="industry_non_profit"/>
+    </record>
+
+    <!-- Other -->
+    <record id="subsector_other_general" model="res.partner.subsector">
+        <field name="name">General</field>
+        <field name="industry_id" ref="industry_other"/>
+    </record>
+
+    <!-- Professional Services -->
+    <record id="subsector_professional_services_legal" model="res.partner.subsector">
+        <field name="name">Legal</field>
+        <field name="industry_id" ref="industry_professional_services"/>
+    </record>
+    <record id="subsector_professional_services_accounting" model="res.partner.subsector">
+        <field name="name">Accounting</field>
+        <field name="industry_id" ref="industry_professional_services"/>
+    </record>
+    <record id="subsector_professional_services_consulting" model="res.partner.subsector">
+        <field name="name">Consulting</field>
+        <field name="industry_id" ref="industry_professional_services"/>
+    </record>
+
+    <!-- Quick Service -->
+    <record id="subsector_quick_service_fast_food" model="res.partner.subsector">
+        <field name="name">Fast Food</field>
+        <field name="industry_id" ref="industry_quick_service"/>
+    </record>
+    <record id="subsector_quick_service_coffee_shop" model="res.partner.subsector">
+        <field name="name">Coffee Shop</field>
+        <field name="industry_id" ref="industry_quick_service"/>
+    </record>
+    <record id="subsector_quick_service_pizza" model="res.partner.subsector">
+        <field name="name">Pizza</field>
+        <field name="industry_id" ref="industry_quick_service"/>
+    </record>
+
+    <!-- Real Estate -->
+    <record id="subsector_real_estate_brokerage" model="res.partner.subsector">
+        <field name="name">Brokerage</field>
+        <field name="industry_id" ref="industry_real_estate"/>
+    </record>
+    <record id="subsector_real_estate_property_management" model="res.partner.subsector">
+        <field name="name">Property Management</field>
+        <field name="industry_id" ref="industry_real_estate"/>
+    </record>
+
+    <!-- Retail -->
+    <record id="subsector_retail_apparel" model="res.partner.subsector">
+        <field name="name">Apparel</field>
+        <field name="industry_id" ref="industry_retail"/>
+    </record>
+    <record id="subsector_retail_convenience_store" model="res.partner.subsector">
+        <field name="name">Convenience Store</field>
+        <field name="industry_id" ref="industry_retail"/>
+    </record>
+    <record id="subsector_retail_specialty_retail" model="res.partner.subsector">
+        <field name="name">Specialty Retail</field>
+        <field name="industry_id" ref="industry_retail"/>
+    </record>
+
+    <!-- Salon -->
+    <record id="subsector_salon_hair_salon" model="res.partner.subsector">
+        <field name="name">Hair Salon</field>
+        <field name="industry_id" ref="industry_salon"/>
+    </record>
+    <record id="subsector_salon_nail_salon" model="res.partner.subsector">
+        <field name="name">Nail Salon</field>
+        <field name="industry_id" ref="industry_salon"/>
+    </record>
+
+    <!-- Smoke/Vape Shop -->
+    <record id="subsector_smoke_vape_shop_smoke_shop" model="res.partner.subsector">
+        <field name="name">Smoke Shop</field>
+        <field name="industry_id" ref="industry_smoke_vape_shop"/>
+    </record>
+    <record id="subsector_smoke_vape_shop_vape_shop" model="res.partner.subsector">
+        <field name="name">Vape Shop</field>
+        <field name="industry_id" ref="industry_smoke_vape_shop"/>
+    </record>
+
+    <!-- Software -->
+    <record id="subsector_software_saas" model="res.partner.subsector">
+        <field name="name">SaaS</field>
+        <field name="industry_id" ref="industry_software"/>
+    </record>
+    <record id="subsector_software_custom_development" model="res.partner.subsector">
+        <field name="name">Custom Development</field>
+        <field name="industry_id" ref="industry_software"/>
+    </record>
+
+    <!-- Spa -->
+    <record id="subsector_spa_day_spa" model="res.partner.subsector">
+        <field name="name">Day Spa</field>
+        <field name="industry_id" ref="industry_spa"/>
+    </record>
+    <record id="subsector_spa_med_spa" model="res.partner.subsector">
+        <field name="name">Med Spa</field>
+        <field name="industry_id" ref="industry_spa"/>
+    </record>
+
+    <!-- Telecommunications -->
+    <record id="subsector_telecommunications_carrier" model="res.partner.subsector">
+        <field name="name">Carrier</field>
+        <field name="industry_id" ref="industry_telecommunications"/>
+    </record>
+    <record id="subsector_telecommunications_reseller_agent" model="res.partner.subsector">
+        <field name="name">Reseller/Agent</field>
+        <field name="industry_id" ref="industry_telecommunications"/>
+    </record>
+
+    <!-- Transportation/Logistics -->
+    <record id="subsector_transportation_logistics_trucking" model="res.partner.subsector">
+        <field name="name">Trucking</field>
+        <field name="industry_id" ref="industry_transportation_logistics"/>
+    </record>
+    <record id="subsector_transportation_logistics_courier" model="res.partner.subsector">
+        <field name="name">Courier</field>
+        <field name="industry_id" ref="industry_transportation_logistics"/>
+    </record>
+    <record id="subsector_transportation_logistics_passenger_transport" model="res.partner.subsector">
+        <field name="name">Passenger Transport</field>
+        <field name="industry_id" ref="industry_transportation_logistics"/>
+    </record>
+
+    <!-- Utilities -->
+    <record id="subsector_utilities_electric" model="res.partner.subsector">
+        <field name="name">Electric</field>
+        <field name="industry_id" ref="industry_utilities"/>
+    </record>
+    <record id="subsector_utilities_water" model="res.partner.subsector">
+        <field name="name">Water</field>
+        <field name="industry_id" ref="industry_utilities"/>
+    </record>
+    <record id="subsector_utilities_gas" model="res.partner.subsector">
+        <field name="name">Gas</field>
+        <field name="industry_id" ref="industry_utilities"/>
+    </record>
+
+    <!-- Web Design/Web Hosting -->
+    <record id="subsector_web_design_web_hosting_web_design_agency" model="res.partner.subsector">
+        <field name="name">Web Design Agency</field>
+        <field name="industry_id" ref="industry_web_design_web_hosting"/>
+    </record>
+    <record id="subsector_web_design_web_hosting_hosting_provider" model="res.partner.subsector">
+        <field name="name">Hosting Provider</field>
+        <field name="industry_id" ref="industry_web_design_web_hosting"/>
+    </record>
+
+    <!-- Wholesale -->
+    <record id="subsector_wholesale_food_and_beverage_distribution" model="res.partner.subsector">
+        <field name="name">Food &amp; Beverage Distribution</field>
+        <field name="industry_id" ref="industry_wholesale"/>
+    </record>
+    <record id="subsector_wholesale_general_merchandise" model="res.partner.subsector">
+        <field name="name">General Merchandise</field>
+        <field name="industry_id" ref="industry_wholesale"/>
+    </record>
+
+    <!-- Wholesale Supply -->
+    <record id="subsector_wholesale_supply_restaurant_supply" model="res.partner.subsector">
+        <field name="name">Restaurant Supply</field>
+        <field name="industry_id" ref="industry_wholesale_supply"/>
+    </record>
+    <record id="subsector_wholesale_supply_building_supply" model="res.partner.subsector">
+        <field name="name">Building Supply</field>
+        <field name="industry_id" ref="industry_wholesale_supply"/>
+    </record>
+
+</odoo>

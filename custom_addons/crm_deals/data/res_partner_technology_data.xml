@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="tech_accounts_payable_automation" model="res.partner.technology">
+        <field name="name">Accounts Payable Automation</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="tech_ach_services" model="res.partner.technology">
+        <field name="name">ACH Services</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="tech_artificial_intelligence_ai" model="res.partner.technology">
+        <field name="name">Artificial Intelligence (AI)</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="tech_atm" model="res.partner.technology">
+        <field name="name">ATM</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="tech_banking" model="res.partner.technology">
+        <field name="name">Banking</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="tech_bookkeeping" model="res.partner.technology">
+        <field name="name">Bookkeeping</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="tech_business_coaching" model="res.partner.technology">
+        <field name="name">Business Coaching</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="tech_business_credit_cards" model="res.partner.technology">
+        <field name="name">Business Credit Cards</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="tech_cable" model="res.partner.technology">
+        <field name="name">Cable</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="tech_ccaas" model="res.partner.technology">
+        <field name="name">CCaaS</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="tech_commercial_construction" model="res.partner.technology">
+        <field name="name">Commercial Construction</field>
+        <field name="sequence">110</field>
+    </record>
+    <record id="tech_conferencing" model="res.partner.technology">
+        <field name="name">Conferencing</field>
+        <field name="sequence">120</field>
+    </record>
+    <record id="tech_contact_center" model="res.partner.technology">
+        <field name="name">Contact Center</field>
+        <field name="sequence">130</field>
+    </record>
+    <record id="tech_content_creation" model="res.partner.technology">
+        <field name="name">Content Creation</field>
+        <field name="sequence">140</field>
+    </record>
+    <record id="tech_cpaas" model="res.partner.technology">
+        <field name="name">CPaaS</field>
+        <field name="sequence">150</field>
+    </record>
+    <record id="tech_cpas_and_advisors" model="res.partner.technology">
+        <field name="name">CPAs &amp; Advisors</field>
+        <field name="sequence">160</field>
+    </record>
+    <record id="tech_crm" model="res.partner.technology">
+        <field name="name">CRM</field>
+        <field name="sequence">170</field>
+    </record>
+    <record id="tech_custom_app" model="res.partner.technology">
+        <field name="name">Custom App</field>
+        <field name="sequence">180</field>
+    </record>
+    <record id="tech_custom_software" model="res.partner.technology">
+        <field name="name">Custom Software</field>
+        <field name="sequence">190</field>
+    </record>
+    <record id="tech_cybersecurity" model="res.partner.technology">
+        <field name="name">Cybersecurity</field>
+        <field name="sequence">200</field>
+    </record>
+    <record id="tech_data_services" model="res.partner.technology">
+        <field name="name">Data Services</field>
+        <field name="sequence">210</field>
+    </record>
+    <record id="tech_desktop_printers" model="res.partner.technology">
+        <field name="name">Desktop Printers</field>
+        <field name="sequence">220</field>
+    </record>
+    <record id="tech_digital_marketing" model="res.partner.technology">
+        <field name="name">Digital Marketing</field>
+        <field name="sequence">230</field>
+    </record>
+    <record id="tech_digital_media" model="res.partner.technology">
+        <field name="name">Digital Media</field>
+        <field name="sequence">240</field>
+    </record>
+    <record id="tech_digital_signage" model="res.partner.technology">
+        <field name="name">Digital Signage</field>
+        <field name="sequence">250</field>
+    </record>
+    <record id="tech_dish" model="res.partner.technology">
+        <field name="name">Dish</field>
+        <field name="sequence">260</field>
+    </record>
+    <record id="tech_ecommerce" model="res.partner.technology">
+        <field name="name">eCommerce</field>
+        <field name="sequence">270</field>
+    </record>
+    <record id="tech_employee_portal" model="res.partner.technology">
+        <field name="name">Employee Portal</field>
+        <field name="sequence">280</field>
+    </record>
+    <record id="tech_employee_scheduling" model="res.partner.technology">
+        <field name="name">Employee Scheduling</field>
+        <field name="sequence">290</field>
+    </record>
+    <record id="tech_energy" model="res.partner.technology">
+        <field name="name">Energy</field>
+        <field name="sequence">300</field>
+    </record>
+    <record id="tech_event_management" model="res.partner.technology">
+        <field name="name">Event Management</field>
+        <field name="sequence">310</field>
+    </record>
+    <record id="tech_full_point_of_sale_systems" model="res.partner.technology">
+        <field name="name">Full Point of Sale Systems</field>
+        <field name="sequence">320</field>
+    </record>
+    <record id="tech_gift_cards" model="res.partner.technology">
+        <field name="name">Gift Cards</field>
+        <field name="sequence">330</field>
+    </record>
+    <record id="tech_gms_hardware_aggregation" model="res.partner.technology">
+        <field name="name">GMS Hardware Aggregation</field>
+        <field name="sequence">340</field>
+    </record>
+    <record id="tech_gms_professional_services" model="res.partner.technology">
+        <field name="name">GMS Professional Services</field>
+        <field name="sequence">350</field>
+    </record>
+    <record id="tech_google_licensing" model="res.partner.technology">
+        <field name="name">Google Licensing</field>
+        <field name="sequence">360</field>
+    </record>
+    <record id="tech_graphics_design" model="res.partner.technology">
+        <field name="name">Graphics Design</field>
+        <field name="sequence">370</field>
+    </record>
+    <record id="tech_hardware_aggregation" model="res.partner.technology">
+        <field name="name">Hardware Aggregation</field>
+        <field name="sequence">380</field>
+    </record>
+    <record id="tech_human_resources" model="res.partner.technology">
+        <field name="name">Human Resources</field>
+        <field name="sequence">390</field>
+    </record>
+    <record id="tech_internet_service" model="res.partner.technology">
+        <field name="name">Internet Service</field>
+        <field name="sequence">400</field>
+    </record>
+    <record id="tech_inventory_management" model="res.partner.technology">
+        <field name="name">Inventory Management</field>
+        <field name="sequence">410</field>
+    </record>
+    <record id="tech_invoicing_system" model="res.partner.technology">
+        <field name="name">Invoicing System</field>
+        <field name="sequence">420</field>
+    </record>
+    <record id="tech_it_professional_services" model="res.partner.technology">
+        <field name="name">IT Professional Services</field>
+        <field name="sequence">430</field>
+    </record>
+    <record id="tech_it_services" model="res.partner.technology">
+        <field name="name">IT Services</field>
+        <field name="sequence">440</field>
+    </record>
+    <record id="tech_kitchen_bar_printers" model="res.partner.technology">
+        <field name="name">Kitchen/Bar Printers</field>
+        <field name="sequence">450</field>
+    </record>
+    <record id="tech_kitchen_display_system_kds_hardware" model="res.partner.technology">
+        <field name="name">Kitchen Display System (KDS) - Hardware</field>
+        <field name="sequence">460</field>
+    </record>
+    <record id="tech_kitchen_display_system_kds_saas" model="res.partner.technology">
+        <field name="name">Kitchen Display System (KDS) - SaaS</field>
+        <field name="sequence">470</field>
+    </record>
+    <record id="tech_kitchen_display_system_kds_tablet" model="res.partner.technology">
+        <field name="name">Kitchen Display System (KDS) - Tablet</field>
+        <field name="sequence">480</field>
+    </record>
+    <record id="tech_lan_management" model="res.partner.technology">
+        <field name="name">LAN Management</field>
+        <field name="sequence">490</field>
+    </record>
+    <record id="tech_leasing" model="res.partner.technology">
+        <field name="name">Leasing</field>
+        <field name="sequence">500</field>
+    </record>
+    <record id="tech_line_of_credit" model="res.partner.technology">
+        <field name="name">Line of Credit</field>
+        <field name="sequence">510</field>
+    </record>
+    <record id="tech_loans" model="res.partner.technology">
+        <field name="name">Loans</field>
+        <field name="sequence">520</field>
+    </record>
+    <record id="tech_low_voltage_integration" model="res.partner.technology">
+        <field name="name">Low Voltage Integration</field>
+        <field name="sequence">530</field>
+    </record>
+    <record id="tech_managed_hardware" model="res.partner.technology">
+        <field name="name">Managed Hardware</field>
+        <field name="sequence">540</field>
+    </record>
+    <record id="tech_managed_it" model="res.partner.technology">
+        <field name="name">Managed IT</field>
+        <field name="sequence">550</field>
+    </record>
+    <record id="tech_marketing" model="res.partner.technology">
+        <field name="name">Marketing</field>
+        <field name="sequence">560</field>
+    </record>
+    <record id="tech_microsoft_licensing" model="res.partner.technology">
+        <field name="name">Microsoft Licensing</field>
+        <field name="sequence">570</field>
+    </record>
+    <record id="tech_mobility" model="res.partner.technology">
+        <field name="name">Mobility</field>
+        <field name="sequence">580</field>
+    </record>
+    <record id="tech_naas" model="res.partner.technology">
+        <field name="name">NaaS</field>
+        <field name="sequence">590</field>
+    </record>
+    <record id="tech_network_printers" model="res.partner.technology">
+        <field name="name">Network Printers</field>
+        <field name="sequence">600</field>
+    </record>
+    <record id="tech_online_ordering" model="res.partner.technology">
+        <field name="name">Online Ordering</field>
+        <field name="sequence">610</field>
+    </record>
+    <record id="tech_payment_gateways" model="res.partner.technology">
+        <field name="name">Payment Gateways</field>
+        <field name="sequence">620</field>
+    </record>
+    <record id="tech_payment_processing" model="res.partner.technology">
+        <field name="name">Payment Processing</field>
+        <field name="sequence">630</field>
+    </record>
+    <record id="tech_payroll" model="res.partner.technology">
+        <field name="name">Payroll</field>
+        <field name="sequence">640</field>
+    </record>
+    <record id="tech_personal_coaching" model="res.partner.technology">
+        <field name="name">Personal Coaching</field>
+        <field name="sequence">650</field>
+    </record>
+    <record id="tech_physical_security_security_cameras" model="res.partner.technology">
+        <field name="name">Physical Security (Security Cameras)</field>
+        <field name="sequence">660</field>
+    </record>
+    <record id="tech_pos_printers" model="res.partner.technology">
+        <field name="name">POS Printers</field>
+        <field name="sequence">670</field>
+    </record>
+    <record id="tech_practice_management_software" model="res.partner.technology">
+        <field name="name">Practice Management Software</field>
+        <field name="sequence">680</field>
+    </record>
+    <record id="tech_print_copy_management" model="res.partner.technology">
+        <field name="name">Print/Copy Management</field>
+        <field name="sequence">690</field>
+    </record>
+    <record id="tech_receipt_printers" model="res.partner.technology">
+        <field name="name">Receipt Printers</field>
+        <field name="sequence">700</field>
+    </record>
+    <record id="tech_robotics" model="res.partner.technology">
+        <field name="name">Robotics</field>
+        <field name="sequence">710</field>
+    </record>
+    <record id="tech_security_monitoring" model="res.partner.technology">
+        <field name="name">Security Monitoring</field>
+        <field name="sequence">720</field>
+    </record>
+    <record id="tech_security_system" model="res.partner.technology">
+        <field name="name">Security System</field>
+        <field name="sequence">730</field>
+    </record>
+    <record id="tech_self_order_kiosk" model="res.partner.technology">
+        <field name="name">Self Order Kiosk</field>
+        <field name="sequence">740</field>
+    </record>
+    <record id="tech_seo" model="res.partner.technology">
+        <field name="name">SEO</field>
+        <field name="sequence">750</field>
+    </record>
+    <record id="tech_shopping_carts" model="res.partner.technology">
+        <field name="name">Shopping Carts</field>
+        <field name="sequence">760</field>
+    </record>
+    <record id="tech_sip_trunks" model="res.partner.technology">
+        <field name="name">SIP Trunks</field>
+        <field name="sequence">770</field>
+    </record>
+    <record id="tech_social_media_consulting" model="res.partner.technology">
+        <field name="name">Social Media Consulting</field>
+        <field name="sequence">780</field>
+    </record>
+    <record id="tech_standalone_cc_terminal" model="res.partner.technology">
+        <field name="name">Standalone CC Terminal</field>
+        <field name="sequence">790</field>
+    </record>
+    <record id="tech_streaming" model="res.partner.technology">
+        <field name="name">Streaming</field>
+        <field name="sequence">800</field>
+    </record>
+    <record id="tech_structured_low_voltage_cabling" model="res.partner.technology">
+        <field name="name">Structured Low Voltage Cabling</field>
+        <field name="sequence">810</field>
+    </record>
+    <record id="tech_tax_preparation" model="res.partner.technology">
+        <field name="name">Tax Preparation</field>
+        <field name="sequence">820</field>
+    </record>
+    <record id="tech_telecom_aggregator" model="res.partner.technology">
+        <field name="name">Telecom Aggregator</field>
+        <field name="sequence">830</field>
+    </record>
+    <record id="tech_time_clock" model="res.partner.technology">
+        <field name="name">Time Clock</field>
+        <field name="sequence">840</field>
+    </record>
+    <record id="tech_traditional_telecommunications_service" model="res.partner.technology">
+        <field name="name">Traditional Telecommunications Service</field>
+        <field name="sequence">850</field>
+    </record>
+    <record id="tech_ucaas" model="res.partner.technology">
+        <field name="name">UCaaS</field>
+        <field name="sequence">860</field>
+    </record>
+    <record id="tech_video_production" model="res.partner.technology">
+        <field name="name">Video Production</field>
+        <field name="sequence">870</field>
+    </record>
+    <record id="tech_virtual_assistance" model="res.partner.technology">
+        <field name="name">Virtual Assistance</field>
+        <field name="sequence">880</field>
+    </record>
+    <record id="tech_virtual_terminals" model="res.partner.technology">
+        <field name="name">Virtual Terminals</field>
+        <field name="sequence">890</field>
+    </record>
+    <record id="tech_waste_garbage_hauling" model="res.partner.technology">
+        <field name="name">Waste/Garbage Hauling</field>
+        <field name="sequence">900</field>
+    </record>
+    <record id="tech_web_design" model="res.partner.technology">
+        <field name="name">Web Design</field>
+        <field name="sequence">910</field>
+    </record>
+    <record id="tech_web_hosting" model="res.partner.technology">
+        <field name="name">Web Hosting</field>
+        <field name="sequence">920</field>
+    </record>
+    <record id="tech_wireless_pots_replacement" model="res.partner.technology">
+        <field name="name">Wireless POTS Replacement</field>
+        <field name="sequence">930</field>
+    </record>
+</odoo>

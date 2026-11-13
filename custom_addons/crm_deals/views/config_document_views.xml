@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="config_document_view_list" model="ir.ui.view">
+        <field name="name">config.document.list</field>
+        <field name="model">config.document</field>
+        <field name="arch" type="xml">
+            <list string="Configuration Documents">
+                <field name="reference"/>
+                <field name="document_type_id"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="status" widget="badge"
+                       decoration-success="status == 'active'"
+                       decoration-warning="status == 'pending'"
+                       decoration-danger="status == 'inactive'"/>
+                <field name="deal_line_id"/>
+                <field name="supplier_id"/>
+                <field name="master_supplier_id"/>
+                <field name="owner_id" widget="many2one_avatar_user"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="config_document_view_kanban" model="ir.ui.view">
+        <field name="name">config.document.kanban</field>
+        <field name="model">config.document</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="status"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_top">
+                            <strong class="o_kanban_record_title">
+                                <field name="reference"/>
+                            </strong>
+                            <field name="owner_id" widget="many2one_avatar_user"/>
+                        </div>
+                        <div>
+                            <field name="document_type_id"/>
+                        </div>
+                        <div class="text-muted">
+                            <field name="partner_id"/>
+                        </div>
+                        <div class="text-muted" invisible="not product_id">
+                            <field name="product_id"/>
+                        </div>
+                        <div class="mt-1">
+                            <field name="status" widget="badge"
+                                   decoration-success="status == 'active'"
+                                   decoration-warning="status == 'pending'"
+                                   decoration-danger="status == 'inactive'"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="config_document_view_search" model="ir.ui.view">
+        <field name="name">config.document.search</field>
+        <field name="model">config.document</field>
+        <field name="arch" type="xml">
+            <search string="Configuration Documents">
+                <field name="reference" string="Config Document ID"
+                       filter_domain="['|', ('reference', 'ilike', self), ('name', 'ilike', self)]"/>
+                <field name="partner_id"/>
+                <field name="document_type_id"/>
+                <field name="product_id"/>
+                <field name="deal_line_id"/>
+                <field name="supplier_id"/>
+                <field name="master_supplier_id"/>
+                <field name="ticket_id"/>
+                <field name="task_id"/>
+                <field name="owner_id"/>
+                <field name="telecom_record_type"/>
+                <field name="merchant_id"/>
+                <filter name="filter_pending" string="Pending"
+                        domain="[('status', '=', 'pending')]"/>
+                <filter name="filter_active" string="Active"
+                        domain="[('status', '=', 'active')]"/>
+                <filter name="filter_inactive" string="Inactive"
+                        domain="[('status', '=', 'inactive')]"/>
+                <separator/>
+                <filter name="filter_my_documents" string="My Documents"
+                        domain="[('owner_id', '=', uid)]"/>
+                <group>
+                    <filter name="group_by_document_type" string="Document Type"
+                            context="{'group_by': 'document_type_id'}"/>
+                    <filter name="group_by_partner" string="Company"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_by_product" string="Product/Service"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter name="group_by_status" string="Status"
+                            context="{'group_by': 'status'}"/>
+                    <filter name="group_by_supplier" string="Supplier"
+                            context="{'group_by': 'supplier_id'}"/>
+                    <filter name="group_by_owner" string="Owner"
+                            context="{'group_by': 'owner_id'}"/>
+                    <filter name="group_by_record_type" string="Record Type"
+                            context="{'group_by': 'telecom_record_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="config_document_view_form" model="ir.ui.view">
+        <field name="name">config.document.form</field>
+        <field name="model">config.document</field>
+        <field name="arch" type="xml">
+            <form string="Configuration Document">
+                <sheet>
+                    <field name="allowed_deal_line_ids" invisible="1"/>
+                    <field name="allowed_task_ids" invisible="1"/>
+                    <field name="allowed_ticket_ids" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="reference" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group name="config_document_left">
+                            <field name="name"/>
+                            <field name="document_type_id" options="{'no_create': True}"/>
+                            <field name="owner_id" options="{'no_create': True}"/>
+                            <field name="note" colspan="2"/>
+                            <field name="attachment_ids" widget="many2many_binary"
+                                   colspan="2"/>
+                            <field name="unique_identifier"/>
+                            <field name="install_completion_date"/>
+                        </group>
+                        <group name="config_document_right">
+                            <field name="partner_id"/>
+                            <field name="status" widget="radio"/>
+                            <field name="product_id"/>
+                        </group>
+                    </group>
+                    <!-- Three across: col="6" gives six slots and each field
+                         consumes a label + input pair. -->
+                    <group name="config_document_links" col="6">
+                        <field name="deal_line_id" options="{'no_create': True}"
+                               domain="[('id', 'in', allowed_deal_line_ids)]"/>
+                        <field name="ticket_id" options="{'no_create': True}"
+                               domain="[('id', 'in', allowed_ticket_ids)]"/>
+                        <field name="task_id" options="{'no_create': True}"
+                               domain="[('id', 'in', allowed_task_ids)]"/>
+                    </group>
+                    <group name="config_document_suppliers" col="4">
+                        <field name="supplier_id"/>
+                        <field name="master_supplier_id"/>
+                    </group>
+                    <field name="detail_section" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="allowed_contact_ids" invisible="1"/>
+                    <!-- Type-specific sections (#44). Each is driven by the
+                         type's detail_section, so a new type reuses a section
+                         by configuration rather than by code.
+                         These groups are direct children of the sheet: nesting
+                         them in a wrapper group would make the two-column
+                         wrapper lay simultaneously-visible sections side by
+                         side instead of stacking them. -->
+
+                    <!-- A. Telecom. Record Type occupies the left column of its
+                         own row; the empty group holds the right column open. -->
+                    <group name="telecom_section" string="Telecom"
+                           invisible="detail_section != 'telecom'">
+                        <group>
+                            <field name="telecom_record_type"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <!-- Each sub-section is a single full-width group: fields
+                         sit directly inside, one per row. -->
+                    <group name="telecom_call_queue_section"
+                           string="Telecom - Call Queue/Hunt Group/Call Routing Group or Number"
+                           invisible="detail_section != 'telecom' or telecom_record_type != 'call_queue'">
+                        <field name="hunt_group_extensions"
+                               placeholder="Extensions in the hunt group"/>
+                        <field name="group_extension_or_did"
+                               placeholder="Extension # or DID # for Group"/>
+                        <field name="terminate_phone_call_queue"
+                               placeholder="Where does it terminate if call is not answered"/>
+                    </group>
+                    <group name="telecom_voicemail_section"
+                           string="Telecom - Voicemail Only Mailbox"
+                           invisible="detail_section != 'telecom' or telecom_record_type != 'voicemail'">
+                        <field name="voicemail_extension"/>
+                        <field name="voicemail_did" widget="phone"
+                               placeholder="If applicable"/>
+                        <field name="voicemail_pin" password="True"
+                               groups="project.group_project_manager"
+                               placeholder="At time of installation"/>
+                        <field name="voicemail_recipient_email" widget="email"
+                               placeholder="Recipient of voicemail copies"/>
+                    </group>
+                    <group name="telecom_auto_attendant_section"
+                           string="Telecom - Automated Attendant/Welcome Menu"
+                           invisible="detail_section != 'telecom' or telecom_record_type != 'auto_attendant'">
+                        <field name="auto_attendant_options"
+                               placeholder="Options for 1-0, *, # and how call should route"/>
+                        <field name="auto_attendant_extension_or_did"/>
+                    </group>
+                    <group name="telecom_admin_section"
+                           string="Telecom - GMS Admin Record"
+                           invisible="detail_section != 'telecom' or telecom_record_type != 'admin'">
+                        <field name="telecom_username"/>
+                        <field name="telecom_password" password="True"
+                               groups="project.group_project_manager"/>
+                        <field name="telecom_support_number" widget="phone"/>
+                        <field name="admin_record_extension"
+                               placeholder="If Applicable"/>
+                        <field name="admin_user_email" widget="email"
+                               placeholder="Email address associated with admin profile"/>
+                        <field name="telecom_account_number"/>
+                        <field name="telecom_portal_website" widget="url"/>
+                    </group>
+                    <!-- Fields for this record type follow in a later prompt. -->
+                    <group name="telecom_toll_free_section"
+                           string="Telecom - Toll-free Configuration"
+                           invisible="detail_section != 'telecom' or telecom_record_type != 'toll_free'">
+                    </group>
+                    <group name="telecom_virtual_license_section"
+                           string="Telecom - Virtual License, Hardware, etc."
+                           invisible="detail_section != 'telecom' or telecom_record_type != 'virtual_license'">
+                        <field name="terminal_type_ids" widget="many2many_tags"
+                               options="{'no_create': True}"/>
+                        <field name="virtual_license_did" widget="phone"
+                               placeholder="Add phone number"/>
+                        <field name="mailbox"/>
+                        <field name="end_email_address" widget="email"
+                               placeholder="Email affiliated with end user"/>
+                        <field name="virtual_license_extension"/>
+                        <field name="telecom_deployment_location"
+                               placeholder="If hardware, where did you deploy it"/>
+                    </group>
+
+                    <!-- B. Internet/Data -->
+                    <group name="internet_data_section" string="Internet/Data"
+                           invisible="detail_section != 'internet_data'">
+                        <group>
+                            <field name="connection_type"/>
+                            <field name="equipment_ownership"/>
+                            <field name="sla"/>
+                            <field name="internet_account_number"/>
+                            <field name="internet_pin" password="True"
+                                   groups="project.group_project_manager"/>
+                            <field name="equipment_make_model"/>
+                        </group>
+                        <group>
+                            <field name="internet_connection_type"/>
+                            <field name="static_ip_count"/>
+                            <field name="speed_ordered" placeholder="e.g. 300x300"/>
+                            <field name="installation_date"/>
+                            <field name="equipment_admin_login" password="True"
+                                   groups="project.group_project_manager"/>
+                            <field name="internet_contact_id"
+                                   options="{'no_create': True}"
+                                   domain="[('id', 'in', allowed_contact_ids)]"/>
+                        </group>
+                    </group>
+
+                    <!-- C. Payment processing -->
+                    <group name="payment_processing_section" string="Payment Processing"
+                           invisible="detail_section != 'payment_processing'">
+                        <group>
+                            <field name="merchant_id"/>
+                            <field name="on_site_access_pin" password="True"
+                                   groups="project.group_project_manager"/>
+                        </group>
+                        <group>
+                            <field name="pci_compliance_data"/>
+                        </group>
+                    </group>
+                    <group name="payment_processing_deal_section"
+                           string="Payment Processing - Deal"
+                           invisible="detail_section != 'payment_processing'">
+                        <group>
+                            <field name="avg_monthly_volume"/>
+                            <field name="avg_transaction_count"/>
+                            <field name="pricing_model"/>
+                        </group>
+                        <group>
+                            <field name="swipe_fee"/>
+                            <field name="basis_points"/>
+                            <field name="average_ticket"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="config_document_action" model="ir.actions.act_window">
+        <field name="name">Configuration Documents</field>
+        <field name="res_model">config.document</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+    <menuitem id="config_document_menu"
+              name="Configuration Documents"
+              parent="project.menu_main_pm"
+              action="config_document_action"
+              sequence="3"/>
+</odoo>

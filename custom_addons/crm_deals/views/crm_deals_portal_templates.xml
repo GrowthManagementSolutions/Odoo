@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Portal home tile, following the sale/project pattern. -->
+    <template id="portal_my_home_leads" name="Portal My Home: Leads"
+              inherit_id="portal.portal_my_home" customize_show="True" priority="45">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_service_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_service_category" position="inside">
+            <t t-if="is_referral_partner" t-call="portal.portal_docs_entry">
+                <!-- config_card keeps the card visible at a zero count: it is
+                     the entry point for submitting a first lead. -->
+                <t t-set="config_card" t-value="True"/>
+                <t t-set="icon" t-value="'/web/static/img/folder.svg'"/>
+                <t t-set="title">Leads</t>
+                <t t-set="url" t-value="'/my/leads'"/>
+                <t t-set="text">Submit and track your referrals</t>
+                <t t-set="placeholder_count" t-value="'lead_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- Breadcrumb -->
+    <template id="portal_my_leads_breadcrumb" name="Portal Leads Breadcrumb"
+              inherit_id="portal.portal_breadcrumbs" priority="45">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'lead'" class="breadcrumb-item">
+                <a t-if="lead" href="/my/leads">Leads</a>
+                <span t-else="">Leads</span>
+            </li>
+            <li t-if="lead" class="breadcrumb-item active">
+                <span t-field="lead.partner_name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- List -->
+    <template id="portal_my_leads" name="My Leads">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Leads</t>
+            </t>
+            <div class="d-flex justify-content-end mb-3">
+                <a href="/my/leads/new" class="btn btn-primary">
+                    <i class="fa fa-plus me-1"/>New
+                </a>
+            </div>
+            <t t-if="not leads">
+                <div class="alert alert-info" role="alert">
+                    You have not submitted any lead yet.
+                </div>
+            </t>
+            <t t-else="">
+                <div class="table-responsive">
+                    <table class="table table-hover o_portal_my_doc_table">
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Contact Name</th>
+                                <th>Submitted On</th>
+                                <th class="text-end">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="leads" t-as="lead">
+                                <td>
+                                    <a t-attf-href="/my/leads/#{lead.id}">
+                                        <span t-field="lead.partner_name"/>
+                                    </a>
+                                </td>
+                                <td><span t-field="lead.contact_name"/></td>
+                                <td><span t-field="lead.create_date" t-options="{'widget': 'date'}"/></td>
+                                <td class="text-end">
+                                    <span class="badge rounded-pill text-bg-secondary"
+                                          t-esc="lead.portal_status"/>
+                                    <span t-if="lead.portal_is_won"
+                                          class="badge rounded-pill text-bg-success ms-1">Won</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Detail -->
+    <template id="portal_my_lead" name="Lead">
+        <t t-call="portal.portal_layout">
+            <div t-if="message == 'submitted'" class="alert alert-success" role="alert">
+                Your lead has been submitted. Thank you!
+            </div>
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><span t-field="lead.partner_name"/></h5>
+                    <span>
+                        <span class="badge rounded-pill text-bg-secondary"
+                              t-esc="lead.portal_status"/>
+                        <span t-if="lead.portal_is_won"
+                              class="badge rounded-pill text-bg-success ms-1">Won</span>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Company Information</h6>
+                            <div t-field="lead.partner_name"/>
+                            <div t-field="lead.street"/>
+                            <div t-field="lead.street2"/>
+                            <div>
+                                <span t-field="lead.city"/>
+                                <span t-field="lead.state_id.name"/>
+                                <span t-field="lead.zip"/>
+                            </div>
+                            <div t-field="lead.country_id.name"/>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Contact Information</h6>
+                            <div t-field="lead.contact_name"/>
+                            <div t-field="lead.function"/>
+                            <div t-field="lead.email_from"/>
+                            <div t-field="lead.phone"/>
+                            <div t-field="lead.website"/>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Industry</h6>
+                            <div t-field="lead.industry_id.name"/>
+                            <div t-field="lead.subsector_id.name"/>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Submitted On</h6>
+                            <div t-field="lead.create_date" t-options="{'widget': 'date'}"/>
+                        </div>
+                    </div>
+                    <div t-if="lead.description" class="mt-3">
+                        <h6 class="text-muted">Notes</h6>
+                        <div t-out="lead.description"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deals: hidden entirely when no Accepted/Rejected line exists.
+                 The controller has already dropped Draft lines and empty sections. -->
+            <div t-if="deal_lines" class="card mt-4">
+                <div class="card-header"><h5 class="mb-0">Deals</h5></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Deal ID</th>
+                                    <th>Product/Service</th>
+                                    <th>Contract Term</th>
+                                    <th class="text-end">Estimated Monthly</th>
+                                    <th class="text-end">Estimated One-Time</th>
+                                    <th class="text-end">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="deal_lines" t-as="line">
+                                    <tr t-if="line.display_type == 'line_section'" class="table-active">
+                                        <td colspan="6"><strong t-field="line.name"/></td>
+                                    </tr>
+                                    <tr t-elif="line.display_type == 'line_note'">
+                                        <td colspan="6" class="fst-italic text-muted">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-else="">
+                                        <td>
+                                            <span t-esc="line.deal_ref"/>
+                                        </td>
+                                        <td><span t-field="line.product_id.name"/></td>
+                                        <td><span t-field="line.contract_term"/></td>
+                                        <td class="text-end">
+                                            <span t-field="line.estimated_monthly_cost"
+                                                  t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.estimated_one_time_revenue"
+                                                  t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-if="line.status == 'accepted'"
+                                                  class="badge rounded-pill text-bg-success">Accepted</span>
+                                            <span t-elif="line.status == 'rejected'"
+                                                  class="badge rounded-pill text-bg-danger">Rejected</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Total</strong></td>
+                                    <td class="text-end">
+                                        <strong t-esc="monthly_total"
+                                                t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <strong t-esc="onetime_total"
+                                                t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td/>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

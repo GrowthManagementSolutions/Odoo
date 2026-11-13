@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_deal_template_view_list" model="ir.ui.view">
+        <field name="name">crm.deal.template.list</field>
+        <field name="model">crm.deal.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="industry_id"/>
+                <field name="subsector_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="crm_deal_template_view_form" model="ir.ui.view">
+        <field name="name">crm.deal.template.form</field>
+        <field name="model">crm.deal.template</field>
+        <field name="arch" type="xml">
+            <form string="Deal Template">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Restaurant Starter Pack"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="industry_id"/>
+                            <field name="subsector_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="template_lines">
+                            <field name="line_ids" widget="section_and_note_one2many">
+                                <list editable="bottom">
+                                    <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section"
+                                                context="{'default_display_type': 'line_section'}"/>
+                                    </control>
+                                    <field name="display_type" column_invisible="1"/>
+                                    <field name="allowed_supplier_ids" column_invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="last_categ_id" column_invisible="1"/>
+                                    <field name="layer_1_has_children" column_invisible="1"/>
+                                    <field name="layer_2_has_children" column_invisible="1"/>
+                                    <field name="layer_3_has_children" column_invisible="1"/>
+                                    <field name="last_categ_has_children" column_invisible="1"/>
+                                    <field name="last_categ_has_products" column_invisible="1"/>
+                                    <field name="layer_1_categ_id"
+                                           invisible="display_type"
+                                           domain="[('parent_id', '=', False)]"/>
+                                    <field name="layer_2_categ_id"
+                                           invisible="display_type or not layer_1_categ_id or not layer_1_has_children"
+                                           domain="[('parent_id', '=', layer_1_categ_id)]"/>
+                                    <field name="layer_3_categ_id"
+                                           invisible="display_type or not layer_2_categ_id or not layer_2_has_children"
+                                           domain="[('parent_id', '=', layer_2_categ_id)]"/>
+                                    <field name="layer_4_categ_id"
+                                           invisible="display_type or not layer_3_categ_id or not layer_3_has_children"
+                                           domain="[('parent_id', '=', layer_3_categ_id)]"/>
+                                    <field name="product_id"
+                                           invisible="display_type or not last_categ_id or (last_categ_has_children and not last_categ_has_products)"
+                                           domain="[('categ_id', '=', last_categ_id), ('type', '=', 'service')]"/>
+                                    <field name="name" widget="section_and_note_text" optional="show"/>
+                                    <field name="recurring_basis" column_invisible="1"/>
+                                    <!-- Supplier gates Route: the allowed
+                                         routes are that supplier's (#59).
+                                         Everything from here on behaves like
+                                         the add-deal-line dialog - hidden on
+                                         sections and until a product is
+                                         picked. -->
+                                    <field name="supplier_id"
+                                           invisible="display_type or not product_id"
+                                           domain="[('id', 'in', allowed_supplier_ids)]"/>
+                                    <field name="allowed_route_ids" column_invisible="1"/>
+                                    <field name="route_id"
+                                           invisible="display_type or not product_id"
+                                           domain="[('id', 'in', allowed_route_ids)]"/>
+                                    <field name="master_supplier_id" readonly="1"
+                                           invisible="display_type or not product_id"/>
+                                    <field name="is_direct" readonly="1"
+                                           invisible="display_type or not product_id"/>
+                                    <field name="contract_term"
+                                           invisible="display_type or not product_id"/>
+                                    <!-- Both amount columns stay; the cells
+                                         swap per row, so a volume line shows
+                                         its volume where an MRC line shows
+                                         quantity, unit price and its charge. -->
+                                    <field name="quantity"
+                                           invisible="display_type or not product_id or recurring_basis == 'volume'"/>
+                                    <field name="unit_price"
+                                           invisible="display_type or not product_id or recurring_basis == 'volume'"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="estimated_monthly_cost" string="MRC"
+                                           invisible="display_type or not product_id or recurring_basis == 'volume'"/>
+                                    <field name="processing_volume"
+                                           invisible="display_type or not product_id or recurring_basis != 'volume'"/>
+                                    <field name="estimated_one_time_revenue" string="NRC"
+                                           invisible="display_type or not product_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Budget Summary Notes" name="budget_note">
+                            <field name="budget_note" nolabel="1"
+                                   placeholder="Text shown to the customer under the services on the Budget Summary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="crm_deal_template_action" model="ir.actions.act_window">
+        <field name="name">Deal Templates</field>
+        <field name="res_model">crm.deal.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="crm_deal_template_menu"
+              name="Deal Templates"
+              action="crm_deal_template_action"
+              parent="crm.crm_menu_config"
+              sequence="15"/>
+</odoo>

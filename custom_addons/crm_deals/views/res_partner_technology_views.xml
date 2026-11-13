@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_technology_view_list" model="ir.ui.view">
+        <field name="name">res.partner.technology.list</field>
+        <field name="model">res.partner.technology</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="res_partner_technology_view_form" model="ir.ui.view">
+        <field name="name">res.partner.technology.form</field>
+        <field name="model">res.partner.technology</field>
+        <field name="arch" type="xml">
+            <form string="Technology">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="color" widget="color_picker"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_partner_technology_action" model="ir.actions.act_window">
+        <field name="name">Technologies</field>
+        <field name="res_model">res.partner.technology</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="res_partner_technology_menu"
+              name="Technologies"
+              action="res_partner_technology_action"
+              parent="contacts.res_partner_menu_config"
+              sequence="4"/>
+</odoo>

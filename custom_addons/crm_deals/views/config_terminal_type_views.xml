@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="config_terminal_type_view_list" model="ir.ui.view">
+        <field name="name">config.terminal.type.list</field>
+        <field name="model">config.terminal.type</field>
+        <field name="arch" type="xml">
+            <list string="Terminal Types" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="config_terminal_type_view_form" model="ir.ui.view">
+        <field name="name">config.terminal.type.form</field>
+        <field name="model">config.terminal.type</field>
+        <field name="arch" type="xml">
+            <form string="Terminal Type">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="config_terminal_type_view_search" model="ir.ui.view">
+        <field name="name">config.terminal.type.search</field>
+        <field name="model">config.terminal.type</field>
+        <field name="arch" type="xml">
+            <search string="Terminal Types">
+                <field name="name"/>
+                <filter name="filter_inactive" string="Archived"
+                        domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="config_terminal_type_action" model="ir.actions.act_window">
+        <field name="name">Terminal Types</field>
+        <field name="res_model">config.terminal.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="config_terminal_type_menu"
+              name="Terminal Types"
+              parent="project.menu_project_config"
+              action="config_terminal_type_action"
+              sequence="21"/>
+</odoo>

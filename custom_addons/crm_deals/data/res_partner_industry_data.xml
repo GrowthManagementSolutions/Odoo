@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="industry_amusement_parks" model="res.partner.industry">
+        <field name="name">Amusement Parks</field>
+    </record>
+    <record id="industry_arts_and_entertainment" model="res.partner.industry">
+        <field name="name">Arts And Entertainment</field>
+    </record>
+    <record id="industry_automotive" model="res.partner.industry">
+        <field name="name">Automotive</field>
+    </record>
+    <record id="industry_barber_shop" model="res.partner.industry">
+        <field name="name">Barber Shop</field>
+    </record>
+    <record id="industry_campground" model="res.partner.industry">
+        <field name="name">Campground</field>
+    </record>
+    <record id="industry_chiropractic_clinic" model="res.partner.industry">
+        <field name="name">Chiropractic Clinic</field>
+    </record>
+    <record id="industry_digital_marketing_marketing" model="res.partner.industry">
+        <field name="name">Digital Marketing/Marketing</field>
+    </record>
+    <record id="industry_dispensary" model="res.partner.industry">
+        <field name="name">Dispensary</field>
+    </record>
+    <record id="industry_e_commerce_retail" model="res.partner.industry">
+        <field name="name">E-Commerce - Retail</field>
+    </record>
+    <record id="industry_e_commerce_wholesale" model="res.partner.industry">
+        <field name="name">E-Commerce - Wholesale</field>
+    </record>
+    <record id="industry_event_center" model="res.partner.industry">
+        <field name="name">Event Center</field>
+    </record>
+    <record id="industry_fairs_festivals" model="res.partner.industry">
+        <field name="name">Fairs/Festivals</field>
+    </record>
+    <record id="industry_finance_and_insurance" model="res.partner.industry">
+        <field name="name">Finance And Insurance</field>
+    </record>
+    <record id="industry_food_truck" model="res.partner.industry">
+        <field name="name">Food Truck</field>
+    </record>
+    <record id="industry_full_service_restaurant" model="res.partner.industry">
+        <field name="name">Full Service Restaurant</field>
+    </record>
+    <record id="industry_general_contractor" model="res.partner.industry">
+        <field name="name">General Contractor</field>
+    </record>
+    <record id="industry_golf_course" model="res.partner.industry">
+        <field name="name">Golf Course</field>
+    </record>
+    <record id="industry_government" model="res.partner.industry">
+        <field name="name">Government</field>
+    </record>
+    <record id="industry_health_and_social_care" model="res.partner.industry">
+        <field name="name">Health And Social Care</field>
+    </record>
+    <record id="industry_information_technology" model="res.partner.industry">
+        <field name="name">Information Technology</field>
+    </record>
+    <record id="industry_integrated_clinic" model="res.partner.industry">
+        <field name="name">Integrated Clinic</field>
+    </record>
+    <record id="industry_liquor_store" model="res.partner.industry">
+        <field name="name">Liquor Store</field>
+    </record>
+    <record id="industry_lodging" model="res.partner.industry">
+        <field name="name">Lodging</field>
+    </record>
+    <record id="industry_logistics" model="res.partner.industry">
+        <field name="name">Logistics</field>
+    </record>
+    <record id="industry_medical_clinic" model="res.partner.industry">
+        <field name="name">Medical Clinic</field>
+    </record>
+    <record id="industry_non_profit" model="res.partner.industry">
+        <field name="name">Non-Profit</field>
+    </record>
+    <record id="industry_other" model="res.partner.industry">
+        <field name="name">Other</field>
+    </record>
+    <record id="industry_professional_services" model="res.partner.industry">
+        <field name="name">Professional Services</field>
+    </record>
+    <record id="industry_quick_service" model="res.partner.industry">
+        <field name="name">Quick Service</field>
+    </record>
+    <record id="industry_retail" model="res.partner.industry">
+        <field name="name">Retail</field>
+    </record>
+    <record id="industry_salon" model="res.partner.industry">
+        <field name="name">Salon</field>
+    </record>
+    <record id="industry_smoke_vape_shop" model="res.partner.industry">
+        <field name="name">Smoke/Vape Shop</field>
+    </record>
+    <record id="industry_software" model="res.partner.industry">
+        <field name="name">Software</field>
+    </record>
+    <record id="industry_spa" model="res.partner.industry">
+        <field name="name">Spa</field>
+    </record>
+    <record id="industry_telecommunications" model="res.partner.industry">
+        <field name="name">Telecommunications</field>
+    </record>
+    <record id="industry_utilities" model="res.partner.industry">
+        <field name="name">Utilities</field>
+    </record>
+    <record id="industry_web_design_web_hosting" model="res.partner.industry">
+        <field name="name">Web Design/Web Hosting</field>
+    </record>
+    <record id="industry_wholesale" model="res.partner.industry">
+        <field name="name">Wholesale</field>
+    </record>
+    <record id="industry_wholesale_supply" model="res.partner.industry">
+        <field name="name">Wholesale Supply</field>
+    </record>
+
+    <!-- #38: created here so sub-sectors can reference them; Odoo's base
+         industry data is not present in this database. -->
+    <record id="industry_agriculture" model="res.partner.industry">
+        <field name="name">Agriculture</field>
+    </record>
+
+    <record id="industry_construction" model="res.partner.industry">
+        <field name="name">Construction</field>
+    </record>
+
+    <record id="industry_education" model="res.partner.industry">
+        <field name="name">Education</field>
+    </record>
+
+    <record id="industry_manufacturing" model="res.partner.industry">
+        <field name="name">Manufacturing</field>
+    </record>
+
+    <record id="industry_mining" model="res.partner.industry">
+        <field name="name">Mining</field>
+    </record>
+
+    <record id="industry_real_estate" model="res.partner.industry">
+        <field name="name">Real Estate</field>
+    </record>
+
+    <record id="industry_transportation_logistics" model="res.partner.industry">
+        <field name="name">Transportation/Logistics</field>
+    </record>
+
+</odoo>

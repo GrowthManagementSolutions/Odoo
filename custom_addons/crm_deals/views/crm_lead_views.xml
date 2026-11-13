@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_view_form_deals" model="ir.ui.view">
+        <field name="name">crm.lead.form.deals</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_create_contact" type="object"
+                        string="Create Contact" invisible="partner_id"/>
+                <!-- Customer Budget Summary (#58) -->
+                <button name="action_preview_budget_summary" type="object"
+                        string="Preview Budget Summary"
+                        invisible="deal_line_count == 0"/>
+                <button name="action_hand_off_to_gms" type="object"
+                        string="Hand Off to GMS"
+                        confirm="Hand this deal to GMS? It becomes a referral and moves to the Solutions pipeline."
+                        invisible="lead_type != 'independent_agent' or stage_id.is_won or not active or (user_partner_type != 'channel_manager' and not is_leads_admin)"/>
+                <button name="action_reset_budget_signature" type="object"
+                        string="Reset Budget Signature"
+                        confirm="This clears the customer's signature and the BUDGET SIGNED tag, so a revised budget can be sent. Continue?"
+                        invisible="not budget_signed_on or not is_leads_admin"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_deal_tasks" type="object"
+                        class="oe_stat_button" icon="fa-tasks"
+                        invisible="deal_task_count == 0">
+                    <field name="deal_task_count" widget="statinfo" string="Tasks"/>
+                </button>
+                <button name="action_view_commissions" type="object"
+                        class="oe_stat_button" icon="fa-money"
+                        invisible="commission_count == 0">
+                    <field name="commission_count" widget="statinfo"
+                           string="Commissions Forecast"/>
+                </button>
+                <button name="action_view_deal_projects" type="object"
+                        class="oe_stat_button" icon="fa-puzzle-piece"
+                        invisible="deal_project_count == 0">
+                    <field name="deal_project_count" widget="statinfo" string="Project"/>
+                </button>
+            </xpath>
+            <!-- Budget Summary Notes sits directly after the Deals tab; both
+                 are inserted before the core form's first page, Deals first. -->
+            <xpath expr="//notebook/page[1]" position="before">
+                <page string="Budget Summary Notes" name="budget_note">
+                    <field name="budget_note" nolabel="1"
+                           readonly="budget_signed_on"
+                           placeholder="Text shown to the customer under the services on the Budget Summary"/>
+                </page>
+            </xpath>
+            <xpath expr="//notebook/page[1]" position="before">
+                <page string="Deals" name="deals">
+                    <field name="industry_id"/>
+                    <field name="subsector_id" options="{'no_create': True}"/>
+                    <field name="deal_template_id" options="{'no_create': True}"/>
+                    <field name="deal_line_ids" widget="section_and_note_one2many"
+                           nolabel="1" colspan="2"
+                           context="{'default_start_date': default_start_date,
+                                     'deal_line_no_term_default': True}">
+                        <list decoration-success="status == 'accepted'"
+                              decoration-danger="status == 'rejected'"
+                              decoration-muted="status == 'draft' and lead_is_won">
+                            <control>
+                                <create name="add_line_control" string="Add a line"/>
+                                <create name="add_section_control" string="Add a section"
+                                        context="{'default_display_type': 'line_section'}"/>
+                            </control>
+                            <field name="display_type" column_invisible="1"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <!-- Read by decoration-muted, not shown. -->
+                            <field name="lead_is_won" column_invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="deal_ref"/>
+                            <field name="last_categ_id" column_invisible="1"/>
+                            <field name="layer_1_has_children" column_invisible="1"/>
+                            <field name="layer_2_has_children" column_invisible="1"/>
+                            <field name="layer_3_has_children" column_invisible="1"/>
+                            <field name="last_categ_has_children" column_invisible="1"/>
+                            <field name="last_categ_has_products" column_invisible="1"/>
+                            <field name="layer_1_categ_id" optional="hide"
+                                   invisible="display_type"
+                                   domain="[('parent_id', '=', False)]"/>
+                            <field name="layer_2_categ_id" optional="hide"
+                                   invisible="display_type or not layer_1_categ_id or not layer_1_has_children"
+                                   domain="[('parent_id', '=', layer_1_categ_id)]"/>
+                            <field name="layer_3_categ_id" optional="hide"
+                                   invisible="display_type or not layer_2_categ_id or not layer_2_has_children"
+                                   domain="[('parent_id', '=', layer_2_categ_id)]"/>
+                            <field name="layer_4_categ_id" optional="hide"
+                                   invisible="display_type or not layer_3_categ_id or not layer_3_has_children"
+                                   domain="[('parent_id', '=', layer_3_categ_id)]"/>
+                            <field name="product_id"
+                                   invisible="display_type or not last_categ_id or (last_categ_has_children and not last_categ_has_products)"
+                                   domain="[('categ_id', '=', last_categ_id), ('type', '=', 'service')]"/>
+                            <field name="name" widget="section_and_note_text" optional="show"/>
+                            <field name="supplier_id"/>
+                            <field name="recurring_basis" column_invisible="True"/>
+                            <field name="allowed_route_ids" column_invisible="True"/>
+                            <field name="route_id"
+                                   domain="[('id', 'in', allowed_route_ids)]"/>
+                            <field name="master_supplier_id" optional="hide"
+                                   readonly="1"/>
+                            <field name="contract_term"/>
+                            <field name="start_date"/>
+                            <!-- Quantity and unit price drive MRC (#57);
+                                 all three hide on a volume row. -->
+                            <field name="quantity"
+                                   invisible="recurring_basis == 'volume'"/>
+                            <field name="unit_price"
+                                   invisible="recurring_basis == 'volume'"/>
+                            <!-- Both columns stay; the cells swap per row,
+                                 so a volume line shows its volume where an
+                                 MRC line shows its charge. -->
+                            <field name="estimated_monthly_cost" string="MRC"
+                                   sum="Total"
+                                   invisible="recurring_basis == 'volume'"/>
+                            <field name="processing_volume" sum="Total"
+                                   invisible="recurring_basis != 'volume'"/>
+                            <field name="estimated_one_time_revenue"
+                                   string="NRC" sum="Total"/>
+                            <field name="payment_frequency" optional="hide"/>
+                            <field name="end_date" optional="hide"/>
+                            <field name="commission_payer_id" optional="hide"/>
+                            <field name="recurring_commission" sum="Total" optional="hide"/>
+                            <field name="one_time_commission" sum="Total" optional="hide"/>
+                            <field name="project_id" optional="hide"/>
+                            <field name="task_id" optional="hide"/>
+                            <field name="status"/>
+                            <!-- Draft only: once a line is Accepted or
+                                 Rejected its row carries no status buttons.
+                                 Reversals live on the deal form. -->
+                            <button name="action_accept" type="object"
+                                    icon="fa-check" title="Accept"
+                                    invisible="display_type or status != 'draft'"/>
+                            <button name="action_reject" type="object"
+                                    icon="fa-times" title="Reject"
+                                    invisible="display_type or status != 'draft'"/>
+                            <button name="action_open_deal_form" type="object"
+                                    icon="fa-external-link" title="View"
+                                    invisible="display_type"/>
+                        </list>
+                        <form string="Deal Line">
+                            <field name="display_type" invisible="1"/>
+                            <field name="allowed_supplier_ids" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <!-- Section/note rows carry only their label. -->
+                            <group invisible="not display_type">
+                                <label for="name" string="Section Name"
+                                       invisible="display_type != 'line_section'"/>
+                                <label for="name" string="Note"
+                                       invisible="display_type != 'line_note'"/>
+                                <field name="name" nolabel="1"/>
+                            </group>
+                            <group invisible="display_type">
+                                <group>
+                                    <field name="last_categ_id" invisible="1"/>
+                                    <field name="layer_1_has_children" invisible="1"/>
+                                    <field name="layer_2_has_children" invisible="1"/>
+                                    <field name="layer_3_has_children" invisible="1"/>
+                                    <field name="last_categ_has_children" invisible="1"/>
+                                    <field name="last_categ_has_products" invisible="1"/>
+                                    <field name="layer_1_categ_id"
+                                           domain="[('parent_id', '=', False)]"/>
+                                    <field name="layer_2_categ_id"
+                                           invisible="not layer_1_categ_id or not layer_1_has_children"
+                                           domain="[('parent_id', '=', layer_1_categ_id)]"/>
+                                    <field name="layer_3_categ_id"
+                                           invisible="not layer_2_categ_id or not layer_2_has_children"
+                                           domain="[('parent_id', '=', layer_2_categ_id)]"/>
+                                    <field name="layer_4_categ_id"
+                                           invisible="not layer_3_categ_id or not layer_3_has_children"
+                                           domain="[('parent_id', '=', layer_3_categ_id)]"/>
+                                    <!-- Not required: a line may stop at a
+                                         layer (#49), and the SQL constraint
+                                         enforces First Layer or Product. -->
+                                    <field name="product_id"
+                                           invisible="not (last_categ_id and (not last_categ_has_children or last_categ_has_products))"
+                                           domain="[('categ_id', '=', last_categ_id), ('type', '=', 'service')]"/>
+                                    <field name="supplier_id" invisible="not product_id"
+                                           domain="[('id', 'in', allowed_supplier_ids)]"/>
+                                    <field name="allowed_route_ids" invisible="1"/>
+                                    <field name="route_id" invisible="not supplier_id"
+                                           domain="[('id', 'in', allowed_route_ids)]"/>
+                                    <field name="master_supplier_id"
+                                           invisible="not route_id" readonly="1"/>
+                                    <field name="is_direct" invisible="not route_id"/>
+                                    <!-- Straight off the snapshot, so they
+                                         follow the route live. -->
+                                    <field name="gms_share" widget="percentage"
+                                           readonly="1" invisible="not route_id"/>
+                                    <field name="residual_rate" string="Residual"
+                                           widget="percentage" readonly="1"
+                                           invisible="not route_id or recurring_basis == 'none'"/>
+                                    <field name="net_rate" widget="percentage"
+                                           readonly="1"
+                                           invisible="not route_id or recurring_basis == 'none'"/>
+                                </group>
+                                <group>
+                                    <field name="recurring_basis" invisible="1"/>
+                                    <field name="contract_term" invisible="not product_id"/>
+                                    <!-- A volume line shows its processing
+                                         volume in place of quantity, unit
+                                         price and MRC (#57). -->
+                                    <field name="quantity"
+                                           invisible="not contract_term or recurring_basis == 'volume'"/>
+                                    <field name="unit_price"
+                                           invisible="not contract_term or recurring_basis == 'volume'"/>
+                                    <field name="estimated_monthly_cost"
+                                           invisible="not contract_term or recurring_basis == 'volume'"/>
+                                    <field name="processing_volume"
+                                           invisible="not contract_term or recurring_basis != 'volume'"/>
+                                    <field name="estimated_one_time_revenue"
+                                           invisible="not contract_term"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+            <!-- Lead classification: relocated out of the Deals tab to sit
+                 directly below the two-column block, above the notebook. The
+                 original elements are moved, so their domains, onchanges and
+                 options travel with them. -->
+            <xpath expr="//field[@name='lead_properties']/parent::div" position="before">
+                <group name="lead_classification_row">
+                    <group name="lead_classification" string="Industry"/>
+                    <group name="lead_type_group" string="Lead Type">
+                        <field name="user_partner_type" invisible="1"/>
+                        <field name="is_leads_admin" invisible="1"/>
+                        <field name="lead_type"
+                               readonly="user_partner_type in ['channel_manager', 'solution_architect']"/>
+                        <field name="channel_manager_id"
+                               invisible="lead_type != 'independent_agent'"
+                               readonly="user_partner_type == 'channel_manager'"/>
+                        <field name="independent_agent_id"
+                               invisible="lead_type != 'independent_agent'"/>
+                        <field name="referral_partner_id"
+                               invisible="lead_type not in ['referral_partner', 'solution_architect']"/>
+                        <field name="solution_architect_ids" widget="many2many_tags"
+                               invisible="lead_type not in ['referral_partner', 'solution_architect']"
+                               readonly="user_partner_type == 'solution_architect'"/>
+                        <field name="default_start_date"/>
+                    </group>
+                </group>
+                <!-- Customer Budget Summary (#58): read-only trace of what
+                     was sent and signed. -->
+                <group name="budget_summary_group" string="Budget Summary"
+                       invisible="not budget_sent_date and not budget_signed_on">
+                    <field name="budget_sent_date" readonly="1"/>
+                    <field name="budget_signed_by" readonly="1"
+                           invisible="not budget_signed_on"/>
+                    <field name="budget_signed_on" readonly="1"
+                           invisible="not budget_signed_on"/>
+                    <field name="budget_signature" widget="image"
+                           readonly="1" invisible="not budget_signature"/>
+                </group>
+            </xpath>
+            <!-- position="move" only executes as a DIRECT child of the node
+                 carrying the position attribute, hence the separate step.
+                 The moves run in order, giving Industry, Sub-sector, Deal
+                 Template. -->
+            <xpath expr="//group[@name='lead_classification']" position="inside">
+                <xpath expr="//page[@name='deals']/field[@name='industry_id']" position="move"/>
+                <xpath expr="//page[@name='deals']/field[@name='subsector_id']" position="move"/>
+                <xpath expr="//page[@name='deals']/field[@name='deal_template_id']" position="move"/>
+            </xpath>
+            <!-- Lead Type sits left, Industry right. Moving the existing group
+                 keeps its fields, domains, onchanges and visibility intact. -->
+            <xpath expr="//group[@name='lead_classification']" position="before">
+                <xpath expr="//group[@name='lead_type_group']" position="move"/>
+            </xpath>
+            <!-- Default Start Date sits directly below Tags. The core form has
+                 two tag_ids fields in mutually exclusive groups; date_deadline
+                 is unique to the opportunity-side one, so it anchors the
+                 intended Tags. position="move" only executes as a DIRECT child
+                 of the node carrying the position attribute. -->
+            <xpath expr="//field[@name='date_deadline']/ancestor::group[1]/field[@name='tag_ids']"
+                   position="after">
+                <xpath expr="//group[@name='lead_type_group']/field[@name='default_start_date']"
+                       position="move"/>
+            </xpath>
+            <!-- Company/contact fields mirroring res.partner. The core form
+                 carries two copies of phone and function, in mutually exclusive
+                 lead/opportunity groups, so each anchor is targeted explicitly
+                 and both branches get the fields; only one branch renders at a
+                 time, so nothing appears twice on screen. -->
+            <xpath expr="//group[@name='opportunity_partner']//field[@name='phone']/ancestor::div[1]"
+                   position="after">
+                <field name="location_count"/>
+                <field name="technology_ids" widget="many2many_tags"
+                       options="{'color_field': 'color'}"/>
+                <!-- Technical: the industry/sub-sector onchange reads it back
+                     to tell auto-added technologies from manual ones. Present
+                     once in the arch is enough for the client to send it. -->
+                <field name="auto_technology_ids" widget="many2many_tags"
+                       invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@id='phone_group_lead_info']/ancestor::div[1]"
+                   position="after">
+                <field name="location_count"/>
+                <field name="technology_ids" widget="many2many_tags"
+                       options="{'color_field': 'color'}"/>
+            </xpath>
+            <xpath expr="//group[@name='lead_info']/field[@name='function']"
+                   position="after">
+                <field name="job_title_id" options="{'no_create': True}"/>
+            </xpath>
+            <xpath expr="//page[@name='lead']//field[@name='function']"
+                   position="after">
+                <field name="job_title_id" options="{'no_create': True}"/>
+            </xpath>
+            <!-- Core Line of Business sits under Sub-sector, above Deal
+                 Template. Placed last because lead_classification only holds
+                 those fields once the moves above have run. -->
+            <xpath expr="//group[@name='lead_classification']/field[@name='subsector_id']"
+                   position="after">
+                <field name="core_line_of_business"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kanban quick-create card. The pipeline kanban points at
+         crm.quick_create_opportunity_form via quick_create_view; no other
+         module inherits it. Fields are hidden with invisible="1" rather than
+         replaced, so the standard onchanges and any future inheriting view
+         keep working. -->
+    <record id="crm_lead_quick_create_form_deals" model="ir.ui.view">
+        <field name="name">crm.lead.form.quick_create.deals</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+            <!-- Company on this card is commercial_partner_id, not
+                 partner_name; company_id is already a hidden technical field. -->
+            <xpath expr="//field[@name='commercial_partner_id']/parent::div"
+                   position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']/parent::div"
+                   position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- priority shares the Expected Revenue row and stays visible, so
+                 the field and its icon are hidden individually rather than the
+                 whole row. The currency is company_currency, already hidden. -->
+            <xpath expr="//field[@name='expected_revenue']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- Odoo refuses 'title' as an inheritance selector, so the icon
+                 is reached by path. -->
+            <xpath expr="//field[@name='expected_revenue']/ancestor::div[2]/i"
+                   position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- The recurring row holds only its icon and the two fields. -->
+            <xpath expr="//field[@name='recurring_revenue']/ancestor::div[2]"
+                   position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Contact Name already exists on this card as a hidden field, so
+                 it is revealed and moved rather than added a second time. -->
+            <xpath expr="//field[@name='name']/parent::div" position="after">
+                <div class="d-flex align-items-center" colspan="2"
+                     name="deals_contact_name_row">
+                    <i class="fa fa-user-o" title="Contact Name"/>
+                </div>
+            </xpath>
+            <xpath expr="//div[@name='deals_contact_name_row']" position="inside">
+                <xpath expr="//field[@name='contact_name']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='contact_name']" position="attributes">
+                <attribute name="invisible"/>
+                <attribute name="nolabel">1</attribute>
+                <attribute name="placeholder">Contact Name</attribute>
+                <attribute name="class">o_field_highlight w-100 mb-0</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='phone']/parent::div" position="after">
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-map-marker fa-lg" title="No. of Locations"/>
+                    <field name="location_count" nolabel="1"
+                           placeholder="Select…"
+                           class="o_field_highlight w-100 mb-0"/>
+                </div>
+                <!-- Lead Type and its partner fields, behaving exactly as on
+                     the full form: the same fields, defaults, onchanges,
+                     domains and readonly expressions, nothing reimplemented.
+                     user_partner_type and is_leads_admin are the helper fields
+                     those expressions read, so they must be in this arch too.
+                     invisible sits on the wrapping div rather than the field,
+                     so each row's icon hides with its field; the full form has
+                     no icons and puts it on the field itself.
+                     force_save="1" because a field that is readonly for the
+                     user's own Partner Type is still populated by its default,
+                     and Odoo does not send readonly fields back on save. -->
+                <field name="user_partner_type" invisible="1"/>
+                <field name="is_leads_admin" invisible="1"/>
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-flag-o" title="Lead Type"/>
+                    <field name="lead_type" nolabel="1" placeholder="Lead Type"
+                           class="o_field_highlight w-100 mb-0"
+                           force_save="1"
+                           readonly="user_partner_type in ['channel_manager', 'solution_architect']"/>
+                </div>
+                <div class="d-flex align-items-center" colspan="2"
+                     invisible="lead_type != 'independent_agent'">
+                    <i class="fa fa-user-circle-o" title="Channel Manager"/>
+                    <field name="channel_manager_id" nolabel="1"
+                           placeholder="Channel Manager"
+                           class="o_field_highlight w-100 mb-0"
+                           force_save="1"
+                           readonly="user_partner_type == 'channel_manager'"/>
+                </div>
+                <div class="d-flex align-items-center" colspan="2"
+                     invisible="lead_type != 'independent_agent'">
+                    <i class="fa fa-id-badge" title="Independent Agent"/>
+                    <field name="independent_agent_id" nolabel="1"
+                           placeholder="Independent Agent"
+                           class="o_field_highlight w-100 mb-0"/>
+                </div>
+                <div class="d-flex align-items-center" colspan="2"
+                     invisible="lead_type not in ['referral_partner', 'solution_architect']">
+                    <i class="fa fa-handshake-o" title="Referral Partner"/>
+                    <field name="referral_partner_id" nolabel="1"
+                           placeholder="Referral Partner"
+                           class="o_field_highlight w-100 mb-0"/>
+                </div>
+                <div class="d-flex align-items-center" colspan="2"
+                     invisible="lead_type not in ['referral_partner', 'solution_architect']">
+                    <i class="fa fa-users" title="Solution Architects"/>
+                    <field name="solution_architect_ids" widget="many2many_tags"
+                           nolabel="1" placeholder="Solution Architects"
+                           class="o_field_highlight w-100 mb-0"
+                           force_save="1"
+                           readonly="user_partner_type == 'solution_architect'"/>
+                </div>
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-industry" title="Industry"/>
+                    <field name="industry_id" nolabel="1" placeholder="Industry"
+                           class="o_field_highlight w-100 mb-0"/>
+                </div>
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-sitemap" title="Sub-sector"/>
+                    <field name="subsector_id" nolabel="1" placeholder="Sub-sector"
+                           class="o_field_highlight w-100 mb-0"
+                           domain="[('industry_id', '=', industry_id)]"
+                           options="{'no_create': True}"/>
+                </div>
+                <div class="d-flex align-items-center" colspan="2">
+                    <i class="fa fa-cogs" title="Tech Stack"/>
+                    <field name="technology_ids" widget="many2many_tags" nolabel="1"
+                           placeholder="Tech Stack"
+                           class="o_field_highlight w-100 mb-0"
+                           options="{'color_field': 'color'}"/>
+                </div>
+                <!-- Technical, as on the full form: the onchange needs to read
+                     back which technologies it added itself. -->
+                <field name="auto_technology_ids" widget="many2many_tags"
+                       invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Pipeline kanban card (#52). Inherits crm.crm_case_kanban_view_leads,
+         which is the view the pipeline action uses; the card is extended, never
+         replaced. The Industry and Sub-sector icons are the same classes the
+         quick-create card uses (fa-industry, fa-sitemap).
+         The party lines read the short-name helper fields rather than the
+         many2ones, because res.partner's display_name carries the parent
+         company as a prefix. Their visibility mirrors the full form: CM/IA only
+         for Independent Agent, RP/SA only for Referral Partner and Solution
+         Architect, and each line also needs a value of its own. -->
+    <record id="crm_case_kanban_view_leads_deals" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.lead.deals</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-name='card']/field[@name='partner_name']"
+                   position="after">
+                <div class="d-flex align-items-center text-truncate"
+                     invisible="not industry_id">
+                    <i class="fa fa-industry me-1" title="Industry"/>
+                    <field name="industry_id" class="text-truncate"/>
+                </div>
+                <div class="d-flex align-items-center text-truncate"
+                     invisible="not subsector_id">
+                    <i class="fa fa-sitemap me-1" title="Sub-sector"/>
+                    <field name="subsector_id" class="text-truncate"/>
+                </div>
+                <div class="text-truncate" invisible="not lead_type">
+                    <span>Lead Type: </span>
+                    <field name="lead_type"/>
+                </div>
+                <div class="text-truncate"
+                     invisible="lead_type != 'independent_agent' or not channel_manager_short_name">
+                    <span>CM: </span>
+                    <field name="channel_manager_short_name"/>
+                </div>
+                <div class="text-truncate"
+                     invisible="lead_type != 'independent_agent' or not independent_agent_short_name">
+                    <span>IA: </span>
+                    <field name="independent_agent_short_name"/>
+                </div>
+                <div class="text-truncate"
+                     invisible="lead_type not in ['referral_partner', 'solution_architect'] or not referral_partner_short_name">
+                    <span>RP: </span>
+                    <field name="referral_partner_short_name"/>
+                </div>
+                <div class="text-truncate"
+                     invisible="lead_type not in ['referral_partner', 'solution_architect'] or not solution_architect_short_names">
+                    <span>SA: </span>
+                    <field name="solution_architect_short_names"/>
+                </div>
+            </xpath>
+            <!-- Counter alongside the existing bottom-row items, as project
+                 places its sub-task counter. -->
+            <xpath expr="//t[@t-name='card']/footer/div[1]/field[@name='priority']"
+                   position="before">
+                <field name="deal_line_count" invisible="1"/>
+                <t t-if="record.deal_line_count.raw_value">
+                    <widget name="deal_line_counter" class="me-2"/>
+                </t>
+            </xpath>
+            <!-- The expanded list sits after the footer, outside it, which is
+                 where project puts its own. -->
+            <xpath expr="//t[@t-name='card']/footer" position="after">
+                <widget name="deal_line_kanban_list"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_budget_summary" model="ir.actions.report">
+        <field name="name">Budget Summary</field>
+        <field name="model">crm.lead</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">crm_deals.report_budget_summary</field>
+        <field name="report_file">crm_deals.report_budget_summary</field>
+        <field name="binding_model_id" ref="crm.model_crm_lead"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Budget Summary - %s' % (object.name or '')</field>
+    </record>
+
+    <!-- Built on web.external_layout like sale.report_saleorder_document:
+         the company header and footer come from the layout, and the lines
+         use the standard o_main_table with native section and note rows.
+         No colours or fonts of its own. -->
+    <template id="report_budget_summary_document">
+        <t t-call="web.external_layout">
+            <t t-set="data" t-value="doc._budget_data()"/>
+            <t t-set="address">
+                <div t-field="doc.partner_id" class="mb-0"
+                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+            </t>
+            <div class="page">
+                <h2>
+                    Budget Summary - <span t-out="doc.name"/>
+                </h2>
+
+                <div id="informations" class="row mt-4 mb-4">
+                    <div class="col-auto col-3 mw-100 mb-2" t-if="doc.budget_sent_date">
+                        <strong>Date Sent:</strong>
+                        <p class="m-0">
+                            <span t-field="doc.budget_sent_date" t-options='{"widget": "date"}'/>
+                        </p>
+                    </div>
+                    <div class="col-auto col-3 mw-100 mb-2" t-if="doc.user_id">
+                        <strong>Prepared by:</strong>
+                        <p class="m-0"><span t-out="doc.user_id.name"/></p>
+                    </div>
+                    <div class="col-auto col-3 mw-100 mb-2" t-if="doc.partner_id">
+                        <strong>Prepared for:</strong>
+                        <p class="m-0"><span t-out="doc.partner_id.name"/></p>
+                    </div>
+                    <div class="col-auto col-3 mw-100 mb-2" t-if="doc.budget_signed_on">
+                        <strong>Signed on:</strong>
+                        <p class="m-0">
+                            <span t-field="doc.budget_signed_on" t-options='{"widget": "date"}'/>
+                        </p>
+                    </div>
+                </div>
+
+                <h4>Included Sections</h4>
+                <table class="table o_main_table table-borderless table-sm">
+                    <thead style="display: table-row-group">
+                        <tr>
+                            <th class="text-start">Section</th>
+                            <th class="text-end">Monthly</th>
+                            <th class="text-end">One-Time</th>
+                            <th class="text-start">Term</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="data['blocks']" t-as="block">
+                            <td><span t-out="block['name']"/></td>
+                            <td class="text-end">
+                                <span t-out="block['monthly']"
+                                      t-options="{'widget': 'monetary',
+                                                  'display_currency': doc.deal_currency_id}"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-out="block['onetime']"
+                                      t-options="{'widget': 'monetary',
+                                                  'display_currency': doc.deal_currency_id}"/>
+                            </td>
+                            <td><span t-out="block['term']"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 class="mt-4">Services</h4>
+                <table class="o_has_total_table table o_main_table table-borderless">
+                    <thead style="display: table-row-group">
+                        <tr>
+                            <th class="text-start">Service</th>
+                            <th class="text-end text-nowrap">Qty</th>
+                            <th class="text-end text-nowrap">Unit Cost</th>
+                            <th class="text-end text-nowrap">One-Time</th>
+                            <th class="text-end text-nowrap">Monthly</th>
+                            <th class="text-start">Notes</th>
+                            <th class="text-start">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="data['blocks']" t-as="block">
+                            <tr t-if="block['id']" class="fw-bolder o_line_section">
+                                <td colspan="99"><span t-out="block['name']"/></td>
+                            </tr>
+                            <t t-foreach="block['lines']" t-as="line">
+                                <tr t-if="line.display_type == 'line_note'"
+                                    class="fst-italic o_line_note">
+                                    <td colspan="99"><span t-field="line.name"/></td>
+                                </tr>
+                                <tr t-elif="not line.display_type">
+                                    <td><span t-out="line.product_id.name or line.name or ''"/></td>
+                                    <td class="text-end"><span t-out="'%g' % line.quantity"/></td>
+                                    <td class="text-end">
+                                        <span t-out="line.unit_price"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': doc.deal_currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="line.estimated_one_time_revenue"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': doc.deal_currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-if="line.recurring_basis == 'volume'">Volume-based</span>
+                                        <span t-else="" t-out="line.estimated_monthly_cost"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': doc.deal_currency_id}"/>
+                                    </td>
+                                    <td>
+                                        <span t-if="line.supplier_id" t-out="line.supplier_id.name"/>
+                                        <span t-if="line.name"><br/><span t-out="line.name"/></span>
+                                    </td>
+                                    <td>
+                                        <span t-out="line.status == 'accepted' and 'Accepted' or (line.status == 'rejected' and 'Rejected' or 'Pending')"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr t-if="block['id']" class="fw-bold">
+                                <td colspan="3" class="text-end">Subtotal</td>
+                                <td class="text-end">
+                                    <span t-out="block['onetime']"
+                                          t-options="{'widget': 'monetary',
+                                                      'display_currency': doc.deal_currency_id}"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="block['monthly']"
+                                          t-options="{'widget': 'monetary',
+                                                      'display_currency': doc.deal_currency_id}"/>
+                                </td>
+                                <td colspan="2"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <div class="clearfix">
+                    <div class="row">
+                        <div class="ms-auto col-5">
+                            <table class="table table-sm table-borderless">
+                                <tr class="border-black o_total">
+                                    <td><strong>Monthly Total</strong></td>
+                                    <td class="text-end">
+                                        <span t-out="data['monthly']"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': doc.deal_currency_id}"/>
+                                    </td>
+                                </tr>
+                                <tr class="o_total">
+                                    <td><strong>One-Time Total</strong></td>
+                                    <td class="text-end">
+                                        <span t-out="data['onetime']"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': doc.deal_currency_id}"/>
+                                    </td>
+                                </tr>
+                                <tr class="text-muted">
+                                    <td>Proposed</td>
+                                    <td class="text-end">
+                                        <span t-out="data['proposed_monthly']"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': doc.deal_currency_id}"/>
+                                        /
+                                        <span t-out="data['proposed_onetime']"
+                                              t-options="{'widget': 'monetary',
+                                                          'display_currency': doc.deal_currency_id}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div t-if="not doc.budget_note_is_empty" class="mt-4">
+                    <div t-field="doc.budget_note"/>
+                </div>
+
+                <div t-if="doc.budget_signature" class="row mt-4">
+                    <div class="col-4 ms-auto text-center">
+                        <h5>Signature</h5>
+                        <img t-att-src="image_data_uri(doc.budget_signature)"
+                             style="max-height: 4rem; max-width: 100%;" alt="Signature"/>
+                        <p class="mb-0" t-out="doc.budget_signed_by or ''"/>
+                        <p>
+                            Signed on <span t-field="doc.budget_signed_on"
+                                            t-options='{"widget": "date"}'/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_budget_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="crm_deals.report_budget_summary_document"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

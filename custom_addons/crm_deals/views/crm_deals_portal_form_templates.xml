@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_lead_form" name="Submit a Lead">
+        <t t-call="portal.portal_layout">
+            <div class="card">
+                <div class="card-header"><h5 class="mb-0">Submit a Lead</h5></div>
+                <div class="card-body">
+                    <form action="/my/leads/new" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                        <h6 class="text-muted mt-2">Company Information</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="partner_name">Company Name</label>
+                                <input type="text" class="form-control" name="partner_name"
+                                       id="partner_name" required="required"
+                                       t-att-value="lead_data.get('partner_name')"/>
+                                <small t-if="error.get('partner_name')" class="text-danger"
+                                       t-esc="error['partner_name']"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="street">Address</label>
+                                <input type="text" class="form-control" name="street" id="street"
+                                       placeholder="Street" t-att-value="lead_data.get('street')"/>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="street2">Street 2</label>
+                                <input type="text" class="form-control" name="street2" id="street2"
+                                       t-att-value="lead_data.get('street2')"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="city">City</label>
+                                <input type="text" class="form-control" name="city" id="city"
+                                       t-att-value="lead_data.get('city')"/>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="state_id">State</label>
+                                <select class="form-select" name="state_id" id="state_id">
+                                    <option value="">Select a state...</option>
+                                    <option t-foreach="states" t-as="state"
+                                            t-att-value="state.id"
+                                            t-att-selected="'selected' if lead_data.get('state_id') == str(state.id) else None"
+                                            t-esc="state.name"/>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="zip">ZIP</label>
+                                <input type="text" class="form-control" name="zip" id="zip"
+                                       t-att-value="lead_data.get('zip')"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="country_id">Country</label>
+                                <select class="form-select" name="country_id" id="country_id">
+                                    <option value="">Select a country...</option>
+                                    <option t-foreach="countries" t-as="country"
+                                            t-att-value="country.id"
+                                            t-att-selected="'selected' if lead_data.get('country_id') == str(country.id) else None"
+                                            t-esc="country.name"/>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h6 class="text-muted mt-3">Contact Information</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="contact_name">Contact Name</label>
+                                <input type="text" class="form-control" name="contact_name"
+                                       id="contact_name" required="required"
+                                       t-att-value="lead_data.get('contact_name')"/>
+                                <small t-if="error.get('contact_name')" class="text-danger"
+                                       t-esc="error['contact_name']"/>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="function">Job Position</label>
+                                <input type="text" class="form-control" name="function" id="function"
+                                       t-att-value="lead_data.get('function')"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="email_from">Email</label>
+                                <input type="email" class="form-control" name="email_from"
+                                       id="email_from" required="required"
+                                       t-att-value="lead_data.get('email_from')"/>
+                                <small t-if="error.get('email_from')" class="text-danger"
+                                       t-esc="error['email_from']"/>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="phone">Phone</label>
+                                <input type="text" class="form-control" name="phone" id="phone"
+                                       t-att-value="lead_data.get('phone')"/>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="website">Website</label>
+                                <input type="text" class="form-control" name="website" id="website"
+                                       t-att-value="lead_data.get('website')"/>
+                            </div>
+                        </div>
+
+                        <h6 class="text-muted mt-3">Industry</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="industry_id">Industry</label>
+                                <select class="form-select" name="industry_id" id="industry_id">
+                                    <option value="">Select an industry...</option>
+                                    <option t-foreach="industries" t-as="industry"
+                                            t-att-value="industry.id"
+                                            t-att-selected="'selected' if lead_data.get('industry_id') == str(industry.id) else None"
+                                            t-esc="industry.name"/>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="subsector_id">Sub-sector</label>
+                                <select class="form-select" name="subsector_id" id="subsector_id">
+                                    <option value="">Select a sub-sector...</option>
+                                    <option t-foreach="subsectors" t-as="subsector"
+                                            t-att-value="subsector.id"
+                                            t-att-data-industry="subsector.industry_id.id"
+                                            t-att-selected="'selected' if lead_data.get('subsector_id') == str(subsector.id) else None"
+                                            t-esc="subsector.name"/>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h6 class="text-muted mt-3">Notes</h6>
+                        <div class="mb-3">
+                            <!-- The value goes in the body: t-esc/t-out on the
+                                 element itself drops the whole tag when falsy. -->
+                            <textarea name="description" class="form-control" rows="5"><t t-out="lead_data.get('description') or ''"/></textarea>
+                        </div>
+
+                        <!-- Only a contact carrying both tags chooses (#61);
+                             everyone else gets the type their tag implies. -->
+                        <div t-if="can_choose_agent" class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input"
+                                   id="as_independent_agent" name="as_independent_agent"
+                                   value="1"
+                                   t-att-checked="'checked' if lead_data.get('as_independent_agent') else None"/>
+                            <label class="form-check-label" for="as_independent_agent">
+                                <t t-out="agent_checkbox_label"/>
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="/my/leads" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script type="text/javascript">
+                // Client-side filter: only show sub-sectors of the chosen industry.
+                (function () {
+                    var industry = document.getElementById('industry_id');
+                    var subsector = document.getElementById('subsector_id');
+                    if (!industry || !subsector) { return; }
+                    var all = Array.prototype.slice.call(subsector.options);
+                    function refresh() {
+                        var selected = industry.value;
+                        subsector.innerHTML = '';
+                        all.forEach(function (opt) {
+                            var owner = opt.getAttribute('data-industry');
+                            if (!owner || !selected || owner === selected) {
+                                subsector.appendChild(opt);
+                            }
+                        });
+                    }
+                    industry.addEventListener('change', refresh);
+                    refresh();
+                })();
+            </script>
+        </t>
+    </template>
+</odoo>
