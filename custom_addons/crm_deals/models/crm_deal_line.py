@@ -51,6 +51,14 @@ class CrmDealLine(models.Model):
         ondelete='cascade',
         tracking=True,
     )
+    company_id = fields.Many2one(
+    'res.company',
+    string='Company',
+    related='lead_id.company_id',
+    store=True,
+    readonly=True,
+    index=True,
+    )
     partner_id = fields.Many2one(
         'res.partner',
         string='Customer',
@@ -647,9 +655,18 @@ class CrmDealLine(models.Model):
         )
 
     def _generate_commissions(self):
-        """Build the forecast for the first time. Never run twice on a line."""
+        """Build the initial commission forecast for GMS deals only."""
+        gms_company = self.env['crm.team']._gms_company()
+
+        if not gms_company:
+            return True
+
         Commission = self.env['crm.deal.commission'].sudo()
+
         for line in self:
+            if line.company_id != gms_company:
+                continue
+
             if not line._ready_for_forecast():
                 continue
             # Any row already on the line wins: migrated or hand-made rows are
@@ -666,6 +683,15 @@ class CrmDealLine(models.Model):
             line.sudo().forecast_generated = True
         return True
 
+    def _gms_commission_lines(self):
+        """Return only deal lines belonging to GMS."""
+        gms_company = self.env['crm.team']._gms_company()
+        if not gms_company:
+            return self.browse()
+        return self.filtered(
+            lambda line: line.company_id == gms_company
+        )
+
     def _refresh_commission_amounts(self):
         """Amount change after generation: restate the pending rows in place.
 
@@ -678,7 +704,7 @@ class CrmDealLine(models.Model):
         volume or the SPIFF multiplier moves the forecast, while a rate or
         share changed on the rule afterwards still cannot (key rule 4).
         """
-        for line in self:
+        for line in self._gms_commission_lines():
             if line.display_type:
                 continue
             amounts = {name: value
@@ -705,7 +731,7 @@ class CrmDealLine(models.Model):
         itself moved. Received rows are never touched.
         """
         Commission = self.env['crm.deal.commission'].sudo()
-        for line in self:
+        for line in self._gms_commission_lines():
             if line.display_type or not line.forecast_generated:
                 continue
             if line.status != 'accepted' or not line.start_date:
@@ -730,7 +756,7 @@ class CrmDealLine(models.Model):
         gap left by a deleted row is not refilled.
         """
         Commission = self.env['crm.deal.commission'].sudo()
-        for line in self:
+        for line in self._gms_commission_lines():
             if line.display_type or not line.forecast_generated:
                 continue
             if line.status != 'accepted' or not line.start_date:
@@ -746,12 +772,12 @@ class CrmDealLine(models.Model):
         return True
 
     def _cancel_future_commissions(self):
-        for line in self:
+        for line in self._gms_commission_lines():
             line._commission_future_pending().sudo().write({'status': 'cancelled'})
         return True
 
     def _sync_commissions(self, vals):
-        for line in self:
+        for line in self._gms_commission_lines():
             if line.display_type:
                 continue
             if 'status' in vals:
@@ -857,10 +883,16 @@ class CrmDealLine(models.Model):
         if vals.get('status') in ('accepted', 'rejected'):
             self._assign_deal_ref()
         if vals.get('status') == 'accepted':
-            # A line accepted while its lead is already won generates its work
-            # now, into the lead's existing project. Generation is idempotent,
-            # so already-generated siblings are left untouched.
-            won_leads = self.lead_id.filtered(lambda lead: lead.stage_id.is_won)
+            gms_company = self.env['crm.team']._gms_company()
+
+            won_leads = self.lead_id.filtered(
+                lambda lead: (
+                    gms_company
+                    and lead.company_id == gms_company
+                    and lead.stage_id.is_won
+                )
+            )
+
             if won_leads:
                 won_leads._generate_deal_projects_and_tasks()
         self._sync_commissions(vals)
@@ -911,23 +943,36 @@ class CrmDealLine(models.Model):
         Returns the deal lines skipped because their product is not a service.
         """
         skipped_non_service = self.env['crm.deal.line']
-        # Select the lines that will actually generate, so the per-lead project
-        # template can be taken from the first contributing line by sequence.
+
+        # Only GMS deal lines may generate projects or tasks.
+        gms_company = self.env['crm.team']._gms_company()
+
+        # Collect eligible lines for project/task generation.
         eligible = []
+
         for line in self:
-            # Sections/notes are not real lines: never generate from them.
+            # Never process ICS or other non-GMS companies.
+            if not gms_company or line.lead_id.company_id != gms_company:
+                continue
+
+            # Skip sections and notes.
             if line.display_type:
                 continue
-            # Idempotency: never regenerate for a line that already produced one.
+
+            # Prevent duplicate projects and tasks.
             if line.project_id or line.task_id:
                 continue
+
             product = line.product_id
             tracking = product.service_tracking
+
             if not tracking or tracking == 'no':
                 continue
+
             if product.type != 'service':
                 skipped_non_service |= line
                 continue
+
             eligible.append((line, tracking))
 
         # Contributing task_in_project lines per lead, ordered the way the list
@@ -943,7 +988,12 @@ class CrmDealLine(models.Model):
         for line, tracking in eligible:
             product = line.product_id
             if tracking == 'task_global_project':
-                company = line.lead_id.company_id or self.env.company
+                company = line.lead_id.company_id
+                if not company:
+                    raise UserError(_(
+                        "The opportunity must have a company assigned before "
+                        "creating a project or task."
+                    ))
                 project = product.with_company(company).project_id
                 if not project:
                     _logger.warning(
@@ -971,6 +1021,7 @@ class CrmDealLine(models.Model):
                 prefix = line.deal_ref or lead.name
                 line._deal_create_task(
                     project, name='%s - %s' % (prefix, product.display_name))
+
         return skipped_non_service
 
     def _find_lead_project(self):
@@ -997,7 +1048,12 @@ class CrmDealLine(models.Model):
         """
         self.ensure_one()
         lead = self.lead_id
-        company = lead.company_id or self.env.company
+        company = lead.company_id
+        if not company:
+            raise UserError(_(
+                "The opportunity must have a company assigned before "
+                "creating a project or task."
+            ))
         template = next(
             (line.product_id.project_template_id for line in contributing_lines
              if line.product_id.project_template_id),
@@ -1021,7 +1077,12 @@ class CrmDealLine(models.Model):
     def _deal_create_project(self):
         self.ensure_one()
         lead = self.lead_id
-        company = lead.company_id or self.env.company
+        company = lead.company_id
+        if not company:
+            raise UserError(_(
+                "The opportunity must have a company assigned before "
+                "creating a project or task."
+        ))
         template = self.product_id.project_template_id
         values = {
             'name': lead.name,
@@ -1127,19 +1188,30 @@ class CrmDealLine(models.Model):
         return '<p>%s</p><p>%s</p>' % (
             '<br/>'.join(lines), '<br/>'.join(details))
 
-    def action_portal_decision(self, status):
-        """The customer's Accept / Reject from the Budget Summary (#58).
 
-        Writes through the normal `write()`, so the Deal ID stamp, the accept
-        validation, tracking and the commission sync all apply. Before the
-        budget is signed the customer may change their mind freely, which is
-        the one reversal path outside the deal form (key rule 7).
-        """
+    def action_portal_decision(self, status):
+        """Allow budget decisions only for unsigned GMS opportunities."""
         self.ensure_one()
+
+        gms_company = self.env['crm.team']._gms_company()
+        lead = self.lead_id
+
+        if not lead or lead.company_id != gms_company:
+            raise UserError(_(
+                "Budget decisions are available only for GMS opportunities."
+            ))
+
+        if lead.budget_signed_on:
+            raise UserError(_(
+                "This budget has already been signed and cannot be changed."
+            ))
+
         if status not in ('accepted', 'rejected'):
             raise UserError(_("Unknown decision."))
+
         if self.display_type:
             return False
+
         if self.status != status:
             self.write({'status': status})
             self.message_post(body=(
@@ -1147,6 +1219,7 @@ class CrmDealLine(models.Model):
                 if status == 'accepted'
                 else _("Customer rejected this service via the Budget Summary.")
             ))
+
         return True
 
     def action_open_deal_form(self):

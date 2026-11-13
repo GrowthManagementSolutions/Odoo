@@ -10,6 +10,7 @@
     'data': [
         'security/crm_deals_groups.xml',
         'security/ir.model.access.csv',
+        'security/crm_deals_company_rules.xml',
         'data/ir_sequence_data.xml',
         'data/ir_cron_data.xml',
         'data/res_partner_category_data.xml',

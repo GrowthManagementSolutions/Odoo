@@ -18,6 +18,14 @@ class CrmDealCommission(models.Model):
         ondelete='cascade', index=True)
     lead_id = fields.Many2one(
         related='deal_line_id.lead_id', string='Opportunity', store=True, index=True)
+    company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        related='deal_line_id.company_id',
+        store=True,
+        readonly=True,
+        index=True,
+    )
     partner_id = fields.Many2one(
         related='deal_line_id.partner_id', string='Customer', store=True)
     product_id = fields.Many2one(
@@ -96,36 +104,58 @@ class CrmDealCommission(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _cron_commission_maintenance(self):
-        """Refresh overdue flags, extend month-to-month schedules, and chase."""
+        """Maintain GMS commissions only."""
+        gms_company = self.env['crm.team']._gms_company()
+
+        if not gms_company:
+            return True
+
         today = fields.Date.context_today(self)
-        # Lines that are about to flip to overdue (before recomputation).
+
+        # Only GMS commissions that are newly overdue.
         newly_overdue = self.search([
+            ('company_id', '=', gms_company.id),
             ('status', '=', 'pending'),
             ('due_date', '<', today),
             ('is_overdue', '=', False),
         ])
-        # is_overdue is stored+computed: force a recompute rather than writing it.
-        self.env.add_to_compute(self._fields['is_overdue'], self.search([]))
+
+        # Recompute overdue status for GMS commissions only.
+        gms_commissions = self.search([
+            ('company_id', '=', gms_company.id),
+        ])
+
+        self.env.add_to_compute(
+            self._fields['is_overdue'],
+            gms_commissions,
+        )
         self.env.flush_all()
 
-        # Keep month-to-month deals 12 months ahead. Only rows after each
-        # line's latest existing one are added, so deleted rows stay deleted.
+        # Extend only GMS month-to-month commission schedules.
         rolling = self.env['crm.deal.line'].search([
+            ('company_id', '=', gms_company.id),
             ('status', '=', 'accepted'),
             ('contract_term', '=', 'month_to_month'),
             ('start_date', '!=', False),
             ('forecast_generated', '=', True),
         ])
+
         rolling._extend_month_to_month()
 
-        # Chase the newly overdue ones.
+        # Create follow-up activities only for GMS commissions.
         for commission in newly_overdue:
             user = commission.lead_id.user_id
+
             if not user:
                 continue
+
             commission.activity_schedule(
                 'mail.mail_activity_data_todo',
-                summary=_("Follow up with %s", commission.payer_id.display_name or ''),
+                summary=_(
+                    "Follow up with %s",
+                    commission.payer_id.display_name or '',
+                ),
                 user_id=user.id,
             )
+
         return True

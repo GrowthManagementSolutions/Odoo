@@ -62,7 +62,7 @@
                                     </a>
                                     <a class="btn btn-light o_print_btn flex-grow-1"
                                        role="button" target="_blank"
-                                       t-att-href="lead.get_portal_url(report_type='pdf')">
+                                       t-att-href="'/my/budget/%s?report_type=pdf' % lead.id">
                                         <i class="fa fa-print me-1"/>Print
                                     </a>
                                 </div>
@@ -100,8 +100,7 @@
                                         <b t-out="lead.partner_id.commercial_partner_id.name or ''"/>.
                                     </span>
                                     <t t-call="portal.signature_form">
-                                        <t t-set="call_url"
-                                           t-value="lead.get_portal_url(suffix='/sign')"/>
+                                        <t t-set="call_url" t-value="'/my/budget/%s/sign' % lead.id"/>
                                         <t t-set="default_name"
                                            t-value="lead.partner_id.name or lead.partner_id.commercial_partner_id.name"/>
                                         <t t-set="send_label">Accept &amp; Sign</t>
@@ -279,7 +278,7 @@
                                         <span t-att-data-budget-badge="line.id"
                                               t-attf-class="badge rounded-pill #{line.status == 'accepted' and 'text-bg-success' or (line.status == 'rejected' and 'text-bg-danger' or 'text-bg-secondary')}"
                                               t-out="line.status == 'accepted' and 'Accepted' or (line.status == 'rejected' and 'Rejected' or 'Pending')"/>
-                                        <div t-if="not is_signed" class="mt-1 d-print-none">
+                                        <div t-if="not is_signed and not is_internal_user" class="mt-1 d-print-none">
                                             <button type="button"
                                                     t-attf-class="btn btn-sm o_budget_decision #{line.status == 'accepted' and 'btn-success' or 'btn-outline-success'}"
                                                     t-att-data-line-id="line.id"
@@ -410,7 +409,7 @@
                 <tbody>
                     <tr t-foreach="budgets" t-as="budget">
                         <td>
-                            <a t-att-href="budget.get_portal_url()">
+                            <a t-att-href="'/my/budget/%s' % budget.id">
                                 <span t-out="budget.name"/>
                             </a>
                         </td>

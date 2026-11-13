@@ -366,7 +366,7 @@ class CrmLead(models.Model):
         Resolved through the tag's XML id rather than a hardcoded database id.
         """
         tag = self.env.ref(tag_xmlid, raise_if_not_found=False)
-        return [('category_id', '=', tag.id)] if tag else []
+        return [('category_id', '=', tag.id)] if tag else [('id', '=', 0)]
 
     # Values handed to a contact created from this lead. The company gets the
     # organisation-level fields; the person gets only the title. With no company
@@ -571,6 +571,20 @@ class CrmLead(models.Model):
         """
         if not self.deal_template_id:
             return
+
+        gms_company = self.env['crm.team']._gms_company()
+        if not gms_company or self.company_id != gms_company:
+            self.deal_template_id = False
+            return {
+                'warning': {
+                    'title': _("Deal Template"),
+                    'message': _(
+                        "Deal Templates are available only for "
+                        "Growth Management Solutions opportunities."
+                    ),
+                },
+            }
+
         if self.deal_line_ids:
             previous = self._origin.deal_template_id
             self.deal_template_id = previous
@@ -596,6 +610,9 @@ class CrmLead(models.Model):
     def create(self, vals_list):
         leads = super().create(vals_list)
         for lead, vals in zip(leads, vals_list):
+            gms_company = self.env['crm.team']._gms_company()
+            if not gms_company or lead.company_id != gms_company:
+                continue
             # The lead type picks the pipeline (#62), unless the caller named
             # a team itself - the portal, the backend, an import or the API.
             if not vals.get('team_id'):
@@ -792,8 +809,12 @@ class CrmLead(models.Model):
     # ------------------------------------------------------------------
     def _compute_access_url(self):
         super()._compute_access_url()
+
+        gms_company = self.env['crm.team']._gms_company()
+
         for lead in self:
-            lead.access_url = '/my/budget/%s' % lead.id
+            if gms_company and lead.company_id == gms_company:
+                lead.access_url = '/my/budget/%s' % lead.id
 
     def _get_report_base_filename(self):
         """Filename for the portal's own report download (#58)."""
@@ -884,16 +905,28 @@ class CrmLead(models.Model):
     def _check_budget_ready(self):
         """Refuse to send a budget the customer could not act on."""
         self.ensure_one()
+
+        # Budget Summary is exclusively for GMS opportunities.
+        gms_company = self.env['crm.team']._gms_company()
+        if not gms_company or self.company_id != gms_company:
+            raise UserError(_(
+                "The Budget Summary workflow is only available "
+                "for Growth Management Solutions opportunities."
+            ))
+
         if not self.partner_id or not self.partner_id.email:
             raise UserError(_(
-                "Set a customer with an email first (use Create Contact)."))
+                "Set a customer with an email first (use Create Contact)."
+            ))
+
         lines = self._get_real_deal_lines()
         if not lines:
             raise UserError(_(
                 "This opportunity has no services to send. Add deal lines "
-                "first."))
-        # The same validation the Accept button runs, so the customer never
-        # meets a validation error on the portal.
+                "first."
+            ))
+
+        # Validate service lines before the customer receives the budget.
         lines._check_ready_to_accept()
 
     def action_send_budget_summary(self):
@@ -925,12 +958,26 @@ class CrmLead(models.Model):
         }
 
     def action_preview_budget_summary(self):
-        """Open the customer's own page, token and all, in a new tab."""
+        """Preview the GMS budget without exposing its customer access token."""
         self.ensure_one()
-        self._portal_ensure_token()
+
+        gms_company = self.env['crm.team']._gms_company()
+
+        if self.company_id != gms_company:
+            raise UserError(_(
+                "Budget Summary preview is available only for GMS opportunities."
+            ))
+
+        if not self.env.user._is_internal():
+            raise UserError(_(
+                "Only internal users may preview a budget."
+            ))
+
+        self.check_access('read')
+
         return {
             'type': 'ir.actions.act_url',
-            'url': self.get_portal_url(),
+            'url': '/my/budget/%s' % self.id,
             'target': 'new',
         }
 
@@ -962,7 +1009,24 @@ class CrmLead(models.Model):
         Called from the portal controller, which has already validated the
         token and that every service has been decided.
         """
+
         self.ensure_one()
+
+        gms_company = self.env['crm.team']._gms_company()
+
+        if self.company_id != gms_company:
+            raise UserError(_(
+                "Budget signing is available only for GMS opportunities."
+            ))
+
+        if self.budget_signed_on:
+            raise UserError(_("This budget has already been signed."))
+
+        if not self._budget_data()['all_decided']:
+            raise UserError(_(
+                "Please accept or reject every service before signing."
+            ))
+
         self.write({
             'budget_signed_by': name,
             'budget_signed_on': fields.Datetime.now(),
@@ -1028,25 +1092,38 @@ class CrmLead(models.Model):
         return True
 
     def _get_budget_assignee(self):
-        """Who owns the budget work on this lead (#60, #61).
-
-        Exactly one Solution Architect whose contact has an active internal
-        user wins; no SA, several of them, or an SA with no user falls back to
-        the lead's salesperson. One helper for both the contract-prep
-        activities and the budget review meeting, so the rule cannot drift.
-        """
+        """Choose an active internal user with access to the lead's company."""
         self.ensure_one()
+
+        def eligible(user):
+            return (
+                user.active
+                and user._is_internal()
+                and self.company_id in user.company_ids
+            )
+
         if len(self.solution_architect_ids) == 1:
-            users = self.solution_architect_ids.sudo().user_ids.filtered(
-                lambda user: user.active and user._is_internal())
+            users = self.solution_architect_ids.sudo().user_ids.filtered(eligible)
             if users:
                 return users[0]
-        return self.user_id
+
+        if self.user_id and eligible(self.user_id):
+            return self.user_id
+
+        return self.env['res.users']
 
     def _schedule_budget_review_activity(self):
         """One Budget Review Meeting activity per lead reaching the flagged
         stage (#61). Skipped when an open one is already there."""
         self.ensure_one()
+
+        # Budget review automation is exclusive to GMS.
+        # Do not schedule GMS activities on ICS opportunities.
+        gms_company = self.env['crm.team']._gms_company()
+
+        if not gms_company or self.company_id != gms_company:
+            return False
+
         activity_type = self.env.ref(
             'crm_deals.mail_activity_type_budget_review',
             raise_if_not_found=False)
@@ -1093,6 +1170,14 @@ class CrmLead(models.Model):
         records which services have had theirs.
         """
         self.ensure_one()
+
+        # Contract preparation automation belongs to GMS only.
+        # Never create these activities for ICS or other companies.
+        gms_company = self.env['crm.team']._gms_company()
+
+        if not gms_company or self.company_id != gms_company:
+            return False
+
         lines = self.deal_line_ids.filtered(
             lambda line: not line.display_type and line.status == 'accepted'
             and not line.contract_prep_requested)
@@ -1127,21 +1212,43 @@ class CrmLead(models.Model):
         return True
 
     def message_post(self, **kwargs):
-        """Stamp the send date when the composer sends the Budget Summary.
+        """Track Budget Summary messages for GMS opportunities only.
 
-        The recipients are also subscribed, which is one of the ways the
-        portal lets a signed-in customer back in when their link has been
-        mislaid (#58 fix).
+        Preserve standard Odoo chatter for all companies.
         """
+        # Let Odoo post the message first.
+        result = super().message_post(**kwargs)
+
         if self.env.context.get('mark_budget_as_sent'):
-            self.sudo().write({'budget_sent_date': fields.Datetime.now()})
-            recipients = {pid for pid in (kwargs.get('partner_ids') or [])
-                          if isinstance(pid, int)}
-            if self.partner_id:
-                recipients.add(self.partner_id.id)
-            if recipients:
-                self.sudo().message_subscribe(partner_ids=list(recipients))
-        return super().message_post(**kwargs)
+            gms_company = self.env['crm.team']._gms_company()
+
+            if gms_company:
+                gms_leads = self.filtered(
+                    lambda lead: lead.company_id == gms_company
+                )
+
+                if gms_leads:
+                    gms_leads.sudo().write({
+                        'budget_sent_date': fields.Datetime.now()
+                    })
+
+                    recipients = {
+                        pid for pid in (kwargs.get('partner_ids') or [])
+                        if isinstance(pid, int)
+                    }
+
+                    for lead in gms_leads:
+                        lead_recipients = set(recipients)
+
+                        if lead.partner_id:
+                            lead_recipients.add(lead.partner_id.id)
+
+                        if lead_recipients:
+                            lead.sudo().message_subscribe(
+                                partner_ids=list(lead_recipients)
+                            )
+
+        return result
 
     def action_hand_off_to_gms(self):
         """Turn an Independent Agent deal into a GMS referral (#62).
